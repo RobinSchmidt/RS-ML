@@ -1,0 +1,30 @@
+----------------------------------------------------------------------------------------------------
+Required software:
+
+Anaconda (Python distribution):
+https://www.anaconda.com/download
+
+Jupyter Lab (Web based notebook interface):
+https://jupyter.org/install
+
+Python libraries:
+numpy, pandas, scikit-learn, scipy, matplotlib, tensorflow ...
+
+
+
+Maybe not necessarily required but beneficial:
+
+Anaconda Navigator
+https://www.anaconda.com/products/navigator
+
+Maybe create an account on anaconda.com in order to get access to Anaconda cloud services like 
+"Notebooks" and "Assistent"
+
+
+
+----------------------------------------------------------------------------------------------------
+Working in Jupyter Lab:
+
+
+
+...tbc...
