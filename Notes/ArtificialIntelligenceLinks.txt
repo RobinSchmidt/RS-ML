@@ -96,6 +96,11 @@ https://github.com/csteinmetz1/ai-audio-startups  List of Audio AI companies
 
 https://www.pecan.ai/  An AI based web-tool to create AI models (requires subscription). 
 
+
+Nice Glossary of ML jargon:
+https://ml-cheatsheet.readthedocs.io/en/latest/activation_functions.html
+
+
 ----------------------------------------------------------------------------------------------------
 Papers and Blog Posts:
 

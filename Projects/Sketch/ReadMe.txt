@@ -1,0 +1,1 @@
+This folder is the place for sketchy draft, throwaway and garbage code.

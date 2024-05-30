@@ -46,7 +46,7 @@ Other, Both (or I don't really know where they fit):
 
 
 Types of activation functions:
--tanh, sigmoid/logistic, ReLU, Swish, step, hardclip, ...
+-tanh, sigmoid/logistic, (leaky) ReLU, ELU, Swish, step, hardclip, ...
 -The softmax function is sometimes lumped in with the activation functions as well - but it's 
  different. It's not a univariate function. It's vector valued with vector input. ..dunno what that
  implies for backprop - the algo may have to be modified to account for that (not sure).

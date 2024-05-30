@@ -1,1 +1,1 @@
-Software projects that serve some actual purpose and are ready to be used in a real world context.
+Projects that serve some actual purpose and are ready to be used in a real world context.
