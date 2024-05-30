@@ -5,6 +5,14 @@ Setting up the working environment:
 -Install Jupyter Lab (Web based notebook interface) from https://jupyter.org/install
 
 
+On Windows, Anaconda gets by default installed into
+ C:\Users\[UserName]\anaconda3
+-The installer does not create desktop icons (WTF!). One has to start it from the start menu. 
+  ToDo: Figure out hwo to manually create the desktop icons. It seems like the start-menu entries 
+  trigger python scripts located in the "Scripts" folder of the anaconda installation
+
+It will also install Anacond Navigator - but i have no idea which .exe I need to start
+
 
 Python libraries:
 numpy, pandas, scikit-learn, scipy, matplotlib, tensorflow ...
@@ -37,6 +45,24 @@ https://docs.anaconda.com/free/anaconda/getting-started/
 Question: Should I primarily use Jupyter, Spyder, PyCharm, VS Code or Visual Studio? See:
 https://ssiddique.info/pycharm-vs-spyder-vs-jupyter.html
 
+
+
+----------------------------------------------------------------------------------------------------
+Working in Spyder:
+
+-Setting up the environment:
+ -Via View -> Panes, one can select the windows/panes that are shown
+ -In the top right corner, there's a button to "Undock" one fo the panes to allow it to be moved 
+  around. But more important is the "Unlock position" option which allows to drag the pane around 
+  and dock it elsewhere
+ -Via View -> Window Layouts, one can choose between different default layouts
+ -I prefer a layout that is close the Matlab layout, so to set it up, do:
+  -Go to View -> Window Layouts -> Matlab Layout
+  -Unlock the bottom-center "Console" window, move it to the bottom-right docker, lock it again
+  -Save the layout via View -> Window layouts -> Save current layout (Give it a recognizable name)
+
+
+ 
 
 
 ----------------------------------------------------------------------------------------------------
