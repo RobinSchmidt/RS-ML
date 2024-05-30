@@ -68,8 +68,14 @@ Working in Spyder:
   -Save the layout via View -> Window layouts -> Save current layout (Give it a recognizable name)
  -With F11, one can swithc to fullscreen mode - which is nice
 
+-Autocomplete
+ -In the console, one may need to press tab after the dot and in the editor, it sometimes doesn't 
+  seem to work at all - it seems to not work on objects - on whole libraries, it seems to work
 
- 
+-Consoles:
+ -Restart kernel: Use this to start at a clean slate, resetting state of all libraries as well.
+ -Remove all variables: 
+  -Can also be done by using the trashcan in the variable explorer
 
 
 ----------------------------------------------------------------------------------------------------
