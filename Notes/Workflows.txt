@@ -14,6 +14,12 @@ On Windows, Anaconda gets by default installed into
 It will also install Anacond Navigator - but i have no idea which .exe I need to start
 
 
+
+On Ubuntu:
+-Start Menu -> System -> Muon Package Manager ...nope - doesn't find anaconda
+-But maybe on Linux, it's better to install vanilla python and the packages manually
+ spyder and jupyter are available
+
 Python libraries:
 numpy, pandas, scikit-learn, scipy, matplotlib, tensorflow ...
 
@@ -60,6 +66,7 @@ Working in Spyder:
   -Go to View -> Window Layouts -> Matlab Layout
   -Unlock the bottom-center "Console" window, move it to the bottom-right docker, lock it again
   -Save the layout via View -> Window layouts -> Save current layout (Give it a recognizable name)
+ -With F11, one can swithc to fullscreen mode - which is nice
 
 
  
