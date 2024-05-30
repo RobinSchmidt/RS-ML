@@ -66,6 +66,9 @@ https://www.youtube.com/watch?v=QHj9uVmwA_0  Neural manifolds - The Geometry of 
 https://www.youtube.com/watch?v=gUmagAluXpk  How I’d learn ML in 2024 (if I could start over)
 
 
+https://www.youtube.com/watch?v=z18nw4adsx4  10 ML algorithms in 45 minutes | machine learning algorithms for data science | machine learning
+
+
 3Blue1Brown series on neural neural networks
 https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi
 
