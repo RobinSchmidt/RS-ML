@@ -77,6 +77,9 @@ Working in Spyder:
  -Remove all variables: 
   -Can also be done by using the trashcan in the variable explorer
 
+-Plots:
+ -The button in the top-right has a "Fit plots to window" option
+
 
 ----------------------------------------------------------------------------------------------------
 Working in Jupyter Lab:
