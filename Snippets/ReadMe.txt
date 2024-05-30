@@ -1,0 +1,1 @@
+This folder contains small code snippets for copy-and-paste for commonly used stuff
