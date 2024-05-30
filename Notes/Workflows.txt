@@ -37,6 +37,10 @@ The Spyder IDE:  https://www.spyder-ide.org/
 The PyCharm IDE: https://www.jetbrains.com/pycharm/  (Payware, subscription based - open source
                  projects my be eligible for a free license)
 
+
+Codium: https://codeium.com/download  AI pair programming assistent
+
+
 Installing packages:
 https://saturncloud.io/blog/pip-vs-conda-a-guide-to-managing-python-packages-for-data-scientists/
 https://www.machinelearningplus.com/machine-learning/setup-python/
