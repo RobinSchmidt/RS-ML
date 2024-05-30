@@ -69,7 +69,7 @@ Relevant Python Libraries:
 -NumPy:        data types and functions for numerical mathematics
 -SciKitLearn:  
 -TensorFlow:  
--Pandas:       data handling and preparation, deals with file formats etc.
+-Pandas:       data handling and preparation, deals with file formats etc., mainly for tabular data
 -MatPlotLib:   data plotting for visualization
  -Keras:        
 -PyTorch:

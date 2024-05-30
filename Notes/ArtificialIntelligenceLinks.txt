@@ -63,6 +63,9 @@ https://www.youtube.com/watch?v=SbmETE7Ey20  Mamba Might Just Make LLMs 1000x Ch
 https://www.youtube.com/watch?v=QHj9uVmwA_0  Neural manifolds - The Geometry of Behaviour
 
 
+https://www.youtube.com/watch?v=gUmagAluXpk  How I’d learn ML in 2024 (if I could start over)
+
+
 3Blue1Brown series on neural neural networks
 https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi
 
