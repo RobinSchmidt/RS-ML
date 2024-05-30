@@ -83,6 +83,7 @@ Relevant Python Libraries:
 -MatPlotLib:   data plotting for visualization
  -Keras:        
 -PyTorch:
+-Keras:
 
 -SciPy:        scientific programming
 -SymPy:        symbolic math (computer algebra system)

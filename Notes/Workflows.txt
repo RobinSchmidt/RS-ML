@@ -1,11 +1,10 @@
 ----------------------------------------------------------------------------------------------------
-Required software:
+Setting up the working environment:
 
-Anaconda (Python distribution):
-https://www.anaconda.com/download
+-Install Anaconda (Python distribution) from https://www.anaconda.com/download
+-Install Jupyter Lab (Web based notebook interface) from https://jupyter.org/install
 
-Jupyter Lab (Web based notebook interface):
-https://jupyter.org/install
+
 
 Python libraries:
 numpy, pandas, scikit-learn, scipy, matplotlib, tensorflow ...
@@ -19,6 +18,24 @@ https://www.anaconda.com/products/navigator
 
 Maybe create an account on anaconda.com in order to get access to Anaconda cloud services like 
 "Notebooks" and "Assistent"
+
+The Spyder IDE:  https://www.spyder-ide.org/
+The PyCharm IDE: https://www.jetbrains.com/pycharm/  (Payware, subscription based - open source
+                 projects my be eligible for a free license)
+
+Installing packages:
+https://saturncloud.io/blog/pip-vs-conda-a-guide-to-managing-python-packages-for-data-scientists/
+https://www.machinelearningplus.com/machine-learning/setup-python/
+https://pythonspeed.com/articles/conda-vs-pip/
+-ToDo:
+ -Figure out what that environment.yml file is that gets mentioned there.  Do I need it? If so, 
+  where should I put it and what should be its content?
+
+After installing anaconda, maybe follow this:
+https://docs.anaconda.com/free/anaconda/getting-started/
+
+Question: Should I primarily use Jupyter, Spyder, PyCharm, VS Code or Visual Studio? See:
+https://ssiddique.info/pycharm-vs-spyder-vs-jupyter.html
 
 
 
