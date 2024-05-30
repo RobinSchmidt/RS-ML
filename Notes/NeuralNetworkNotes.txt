@@ -1,0 +1,21 @@
+Architectures:
+
+GAN:
+
+Transformers:
+
+
+Mamba:
+
+
+Diffusion:
+-Good for image generation
+
+MLP (Multilayer Perceptron)
+-Used for classification and regression
+-Supervised
+
+
+KAN (Knowledge-aware Network):
+
+KAN (Kolmogorov Arnold Networks):

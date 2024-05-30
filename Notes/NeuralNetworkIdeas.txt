@@ -1,0 +1,86 @@
+-For a neural network that is efficient to run in feedforward mode, maybe we should use a (clipped)
+ smoothstep functions as transfer function.
+-Maybe it would be beneficial to let each neuron have a learnable "hardness" parameter for its 
+ transfer function. The learning algo would have to be adapted to learn these, too.
+-More generally, it may be beneficial to have trainable "shape" parameters for activation functions
+-Maybe another parameter (besides hardness) could be an adjustable saddle-like feature in the middle
+-Maybe the parametric activation functions could themselves be built from (small) neural networks?
+-Maybe try the ideas on the classic MNIST digit recognition task...but maybe first on some smaller 
+ tasks like approximating certain 1D or 2D functions
+-Oh that actually looks like the idea here https://www.youtube.com/watch?v=xLnQtLpPH-Y
+ https://arxiv.org/pdf/2404.19756  ..ooh - no - it'S different. They replace the weights with 
+ learnable functions. My idea is to keep the weights linear and pass the weighted sum through a 
+ learnable activation function
+
+----------------------------------------------------------------------------------------------------
+-Create an FM-Synthesizer with N operators. It has as adjustable parameters N frequencies and N^2
+ modulation depths
+-Create random presets (maybe with some constraints) and let it render its output
+-Use the audio output as inputs for a neural network and the parameters that gave rise to it as 
+ target values for training a neural network
+-The eventual goal is to enable the network to produce synthesis parameter for a given audio signal
+
+In C:\Users\rob\data\GitRepos\RS-MET-Research\Notes, there's a file RecurrentActivationNetwork that
+decribes some other idea, I had. Maybe copy it over here
+
+----------------------------------------------------------------------------------------------------
+-Train an auto-encoder neural network on transient samples (maybe 100-200 ms long)
+-Maybe a wavelet trafo could be useful as pre-processing step
+
+----------------------------------------------------------------------------------------------------
+-Design some toy problems that can be used to quickly experiment with various architechtures. It is
+ not feasible to do the training of real-world models in a quick modify -> train cycle. So, in order
+ to pick an architechture for the real-world model, we need a smaller toy-model model problem that
+ still has the same characteristics as the real problem
+
+
+----------------------------------------------------------------------------------------------------
+I think, if we want (and I'm not sure, if we should want) to get serious about simulating the human 
+brain and create something like artificial conciousness, we must do away with the split between 
+learning phase and inference phase. If we use a static pre-trained model which stays the same all 
+the time, then it is clear that the algorithm is "conscious" or "alive" (whatever that means). We 
+need to incorporate some means of adapting the internal synaptic structure (i.e. weights etc.) in 
+every interaction with the network. That's how we gather experience in real live - we interact with 
+our environment and create memories of these interactions. Perhaps an AGI should work like that.
+
+----------------------------------------------------------------------------------------------------
+As first serious ML project, maybe implement the idea of Axel Röbel's PhD thesis:
+
+-See: Neural Network Modeling of Speech and Music Signals, https://hal.science/hal-02911718
+ for the algorithmic idea. ToDo: Find the Phd thesis. There, it is explained in greater detail.
+
+-See: https://github.com/sdatkinson/neural-amp-modeler
+ for an example of an audio related ML project.
+
+-The API should take as inputs:
+ -The audio sample to be modeled (or maybe several samples)
+ -A vector/vector/np.array of the delays, e.g. delays = [1,2,3,4,5, P-2,P-1,P,P+1,P+2] 
+  where P is the period or cycle length of the input signal. I think, for pseudo-periodic 
+  signals, taking some delays around the cycle lengths is probably a good idea. For nonperiodic
+  inputs, forget about gap.
+ -I think, we should use pitch-flattened samples.
+ -If several samples are used, they should perhaps be brought to the same pitch first
+ -The network architechture (ToDo: figure out, if there's soem standard way to specify it. If so, 
+  use that)
+ -The cost function
+
+-The API should produce as output:
+ -The neural network weights and other learned parameters (if any - perhaps try using parametrized
+  activation functions)
+
+-The algo should proceed as follows (there are probably off-by-1 errors):
+ -Let x be the sample, N its length and d = [d1,d2,...,dm] the vector of delays which we assume to 
+  be sorted in ascending order such that dm is the maximum value.
+ -Create N - dm pairs of input vectors and scalar target output values:
+    v0 = x[d]
+    t0 = x[dm]
+    v1 = x[d + 1]
+    t1 = x[dm + 1]
+    ...
+  i.e. for i = 0...N-dm-1 do
+    v[i] = x[d  + i]    # vector of delayed signal values
+    t[i] = x[dm + i]    # scalar target value
+ -With the so prepared training data, train the network
+ -Maybe the audio sample should be trimmed before using it - we may not want the fade out section to 
+  be used. Or maybe we will?
+  

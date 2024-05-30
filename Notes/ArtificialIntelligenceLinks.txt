@@ -1,0 +1,177 @@
+
+----------------------------------------------------------------------------------------------------
+Models (run locally)
+
+Portals:
+https://ollama.com/
+https://huggingface.co/
+
+Math:
+https://ollama.com/library/wizard-math
+https://ollama.com/library/llama-pro     (math and promgramming)
+https://ollama.com/sskostyaev/deepseek-math
+https://ollama.com/hemanth/mathteacher
+https://ollama.com/hemanth/mathematician
+
+Code Generation:
+https://ollama.com/library/deepseek-coder  
+https://ollama.com/library/starcoder
+https://ollama.com/library/wizardcoder
+https://ollama.com/library/codeqwen
+https://ollama.com/library/codeup
+https://ollama.com/library/magicoder
+https://ollama.com/library/granite-code
+
+Science:
+https://ollama.com/ehartford/theprofessor
+
+
+General:
+https://ollama.com/library/mistral
+
+
+
+----------------------------------------------------------------------------------------------------
+Communities, Projects:
+
+https://www.kaggle.com/
+https://www.kaggle.com/learn  
+
+
+----------------------------------------------------------------------------------------------------
+Videos
+
+Channels:
+https://www.youtube.com/@ArtemKirsanov/videos
+
+https://www.youtube.com/watch?v=WxYC9-hBM_g  Run your own AI (but private)
+https://www.youtube.com/watch?v=Wjrdr0NU4Sk  host ALL your AI locally
+https://www.youtube.com/watch?v=1Q_QVQqknfg  VMware Private AI
+https://www.youtube.com/watch?v=rIRkxZSn-A8  Using Ollama To Build a FULLY LOCAL "ChatGPT Clone"
+https://www.youtube.com/watch?v=XFiof0V3nhA  PrivateGPT 2.0 - FULLY LOCAL Chat With Docs (PDF, TXT, HTML, PPTX, DOCX, and more)
+https://www.youtube.com/watch?v=XwL_cRuXM2E  All You Need To Know About Running LLMs Locally
+
+https://www.youtube.com/watch?v=BT6Aw6Q75Yg  All Learning Algorithms Explained in 14 Minutes
+https://www.youtube.com/watch?v=MD2fYip6QsQ  Who's Adam and What's He Optimizing? | Deep Dive into Optimizers for Machine Learning!
+
+
+https://www.youtube.com/watch?v=6nYfl_iOKFM  Coding Llama 3 from scratch in PyTorch - Part 1
+
+
+https://www.youtube.com/watch?v=SbmETE7Ey20  Mamba Might Just Make LLMs 1000x Cheaper...
+
+https://www.youtube.com/watch?v=QHj9uVmwA_0  Neural manifolds - The Geometry of Behaviour
+
+
+3Blue1Brown series on neural neural networks
+https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi
+
+
+LEARN PANDAS in about 10 minutes! A great python module for Data Science!
+https://www.youtube.com/watch?v=iGFdh6_FePU
+
+https://www.youtube.com/watch?v=UbDyjIIGaxQ  You've been using AI Wrong
+
+
+Repos:
+https://github.com/zylon-ai/private-gpt
+-allows you to ask questions about your documents using the power of Large Language Models (LLMs)
+
+
+----------------------------------------------------------------------------------------------------
+Misc:
+https://docs.privategpt.dev/overview/welcome/introduction
+
+
+https://en.wikipedia.org/wiki/OpenAI
+
+
+https://github.com/csteinmetz1/ai-audio-startups  List of Audio AI companies
+
+https://www.pecan.ai/  An AI based web-tool to create AI models (requires subscription). 
+
+----------------------------------------------------------------------------------------------------
+Papers and Blog Posts:
+
+https://nlp.seas.harvard.edu/2018/04/03/attention.html
+https://github.com/harvardnlp/annotated-transformer
+https://srush.github.io/annotated-s4/
+
+
+https://www.voices.com/blog/open-source-ai-voice/
+
+
+https://arxiv.org/abs/1706.03762  Attention Is All You Need
+https://arxiv.org/abs/2209.15352  AudioGen: Textually Guided Audio Generation
+https://arxiv.org/abs/1812.08466  Fréchet Audio Distance: A Metric for Evaluating Music Enhancement Algorithms
+https://arxiv.org/abs/1912.10211  PANNs: Large-Scale Pretrained Audio Neural Networks for Audio Pattern Recognition
+
+
+----------------------------------------------------------------------------------------------------
+Books:
+
+https://www.databricks.com/resources/ebook/big-book-generative-ai
+
+
+----------------------------------------------------------------------------------------------------
+Open Source AI:
+
+Audio:
+https://thesoundofaiosr.github.io/
+https://ai.meta.com/resources/models-and-libraries/audiocraft/ 
+
+
+https://github.com/danielmiessler/fabric
+
+
+----------------------------------------------------------------------------------------------------
+Datasets:
+
+https://www.kaggle.com/datasets/dschwertfeger/freesound
+-Freesound: Content-Based Audio Retrieval
+-Tagged samples from freesound.org
+
+https://www.kaggle.com/datasets/emrahaydemr/gunshot-audio-dataset
+-Gunshot audio dataset gathered from YouTube
+
+https://www.kaggle.com/datasets/emirhanai/audio-signal-processing-artificial-intelligence
+https://github.com/emirhanai/Audio-Signal-Processing-Artificial-Intelligence-Project/releases/tag/model
+-Example project done assignment for a job interview
+
+https://www.kaggle.com/datasets/obione26/fat2019wav
+-Freesound Audio Tagging 2019 - HDF5 raw
+
+https://www.kaggle.com/datasets/jackvial/themaestrodatasetv2
+-200 hours of piano audio recordings with midi transcriptions
+
+https://www.kaggle.com/datasets/kozistr/torchlibrosa
+-PyTorch implementation of some librosa functions. The functions can run on GPU. 
+
+https://www.kaggle.com/datasets/obione26/mel128
+-Mel spectrograms (n_mels=128) from the Freesound Audio Tagging 2019 Dataset.
+
+https://www.kaggle.com/datasets/soumendraprasad/musical-instruments-sound-dataset
+-Classify 2k+ Sounds Of 4 Types Of Musical Instruments
+
+https://www.kaggle.com/datasets/jbraga/traditional-flute-dataset
+-Traditional Flute Dataset for Score Alignment
+
+https://www.kaggle.com/datasets/aashnaashahh1504/string-instruments-dataset
+-A collection of .wav audio files of mohan veena, sitar and violin
+
+https://www.kaggle.com/datasets/jacksonlightfoot/guitar-transcription-dataset
+-Guitar Transcription Dataset, Frames and audio with tablature labels and fretboard coordinates
+
+https://www.kaggle.com/datasets/fizzbuzz/freesound-prediction-data-2d-conv-reduced-lr
+-Freesound Prediction Data (2D Conv reduced LR), 2-dimensional convolution on raw audio files
+
+https://www.kaggle.com/datasets/mayur1999/wavfiles-of-instruments-audio
+-Wavfiles of Instruments' audio
+
+https://www.kaggle.com/datasets/aashidutt3/indian-music-instruments
+-Indian Music Instruments
+
+https://www.kaggle.com/datasets/anubhavchhabra/drum-kit-sound-samples
+-Drum Kit Sound Samples
+
+https://www.kaggle.com/datasets/blmxmld/music-instruments-audio

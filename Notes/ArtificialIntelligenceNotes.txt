@@ -1,0 +1,81 @@
+
+AI subfields:
+-NLP/NLU/NLG: Natural Language Processing/Understanding/Generation
+-Image Generation
+-Image Classification
+-RAG: retrieval augmented generation
+-ANI/AGI/ASI Artificial narrow/general/super intelligence
+
+
+Types of Machine Learning Algorithms:
+-MLP: Multi Layer Perceptron (MLP)
+-Transformer: state-of-the art in the early 2020s (ChatGPT etc.)
+-Mamba:
+-Diffusion:
+-SVM: Support Vector Machine
+-CNN: Convolutional Neural Network
+-DNN: Deep Neural Network
+-LSTM:
+-GAN: Generative Adversary Network
+-RNN: Recurrent Neural Network
+-Hopfield Network
+-ALM: Audio Language Model
+-Clustering:
+ -k-means Clustering
+ -DBSCAN Clustering
+ -KNN: k nearest Neighbours
+-PCA: Principal Comnponent Analysis
+-ICA: Independent Component Analysis
+-Logistic Regression
+-Decision Trees
+ -Random Forest
+ -Gradient Boosting
+-GPT: Generative Pre-trained Transformer
+-LLM: Large Language Model
+
+
+
+Types of activation functions:
+-tanh, sigmoid/logistic, ReLU, Swish, step, hardclip, ...
+-The softmax function is sometimes lumped in with the activation functions as well - but it's 
+ different. It's not a univariate function. It's vector valued with vector input. ..dunno what that
+ implies for backprop - the algo may have to be modified to account for that (not sure).
+
+
+Types of Loss Functions:
+-Sum Of squared errors
+-KL-Divergence
+-Frechet Audio Distance
+-Psychoacoustic spectrla measures (based on mel-coeffs, etc.)
+
+Types of Learning Algorithms:
+
+Supervised:
+-Gradient Descent with
+ -Momentum
+-Nesterov Accelerated Gradient
+-Root Mean Squared Propagation
+-Adaptive Gradients (AdaGrad)
+-Conjugate Gradient Methods
+ -Scaled Conjugate Gradient
+-Adam (Adaptive Moments)
+-SSL: Self Supervised Learning 
+
+Unsupervised:
+-Hebbian
+
+
+Relevant Python Libraries:
+-NumPy:        data types and functions for numerical mathematics
+-SciKitLearn:  
+-TensorFlow:  
+-Pandas:       data handling and preparation, deals with file formats etc.
+-MatPlotLib:   data plotting for visualization
+ -Keras:        
+-PyTorch:
+
+-SciPy:        scientific programming
+-SymPy:        symbolic math (computer algebra system)
+
+-Shutil:       High level file management
+-requests:     fetch data from the internet
