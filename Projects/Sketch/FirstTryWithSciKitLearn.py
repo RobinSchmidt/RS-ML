@@ -40,8 +40,8 @@ plt.plot(t, s)
 
 
 # Create and set up a multilayer perceptron regressor:
-mlp = MLPRegressor(hidden_layer_sizes=(2,), activation="tanh",
-                   max_iter=900) 
+mlp = MLPRegressor(hidden_layer_sizes=(2,), activation="identity",
+                   max_iter=1000, tol=1.e-4) 
 mlp.fit(X, y)
 
 # Use the trained MLP for prediction:
