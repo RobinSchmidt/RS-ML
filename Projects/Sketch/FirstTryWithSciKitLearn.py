@@ -57,6 +57,12 @@ plt.plot(loss)
 """
 Observations:
     
+- Using 2 hidden neurons in 1 layer with an identity actiavtions function, we 
+  should theoretically be able to achieve a perfect match and that seems to 
+  indeed work in practice
+- When switching to the tanh activation function, there is some residual error.
+  It can be reduced by increasing the number of hidden neurons to, say, 5.
+- With relu, we also get good results with 5 hidden neurons.
 - The loss curve drops quickly until around 1000 iterations. Then it looks 
   close to zero. However, when reducing max_iter, we get a warning that the 
   training didn't converge. OK - zooming in, it becomes apparent that the loss 
