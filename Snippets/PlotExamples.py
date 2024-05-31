@@ -3,13 +3,11 @@
 # with some tweaks applied to make it look better
 
 # Import libraries:
+import numpy as np    
 import matplotlib.pyplot as plt
-import numpy as np
 
 # Configure libraries:
 plt.style.use('dark_background')
-#plt.style.use('default')
-#plt.style.use('grayscale')
 
 # Create data for plotting:
 t = np.arange(0.0, 2.0, 0.01)

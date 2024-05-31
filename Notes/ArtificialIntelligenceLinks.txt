@@ -108,15 +108,23 @@ https://nlp.seas.harvard.edu/2018/04/03/attention.html
 https://github.com/harvardnlp/annotated-transformer
 https://srush.github.io/annotated-s4/
 
+https://borismeinardus.substack.com/p/a-list-of-different-ml-domains
+
 
 https://www.voices.com/blog/open-source-ai-voice/
 
 
-https://arxiv.org/abs/1706.03762  Attention Is All You Need
-https://arxiv.org/abs/2209.15352  AudioGen: Textually Guided Audio Generation
-https://arxiv.org/abs/1812.08466  Fréchet Audio Distance: A Metric for Evaluating Music Enhancement Algorithms
-https://arxiv.org/abs/1912.10211  PANNs: Large-Scale Pretrained Audio Neural Networks for Audio Pattern Recognition
+https://karpathy.github.io/2015/05/21/rnn-effectiveness/
 
+https://colah.github.io/posts/2015-08-Understanding-LSTMs/ 
+https://dennybritz.com/posts/wildml/recurrent-neural-networks-tutorial-part-4/
+
+
+https://arxiv.org/abs/1706.03762   Attention Is All You Need
+https://arxiv.org/abs/2209.15352   AudioGen: Textually Guided Audio Generation
+https://arxiv.org/abs/1812.08466   Fréchet Audio Distance: A Metric for Evaluating Music Enhancement Algorithms
+https://arxiv.org/abs/1912.10211   PANNs: Large-Scale Pretrained Audio Neural Networks for Audio Pattern Recognition
+https://arxiv.org/pdf/1402.3511v1  A Clockwork RNN
 
 ----------------------------------------------------------------------------------------------------
 Books:

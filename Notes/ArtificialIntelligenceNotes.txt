@@ -24,7 +24,8 @@ Other, Both (or I don't really know where they fit):
 -SVM: Support Vector Machine
 -CNN: Convolutional Neural Network
 -DNN: Deep Neural Network
--LSTM:
+-LSTM: Long Short Term Memory
+-GRU: Gated Recurrent Unit
 -GAN: Generative Adversary Network
 -RNN: Recurrent Neural Network
 -Hopfield Network
@@ -42,7 +43,8 @@ Other, Both (or I don't really know where they fit):
 -LLM: Large Language Model
 -Adaptive Boost, Gradient Boost
 -Collaborative Filtering
-
+-RBF: Radial Basis Functions
+-RL: Reinforcement Learning
 
 
 Types of activation functions:

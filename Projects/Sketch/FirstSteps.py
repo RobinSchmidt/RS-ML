@@ -1,37 +1,28 @@
-# A simple Plot taken from here:
-# https://matplotlib.org/stable/gallery/lines_bars_and_markers/simple_plot.html#sphx-glr-gallery-lines-bars-and-markers-simple-plot-py    
+# Plots phase space trajectory and time series of Van der Pol system
 
-# Import libraries
+# Import libraries:
+import numpy as np    
+from scipy.integrate import odeint
 import matplotlib.pyplot as plt
-import numpy as np
 
 # Configure libraries:
-# Set up the style sheet:
 plt.style.use('dark_background')
-#plt.style.use('default')
-#plt.style.use('grayscale')
 
-# See: https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html
+# Define the function to compute the derivative of the Van der Pol system:
+def f(v, t):
+    xd = 10.0 * v[1]                   # x' = 10 * y
+    yd = 10.0 * (1-v[0]**2)*v[1]-v[0]  # y' = 10 * (1 - x^2)*y - x
+    return np.array([xd, yd])
 
-# To define my own style sheet:
-# https://matplotlib.org/stable/users/explain/customizing.html#customizing-with-style-sheets
+# Produce the data for plotting:
+t     = np.linspace(0.0, 10.0, 1001)  # Time axis
+v0    = np.array([1.0, 1.0])          # Initial conditions
+vt    = odeint(f, v0, t)              # Solution of the ODE
+(x,y) = vt.T                          # Extract x(t), y(t) from vector v(t)
 
-    
-
-
-# Create data for plotting:
-t = np.arange(0.0, 2.0, 0.01)
-s = 1 + np.sin(2 * np.pi * t)
-
-
-# Create a plot and show it:
-fig, ax = plt.subplots()
-ax.plot(t, s)
-ax.set(xlabel='time (s)', ylabel='voltage (mV)',
-       title='About as simple as it gets, folks')
-ax.grid()
-#fig.savefig("test.png") # Saves plot into .png file in same dir as .py file
-plt.show()
+# Phase-space plot:
+fig1 = plt.figure()
+plt.plot(x, y)
 
 
 # To set up colors:

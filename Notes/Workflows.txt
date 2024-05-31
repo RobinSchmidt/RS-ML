@@ -2,7 +2,9 @@
 Setting up the working environment:
 
 -Install Anaconda (Python distribution) from https://www.anaconda.com/download
+
 -Install Jupyter Lab (Web based notebook interface) from https://jupyter.org/install
+ -Nah - no necessary to install separately - it's already included in Anaconda
 
 
 On Windows, Anaconda gets by default installed into
@@ -11,7 +13,34 @@ On Windows, Anaconda gets by default installed into
   ToDo: Figure out hwo to manually create the desktop icons. It seems like the start-menu entries 
   trigger python scripts located in the "Scripts" folder of the anaconda installation
 
-It will also install Anacond Navigator - but i have no idea which .exe I need to start
+It will also install Anacond Navigator - but I have no idea which .exe I need to start. Most 
+excutables seem to be in:
+
+  C:/Users/[UserName]/anaconda3/Scripts
+
+but apparently not the Navigator. It can only be started from the start menu. It gives a nice 
+overview over what tools are available and what other tools can be additionally installed. However, 
+if you already know you want to use - say - Spyder, then opening the navigator just to launch Spyder
+is an unnecessary extra step. We really want a desktop shortcut to launch Spyder directly. The file 
+Spyder.exe is also located in this Scripts directory, so it's a good idea to create a shortcut from 
+there. the same goes for jupyter-lab.exe and jupyter-notebook.exe.
+
+But: when launching Jupyter Lab/Notebook from the shortcuts rather than from the Navigator, the 
+included filebrowser has the wrong root directory. Maybe we need to pass it a commandline argument 
+for the root directory when starting it - and the Navigator does that but our shortcut doesn't? 
+Figure out! See:
+
+https://nocomplexity.com/documents/jupyterlab/notebooks/jupyterlab-cli.html
+https://superuser.com/questions/29569/how-to-add-command-line-options-to-shortcut
+https://www.digitalcitizen.life/shortcut-arguments-parameters-windows/#google_vignette
+
+
+  --app-dir=C:\Users\rob
+
+One can also specify the browser, there if one doesn't want to use the default browser. But one 
+can also edit the "Start in" field in the shortcut (right-click -> Properties). I use:
+
+  C:\Users\rob\data\GitRepos
 
 
 
