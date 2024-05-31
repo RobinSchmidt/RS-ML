@@ -43,6 +43,13 @@ can also edit the "Start in" field in the shortcut (right-click -> Properties). 
   C:\Users\rob\data\GitRepos
 
 
+The installed Python packages seem to reside in:
+
+  C:\Users\rob\anaconda3\Lib\site-packages
+
+It looks like TensorFlow and Keras is not automaticall installed
+
+
 
 On Ubuntu:
 -Start Menu -> System -> Muon Package Manager ...nope - doesn't find anaconda
@@ -113,6 +120,9 @@ Working in Spyder:
 -Plots:
  -The button in the top-right has a "Fit plots to window" option
 
+-Help:
+ -To get help about some class, function etc. place the cursor in front of it and use Ctrl-I. This 
+  will show the documentation in the help window
 
 ----------------------------------------------------------------------------------------------------
 Working in Jupyter Lab:

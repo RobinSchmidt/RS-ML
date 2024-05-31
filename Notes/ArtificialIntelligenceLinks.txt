@@ -127,6 +127,22 @@ https://arxiv.org/abs/1912.10211   PANNs: Large-Scale Pretrained Audio Neural Ne
 https://arxiv.org/pdf/1402.3511v1  A Clockwork RNN
 
 ----------------------------------------------------------------------------------------------------
+Examples:
+
+Keras:
+https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/
+https://www.activestate.com/resources/quick-reads/how-to-create-a-neural-network-in-python-with-and-without-keras/
+https://medium.com/technology-invention-and-more/how-to-build-a-simple-neural-network-in-9-lines-of-python-code-cc8f23647ca1
+
+https://realpython.com/python-ai-neural-network/
+
+Scikit-Learn:
+https://scikit-learn.org/stable/modules/neural_networks_supervised.html
+https://www.pluralsight.com/resources/blog/guides/machine-learning-neural-networks-scikit-learn
+https://python-course.eu/machine-learning/neural-networks-with-scikit.php
+
+
+----------------------------------------------------------------------------------------------------
 Books:
 
 https://www.databricks.com/resources/ebook/big-book-generative-ai

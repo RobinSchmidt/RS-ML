@@ -53,8 +53,6 @@ vt      = odeint(f, v0, t)             # Solution of the ODE
 # Plot a projection of the phase-space trajectory onto xz-plane:
 fig1 = plt.figure()
 plt.plot(x, z)
-#plt.plot(x, y, z)  # Nope!
-# ToDo: Try to create a 3D plot
 
 # Plot the three time series x(t), y(t), z(t):
 fig2 = plt.figure()
@@ -69,5 +67,6 @@ ax.plot(x, y, z)
 plt.show()
 
 # ToDo:
+#
 # https://matplotlib.org/stable/gallery/mplot3d/quiver3d.html#sphx-glr-gallery-mplot3d-quiver3d-py
 

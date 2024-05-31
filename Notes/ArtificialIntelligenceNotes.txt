@@ -80,12 +80,15 @@ Unsupervised:
 Relevant Python Libraries:
 -NumPy:        data types and functions for numerical mathematics
 -SciKitLearn:  
--TensorFlow:  
+-TensorFlow: 
+ -Keras:
 -Pandas:       data handling and preparation, deals with file formats etc., mainly for tabular data
+-HDF5:         data handling
 -MatPlotLib:   data plotting for visualization
  -Keras:        
 -PyTorch:
--Keras:
+
+-Theano:
 
 -SciPy:        scientific programming
 -SymPy:        symbolic math (computer algebra system)
