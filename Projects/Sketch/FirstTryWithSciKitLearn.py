@@ -28,7 +28,6 @@ s = np.sin(w*t)               # Our sine wave
 D = 2                         # Maximum delay    
 X = np.full((N-D, 2), 0.0)
 y = np.full((N-D),    0.0)
-
 for n in range(0, N-D):
     X[n,0] = s[n]
     X[n,1] = s[n+1]
@@ -37,11 +36,21 @@ for n in range(0, N-D):
 
 #fig1 = plt.figure()
 plt.plot(t, s)
-plt.plot(t[0:N-D], y)
+#plt.plot(t[0:N-D], y)
 
 
 # Create and set up a multilayer perceptron regressor:
-mlp = MLPRegressor(hidden_layer_sizes=(2,), activation="tanh")
+mlp = MLPRegressor(hidden_layer_sizes=(2,), activation="tanh",
+                   max_iter=900) 
+mlp.fit(X, y)
+
+# Use the trained MLP for prediction:
+p = mlp.predict(X);
+plt.plot(t[0:N-D], p)
+
+#p = np.zeros(N)
+#for n in range(2, n):
+#    p[n] = mlp.predict(X)
 
 
 # .fit, .predict
@@ -56,6 +65,7 @@ ToDo:
     less prone to the vanishing gradients problem because it goes into 
     saturation more slowly (I think)
   - Figure out, how to produce multidimensional output
+  - Figure out what mlp.loss_curve is - 
   
     
 
