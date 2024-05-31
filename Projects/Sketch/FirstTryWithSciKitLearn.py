@@ -19,7 +19,7 @@ plt.style.use('dark_background')
 
 # Create the training data. We synthesize a time series of a sinusoid
 w = 0.1                       # Normalized radian frequency
-N = 201                       # Number of samples
+N = 101                       # Number of samples
 t = np.linspace(0.0, N-1, N)  # Time axis
 s = np.sin(w*t)               # Our sine wave
 
@@ -41,12 +41,13 @@ plt.plot(t, s)
 
 # Create and set up a multilayer perceptron regressor:
 mlp = MLPRegressor(hidden_layer_sizes=(2,), activation="identity",
-                   max_iter=1000, tol=1.e-4) 
+                   max_iter=4000, tol=1.e-7, random_state = 0) 
 mlp.fit(X, y)
 
 # Use the trained MLP for prediction:
 p = mlp.predict(X);
-plt.plot(t[0:N-D], p)
+#plt.plot(t[0:N-D], p)
+plt.plot(t[2:N], p)
 
 #p = np.zeros(N)
 #for n in range(2, n):
