@@ -20,14 +20,14 @@ import matplotlib.pyplot as plt
 plt.style.use('dark_background')   
 
 # Create the training data. We synthesize a time series of a sinusoid:
-w = 0.1                       # Normalized radian frequency
-N = 201                       # Number of samples
-t = np.linspace(0.0, N-1, N)  # Time axis
-s = np.sin(w*t)               # Our sine wave
+w = 0.1                                # Normalized radian frequency
+N = 201                                # Number of samples
+t = np.linspace(0.0, N-1, N)           # Time axis
+s = np.sin(w*t)                        # Our sine wave
 
 # We now have the time series for the sine in s. From that signal, we now 
 # extract a bunch of input vectors (of dimension 2) and scalar target outputs:
-D = 2                         # Maximum delay    
+D = 2                                  # Maximum delay    
 X = np.full((N-D, D), 0.0)
 y = np.full((N-D),    0.0)
 for n in range(0, N-D):
@@ -43,8 +43,8 @@ p = mlp.predict(X);
 
 # Plot reference and predicted signal:
 plt.figure()    
-plt.plot(t,      s)  # Input signal
-plt.plot(t[D:N], p)  # Predicted signal
+plt.plot(t,      s)                    # Input signal
+plt.plot(t[D:N], p)                    # Predicted signal
 
 # Plot training loss curve:
 plt.figure()
@@ -81,6 +81,7 @@ ToDo:
 - Figure out what mlp.loss_curve is - 
 - Maybe use array slicing to produce the X,y data arrays
 - Maybe introduce variables for the network setup stuff (max_iter, tol, etc.)
+- Try it with a Van der Pol system and with the Lorenz system
   
     
 

@@ -10,12 +10,12 @@
 # derivatives with respect to time. The system behaves chaotically ...TBC...
 
 # Import libraries:
-import numpy as np                    # For array data types
-import matplotlib.pyplot as plt       # For plotting the results
-from scipy.integrate import odeint    # The numerical ODE solver
+import numpy as np                     # For array data types
+import matplotlib.pyplot as plt        # For plotting the results
+from scipy.integrate import odeint     # The numerical ODE solver
 
 # Configure libraries:
-plt.style.use('dark_background')      # I really like dark mode!
+plt.style.use('dark_background')       # I really like dark mode!
 
 # Define system parameters:
 a = 10
@@ -25,22 +25,22 @@ c = 8/3.0
 # the x-curve steeper and the y-curve more spikey.
 
 # Define initial conditions. We start close to zero:
-x0 = 0                                # x(0)
-y0 = 1                                # y(0)
-z0 = 0                                # z(0)
+x0 = 0                                 # x(0)
+y0 = 1                                 # y(0)
+z0 = 0                                 # z(0)
 
 # Define length of signal:
-tMax = 80.0                           # Is the unit seconds? I guess so.
-N    = 10001                          # Numer of samples
+tMax = 80.0                            # Is the unit seconds? I guess so.
+N    = 10001                           # Numer of samples
 
 # Define the function to compute the derivative of the Van der Pol system:
 def f(v, t):
     x  = v[0]
     y  = v[1]
     z  = v[2]
-    xd = a * (y-x)                     # x' = ...
-    yd = b*x - x*z - y                 # y' = ...
-    zd = x*y - c*z                     # z' = ...
+    xd = a * (y-x)                     # x' = a * (y - x)
+    yd = b*x - x*z - y                 # y' = b*x - x*z - y
+    zd = x*y - c*z                     # z' = x*y - c*z
     return np.array([xd, yd, zd])
 
 # Produce the data for plotting. The solution vt = v(t) is a vector-valued 

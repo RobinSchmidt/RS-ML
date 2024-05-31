@@ -79,19 +79,19 @@ Unsupervised:
 
 Relevant Python Libraries:
 -NumPy:        data types and functions for numerical mathematics
--SciKitLearn:  
--TensorFlow: 
- -Keras:
+-SciKitLearn:  easy to use off-the-shelf ML algorithms
+-TensorFlow:   customizable ML algorithms
+-PyTorch:      offloads ML algorithms to GPU
+-Keras:        high level API for TensorFlow or PyTorch
 -Pandas:       data handling and preparation, deals with file formats etc., mainly for tabular data
 -HDF5:         data handling
 -MatPlotLib:   data plotting for visualization
- -Keras:        
--PyTorch:
 
 -Theano:
-
 -SciPy:        scientific programming
 -SymPy:        symbolic math (computer algebra system)
-
 -Shutil:       High level file management
 -requests:     fetch data from the internet
+
+https://www.zfort.com/blog/Top-Machine-Learning-Tools-Comparison-TensorFlow-Keras-Scikit-learn-PyTorch
+https://stackoverflow.com/questions/61233004/whats-the-difference-between-scikit-learn-and-tensorflow-is-it-possible-to-use
