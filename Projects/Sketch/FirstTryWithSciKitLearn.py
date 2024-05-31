@@ -25,18 +25,26 @@ s = np.sin(w*t)               # Our sine wave
 
 # We now have the time series for the sine in s. From that signal, we now 
 # extract a bunch of input vectors (of dimension 2) and scalar target outputs:
-X = np.full((N, 2), 0.0)
-y = np.full((N),    0.0)
+D = 2                         # Maximum delay    
+X = np.full((N-D, 2), 0.0)
+y = np.full((N-D),    0.0)
+
+for n in range(0, N-D):
+    X[n,0] = s[n]
+    X[n,1] = s[n+1]
+    y[n]   = s[n+2]
     
 
 #fig1 = plt.figure()
 plt.plot(t, s)
-#plt.plot(t, y)
+plt.plot(t[0:N-D], y)
 
 
 # Create and set up a multilayer perceptron regressor:
 mlp = MLPRegressor(hidden_layer_sizes=(2,), activation="tanh")
 
+
+# .fit, .predict
 
 """
 
