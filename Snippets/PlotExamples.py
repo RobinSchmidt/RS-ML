@@ -43,6 +43,7 @@ plt.show()
 # To set up colors:
 # https://stackoverflow.com/questions/14088687/how-to-change-plot-background-color
 # https://matplotlib.org/stable/gallery/style_sheets/dark_background.html
+# https://htmlcolorcodes.com/color-names/
 #
 # Some simple example plots:
 # https://matplotlib.org/stable/gallery/pyplots/index.html
