@@ -68,3 +68,6 @@ ax   = fig3.add_subplot(projection='3d')
 ax.plot(x, y, z)
 plt.show()
 
+# ToDo:
+# https://matplotlib.org/stable/gallery/mplot3d/quiver3d.html#sphx-glr-gallery-mplot3d-quiver3d-py
+
