@@ -14,6 +14,12 @@ import numpy as np                    # For array data types
 import matplotlib.pyplot as plt       # For plotting the results
 from scipy.integrate import odeint    # The numerical ODE solver
 
+#from ...Libraries.rs.dynsys import van_der_pol
+#from ...Libraries.rs.dynsys import van_der_pol  # Doesn't work!
+from rs.dynsys import van_der_pol  # Doesn't work!
+
+
+
 # Configure libraries:
 plt.style.use('dark_background')      # I really like dark mode!
 
