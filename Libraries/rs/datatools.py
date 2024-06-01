@@ -35,8 +35,8 @@ def test_datatools():
     Xt = np.array([[3.,1.],[4.,2.],[5.,3.],[6.,4.]])  # Target for X
     yt = np.array([6.,7.,8.,9.])                      # Target for y
     X, y = signal_ar_to_nn(s, d) 
-    ok &= X == Xt
-    #ok &= y == yt
+    ok &= np.array_equal(X, Xt)
+    ok &= np.array_equal(y, yt)
     
     return ok
 
