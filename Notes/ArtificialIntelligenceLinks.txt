@@ -69,8 +69,18 @@ https://www.youtube.com/watch?v=gUmagAluXpk  How I’d learn ML in 2024 (if I co
 https://www.youtube.com/watch?v=z18nw4adsx4  10 ML algorithms in 45 minutes | machine learning algorithms for data science | machine learning
 
 
+Video series:
+
 3Blue1Brown series on neural neural networks
 https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi
+
+Stanford CS221: Artificial Intelligence: Principles and...:
+https://www.youtube.com/playlist?list=PLoROMvodv4rO1NB9TD4iUZ3qghGEGtqNX
+
+Stanford CS229: Machine Learning Full Course taught by...:
+https://www.youtube.com/playlist?list=PLoROMvodv4rMiGQp3WXShtMGgzqpfVfbU
+
+
 
 
 LEARN PANDAS in about 10 minutes! A great python module for Data Science!

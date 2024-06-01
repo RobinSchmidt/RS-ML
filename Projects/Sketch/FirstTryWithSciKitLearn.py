@@ -1,10 +1,22 @@
 """
-My very first attempt at creating a neural network model using sklearn. I try 
-to model a sine wave using as target output the scalar x[n] and as input the 2D 
-vector (x[n-1], x[n-2]). So, we are doing an autoregressive model of the sine
-signal. It should actually be possible to predict this signal perfectly using 
-linear units because a sine can be created autoregressively. It can be done by
-a 2nd order digital filter. Let's see, if this does indeed work...Yep!
+My very first attempt at creating a neural network model using sklearn. I 
+create a linear autoregressive model for a sine wave signal. Autoregressive 
+means that the network tries to predict the current sample from past samples. 
+A single sine wave could be produced by a 2nd order digital filter (although we 
+do not produce it that way here). That means that a neural network with just 1 
+hidden layer containing 2 neurons with linear activation functions should be 
+able to predict the signal perfectly.
+
+If the sinewave signal is contained in a 1D array s[n], then the data for the 
+network to learn looks like:
+
+  X = [(s[0], s[1]), (s[1], s[2]), (s[2], s[3]), ...]
+  y = [ s[2],         s[3],         s[4],        ...]
+
+The target output is always s[n] and the input vector is always 
+(s[n-1], s[n-2]) where n = 2,..,N. We start at n = 2, because that's the first
+index for which we have 2 past samples available. If s is N samples long, i.e. 
+n = 0,..,N-1, then y will we N-2 samples long and X will have a shape of (N,2).
 
 References:
 
@@ -69,7 +81,6 @@ Observations:
   continues to drop.
 
 
-
 ToDo:
     
 - Maybe try adding some noise to the data
@@ -81,12 +92,19 @@ ToDo:
 - Figure out what mlp.loss_curve is - 
 - Maybe use array slicing to produce the X,y data arrays
 - Maybe introduce variables for the network setup stuff (max_iter, tol, etc.)
+- Apply an exponential decay. It should still be possible to model it perfecly
+  with 2 hidden (linear) neurons.
+- Add a 2nd sine (with amplitude and phase parameters). To model the signal,
+  properly, we'll probably need to add 2 more hidden neurons.
 - Try it with a Van der Pol system and with the Lorenz system
-  
-    
+- Experiment with different seeds for the random initialization of the weights.
+- Figure out, if we can manually initialize the weights. If so, start with a 
+  given know set of weights, run the learning and the try to replicate the 
+  results with my C++ implementation.  
 
-See also:
     
-  https://scikit-learn.org/stable/auto_examples/neural_networks/plot_mnist_filters.html#sphx-glr-auto-examples-neural-networks-plot-mnist-filters-py
+See:
+    
+- https://scikit-learn.org/stable/auto_examples/neural_networks/plot_mnist_filters.html#sphx-glr-auto-examples-neural-networks-plot-mnist-filters-py
 
 """
