@@ -14,3 +14,13 @@ https://docs.python.org/3/reference/import.html#package-relative-imports
 https://stackoverflow.com/questions/4383571/importing-files-from-different-folder
 https://www.geeksforgeeks.org/python-import-module-from-different-directory/
 https://sentry.io/answers/import-files-from-a-different-folder-in-python/
+
+
+About coding style conventions:
+
+Differnt docstring styles:
+
+  https://www.geeksforgeeks.org/python-docstrings/
+
+I think, I should adopt the Numpydoc style because it seems to be widely used in the scientific 
+and data analysis community and my stuff also falls into that realm.

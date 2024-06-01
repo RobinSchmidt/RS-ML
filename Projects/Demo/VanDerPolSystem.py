@@ -16,7 +16,7 @@ import numpy as np                    # For array data types
 import matplotlib.pyplot as plt       # For plotting the results
 from scipy.integrate import odeint    # The numerical ODE solver
 
-# Imports from my own libraries (ToDo: Try to do this with relative imports):
+# Imports from my own libraries:
 import sys
 sys.path.append("../../Libraries")
 from rs.dynsys import van_der_pol     # Derivative calculation for the system
@@ -47,13 +47,23 @@ plt.plot(t, y, color='skyblue')
 '''
 Observations:
     
--Using higher values for mu increases the frequency and also seems to make the 
- x-curve steeper and the y-curve more spikey. With 0.0, we get a sine/cosine
- pair
+- Using mu = 0, x0 = 0, y0 = 1, we get a sine/cosine pair, i.e. x = sin, 
+  y = cos. With x0 = 1, y0 = 0, we'll get x = cos, y = -sin.
+  
+- Using higher values for mu makes the x-curve steeper and the y-curve more 
+  spikey. With 0.0, we get a sine/cosine
+
+- Using small values for the initial conditions, we see a build-up phase.
+
+- Uinsg mu = -0.1 gives (approximately?) a decaying sinusoid
  
  
 ToDo: 
 
-- Demonstrate the quiver function to plot a vector field and stream lines   
+- Demonstrate the quiver function to plot a vector field and stream lines
+
+- Try to import van_der_pol via relative imports. I'd like to write it in one 
+  line like "from ...Libraries.rs.dynsys import va_der_pol" but that doesn't 
+  work. Figure out if and how this can be made to work
  
 '''
