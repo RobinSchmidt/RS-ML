@@ -17,12 +17,6 @@ The target output is always s[n] and the input vector is always
 (s[n-1], s[n-2]) where n = 2,..,N. We start at n = 2, because that's the first
 index for which we have 2 past samples available. If s is N samples long, i.e. 
 n = 0,..,N-1, then y will we N-2 samples long and X will have a shape of (N,2).
-
-References:
-
-  (1) https://scikit-learn.org/stable/modules/neural_networks_supervised.html#regression
-  (2) https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html#sklearn.neural_network.MLPRegressor
-  
 """
 
 # Import and configure libraries:
@@ -101,10 +95,23 @@ ToDo:
 - Figure out, if we can manually initialize the weights. If so, start with a 
   given know set of weights, run the learning and the try to replicate the 
   results with my C++ implementation.  
+- Write a utility function that takes the time series s and a delay vector d 
+  and produces the training data X, y from that. In this example, the delay 
+  vector would be [1, 2] because we use s[n-1] and s[n-2] for the prediction. 
+  We want to able to use general delays like e.g. [1,2,3,4,5, 29,30,31] because
+  that is want I want to try for autoregressive modeling of musical instrument
+  samples. In particular, I want to use [1,2,3, ..., P-1,P,P+1] where P is the
+  period of the signal. Assuming a periodic signal and using some delays 
+  surrounding the period, it should be possible to perfectly predict the value 
+  at n from the value at n-P alone - s[n] is just equal to s[n-P]. If P is 
+  non-integer, some interpolation may need to take place, so we use not only 
+  n-P, but also a couple of samples around it.
 
     
 See:
     
+- https://scikit-learn.org/stable/modules/neural_networks_supervised.html#regression
+- https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html#sklearn.neural_network.MLPRegressor   
 - https://scikit-learn.org/stable/auto_examples/neural_networks/plot_mnist_filters.html#sphx-glr-auto-examples-neural-networks-plot-mnist-filters-py
 
 """
