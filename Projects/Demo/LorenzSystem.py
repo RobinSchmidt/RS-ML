@@ -9,20 +9,16 @@
 # with respect to time and x' = dx/dt, y' = dy/dt, z' = dz/dt are their 
 # derivatives with respect to time. The system behaves chaotically ...TBC...
 
-# Import libraries:
+# Import and configure libraries:
 import numpy as np                     # For array data types
-import matplotlib.pyplot as plt        # For plotting the results
 from scipy.integrate import odeint     # The numerical ODE solver
-
-# Configure libraries:
+import matplotlib.pyplot as plt        # For plotting the results
 plt.style.use('dark_background')       # I really like dark mode!
 
 # Define system parameters:
 a = 10
 b = 28
 c = 8/3.0
-# Using higher values for both increases the frequency and also seems to make 
-# the x-curve steeper and the y-curve more spikey.
 
 # Define initial conditions. We start close to zero:
 x0 = 0                                 # x(0)
@@ -67,6 +63,13 @@ ax.plot(x, y, z)
 plt.show()
 
 # ToDo:
-#
-# https://matplotlib.org/stable/gallery/mplot3d/quiver3d.html#sphx-glr-gallery-mplot3d-quiver3d-py
-
+# 
+# - Implement a direction field plot. See:
+#   https://matplotlib.org/stable/gallery/mplot3d/quiver3d.html#sphx-glr-gallery-mplot3d-quiver3d-py
+# - Reorganize the code. Pull out the data generation functions from 
+#   LorenzSystem.py and VanDerPolSystem.py into a file DynamicalSystems.py and
+#   (maybe) also consolidate the plotting into a single DynamicSystemPlots.py.
+#   ...but maybe it's better to have one file for each system. The rationale 
+#   for pulling out the data generation functions is that I want to use their
+#   outputs as inputs for machine learning algorithms. I want to create 
+#   nonlinear autoregressive models for these systems (using MLPs, etc.).
