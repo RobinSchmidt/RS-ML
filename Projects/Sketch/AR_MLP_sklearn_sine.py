@@ -1,11 +1,12 @@
 """
 My very first attempt at creating a neural network model using sklearn. I 
-create a linear autoregressive model for a sine wave signal. Autoregressive 
-means that the network tries to predict the current sample from past samples. 
-A single sine wave could be produced by a 2nd order digital LTI filter. We 
-don't produce our sine that way here, though - but it is possible. That means 
-that a neural network with just 1 hidden layer containing 2 neurons with linear
-activation functions should be able to predict the signal perfectly.
+create a linear autoregressive (AR) model for a sine wave signal using a 
+multilayer perceptron (MLP). Autoregressive means that the network tries to 
+predict the current sample from past samples. A single sine wave could be 
+produced by a 2nd order digital LTI filter. We don't produce our sine that way 
+here, though - but it is possible. That means that a neural network with just 
+1 hidden layer containing 2 neurons with linear activation functions should be 
+able to predict the signal perfectly.
 
 If the sinusoidal signal is contained in a 1D array s[n], then the data for the 
 network to learn looks like:
