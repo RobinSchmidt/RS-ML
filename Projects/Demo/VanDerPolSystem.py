@@ -24,8 +24,9 @@ from rs.dynsys import van_der_pol  # Doesn't work!
 plt.style.use('dark_background')      # I really like dark mode!
 
 # Define system parameters:
-a = 2.2 
-b = 2.0
+mu = 1.5   
+#a = 2.2 
+#b = 2.0
 # Using higher values for both increases the frequency and also seems to make 
 # the x-curve steeper and the y-curve more spikey.
 
@@ -34,19 +35,23 @@ x0 = +0.001                           # x(0)
 y0 = -0.001                           # y(0)
 
 # Define length of signal:
-tMax = 30.0                           # Is the unit seconds? I guess so.
+tMax = 50.0                           # Is the unit seconds? I guess so.
 
 # Define the function to compute the derivative of the Van der Pol system:
-def f(v, t):
-    xd = a * v[1]                     # x' = a * y
-    yd = b * (1-v[0]**2)*v[1]-v[0]    # y' = b * (1 - x^2)*y - x
-    return np.array([xd, yd])
+# def f(v, t):
+#     xd = a * v[1]                     # x' = a * y
+#     yd = b * (1-v[0]**2)*v[1]-v[0]    # y' = b * (1 - x^2)*y - x
+#     return np.array([xd, yd])
 
 # Produce the data for plotting. The solution vt = v(t) is a vector-valued 
 # time series:
 t     = np.linspace(0.0, tMax, 1001)  # Time axis
 v0    = np.array([x0, y0])            # Initial conditions
-vt    = odeint(f, v0, t)              # Solution of the ODE
+
+#vt    = odeint(f, v0, t)              # Solution of the ODE
+vt    = odeint(van_der_pol, v0, t, args=(mu,))    # Solution of the ODE
+
+
 (x,y) = vt.T                          # Extract x(t), y(t) from vector v(t)
 
 # Plot the trajectory in phase space:
