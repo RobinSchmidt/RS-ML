@@ -18,7 +18,7 @@ from rs.datatools import signal_ar_to_nn
 tMax = 50
 N    = 401                               # Number of samples
 t    = np.linspace(0.0, tMax, N)         # Time axis
-mu   = 2.0
+mu   = 1.0
 x0   = 0
 y0   = 1
 vt   = odeint(van_der_pol,               # Solution to the ODE
@@ -55,4 +55,10 @@ plt.figure()
 
 """
 Observations:
+    
+- It actually looks too good to be true. I think, using p = mlp.predict is not
+  the right thing to do. We want to predict recursively, i.e. use previous 
+  predictor outputs. Predicting from X uses the true input signal values for 
+  prediction. Maybe we need to modify the file for the sine, too
+    
 """
