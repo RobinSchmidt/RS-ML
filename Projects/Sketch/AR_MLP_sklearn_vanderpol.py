@@ -14,28 +14,22 @@ sys.path.append("../../Libraries")
 from rs.dynsys import van_der_pol
 from rs.datatools import signal_ar_to_nn
   
-# Create the training data. We synthesize a time series of a sinusoid:
-#w = 0.1                                # Normalized radian frequency
-tMax = 20
-N    = 201                                # Number of samples
-t    = np.linspace(0.0, tMax, N)           # Time axis
-
-#s = np.sin(w*t)                        # Our sine wave
-
-mu = 0
-x0 = 0
-y0 = 1
-#s  = van_der_pol([x0, y0], t, mu)
-
-vt = odeint(van_der_pol,              # Solution to the ODE
-            [x0, y0], t, args=(mu,))
-
-s = vt[:,1]
-
+# Create the signal:
+tMax = 50
+N    = 401                               # Number of samples
+t    = np.linspace(0.0, tMax, N)         # Time axis
+mu   = 1.0
+x0   = 0
+y0   = 1
+vt   = odeint(van_der_pol,               # Solution to the ODE
+              [x0, y0], t, args=(mu,))
+s = vt[:,0]
+#s = vt[:,1]  # Alternative
 
 # Set up the delays to be used:
 d = [1,2]
 D = max(d)
+# Set up more modeling parameters here - like number of hidden neurons, etc.
 
 # Extract a bunch of input vectors and scalar target outputs for learning:
 X, y = signal_ar_to_nn(s, d)
