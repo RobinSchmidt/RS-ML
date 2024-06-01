@@ -18,7 +18,7 @@ from rs.datatools import signal_ar_to_nn
 tMax = 50
 N    = 401                               # Number of samples
 t    = np.linspace(0.0, tMax, N)         # Time axis
-mu   = 1.0
+mu   = 2.0
 x0   = 0
 y0   = 1
 vt   = odeint(van_der_pol,               # Solution to the ODE
@@ -51,7 +51,7 @@ plt.figure()
 loss = mlp.loss_curve_
 plt.plot(loss)                         # The whole loss progression
 plt.figure()
-plt.plot(loss[3000:4000])              # A zoomed in view of the tail
+#plt.plot(loss[3000:4000])              # A zoomed in view of the tail
 
 """
 Observations:
