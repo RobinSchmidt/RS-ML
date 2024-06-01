@@ -1,60 +1,48 @@
-# We generate and plot the phase space trajectory and time series of the Van 
-# der Pol system defined by the (autonomous) system of ordinary differential 
-# equations:
-#
-#   x' = a * y
-#   y' = b * (1 - x^2) * y - x
-#
-# where x = x(t) and y = y(t) are two coupled variables that change with 
-# respect to time and x' = dx/dt, y' = dy/dt are their derivatives with respect 
-# to time. The system quickly settles into a (quasi?) periodic motion.
+'''
+We generate and plot the phase space trajectory and time series of the Van 
+der Pol system defined by the (autonomous) system of ordinary differential 
+equations:
+    
+  x' = y
+  y' = mu * (1 - x^2) * y - x
+
+where x = x(t) and y = y(t) are two coupled variables that change with 
+respect to time and x' = dx/dt, y' = dy/dt are their derivatives with respect 
+to time. The system quickly settles into a (quasi?) periodic motion.
+'''
 
 # Import libraries:
 import numpy as np                    # For array data types
 import matplotlib.pyplot as plt       # For plotting the results
 from scipy.integrate import odeint    # The numerical ODE solver
+from rs.dynsys import van_der_pol     # Move into Libraries!
 
-#from ...Libraries.rs.dynsys import van_der_pol
-#from ...Libraries.rs.dynsys import van_der_pol  # Doesn't work!
-from rs.dynsys import van_der_pol  # Doesn't work!
+# This:
+# from ...Libraries.rs.dynsys import van_der_pol  # Fails!
+# fails with the following error:
+# "ImportError: attempted relative import with no known parent package"
+# even when I have __init__.py files in the "rs" as well as the "Libraries"
+# folder. I even tried to put such a file into the root directory of the repo
+# and even one into the "Projects" and the "Demo" directory - but nothing 
+# works! :-( ...Python wis supposed to be easy to use - but for a simple import 
+# from a library directory, I have to jump through hoops?
 
 
-
-# Configure libraries:
-plt.style.use('dark_background')      # I really like dark mode!
-
-# Define system parameters:
-mu = 1.5   
-#a = 2.2 
-#b = 2.0
-# Using higher values for both increases the frequency and also seems to make 
-# the x-curve steeper and the y-curve more spikey.
-
-# Define initial conditions. We start close to zero:
-x0 = +0.001                           # x(0)
-y0 = -0.001                           # y(0)
-
-# Define length of signal:
-tMax = 50.0                           # Is the unit seconds? I guess so.
-
-# Define the function to compute the derivative of the Van der Pol system:
-# def f(v, t):
-#     xd = a * v[1]                     # x' = a * y
-#     yd = b * (1-v[0]**2)*v[1]-v[0]    # y' = b * (1 - x^2)*y - x
-#     return np.array([xd, yd])
+# Set up user parameters:
+mu   =  1.0                           # System parameter
+x0   = +0.001                         # Initial condition x(0)
+y0   = -0.001                         # Initial condition y(0)
+tMax =  50.0                          # Length (in seconds?)
 
 # Produce the data for plotting. The solution vt = v(t) is a vector-valued 
 # time series:
-t     = np.linspace(0.0, tMax, 1001)  # Time axis
-v0    = np.array([x0, y0])            # Initial conditions
-
-#vt    = odeint(f, v0, t)              # Solution of the ODE
-vt    = odeint(van_der_pol, v0, t, args=(mu,))    # Solution of the ODE
-
-
-(x,y) = vt.T                          # Extract x(t), y(t) from vector v(t)
+t  = np.linspace(0.0, tMax, 1001)     # Time axis
+vt = odeint(van_der_pol,              # Solution to the ODE
+            [x0, y0], t, args=(mu,))
 
 # Plot the trajectory in phase space:
+(x,y) = vt.T                          # Extract x(t), y(t) from vector v(t)    
+plt.style.use('dark_background')      # I really like dark mode!
 fig1 = plt.figure()
 plt.plot(x, y)
 
@@ -63,6 +51,16 @@ fig2 = plt.figure()
 plt.plot(t, x, color='lightsalmon')
 plt.plot(t, y, color='skyblue')
 
-# ToDo:
-#
-# Demonstrate the quiver function to plot a vector field and stream lines
+'''
+Observations:
+    
+-Using higher values for mu increases the frequency and also seems to make the 
+ x-curve steeper and the y-curve more spikey. With 0.0, we get a sine/cosine
+ pair
+ 
+ 
+ToDo: 
+
+- Demonstrate the quiver function to plot a vector field and stream lines   
+ 
+'''

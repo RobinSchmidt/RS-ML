@@ -3,6 +3,8 @@ Creating packages:
 https://medium.com/@ashley.e.shultz/naming-company-python-packages-d1295fb9008d
 
 For importing functions from different folders:
+https://www.byteplus.com/en/topic/13255
+https://realpython.com/absolute-vs-relative-python-imports/
 https://docs.python.org/3/reference/import.html#package-relative-imports
 https://stackoverflow.com/questions/4383571/importing-files-from-different-folder
 https://www.geeksforgeeks.org/python-import-module-from-different-directory/
