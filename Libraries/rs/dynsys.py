@@ -4,7 +4,11 @@ import numpy as np
 
 def van_der_pol(v, t, mu):
     '''
-    Derivative calculation for the van der Pol oscillator.
+    Derivative calculation for a van der Pol oscillator. It is defined by the 
+    autonomous system of two ordinary differential equations:
+        
+      x' = y                                   \n
+      y' = mu * (1 - x^2) * y - x
 
     Parameters
     ----------

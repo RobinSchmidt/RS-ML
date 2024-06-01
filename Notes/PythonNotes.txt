@@ -24,3 +24,5 @@ Differnt docstring styles:
 
 I think, I should adopt the Numpydoc style because it seems to be widely used in the scientific 
 and data analysis community and my stuff also falls into that realm.
+
+  https://github.com/tiangolo/typer/issues/188

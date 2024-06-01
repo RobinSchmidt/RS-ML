@@ -3,7 +3,7 @@ We generate and plot the phase space trajectory and time series of the Van
 der Pol system defined by the (autonomous) system of ordinary differential 
 equations:
     
-  x' = y
+  x' = y  
   y' = mu * (1 - x^2) * y - x
 
 where x = x(t) and y = y(t) are two coupled variables that change with 
