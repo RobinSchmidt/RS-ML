@@ -33,8 +33,8 @@ s = np.sin(w*t)                        # Our sine wave
 # We now have the time series for the sine in s. From that signal, we now 
 # extract a bunch of input vectors (of dimension 2) and scalar target outputs:
 D = 2                                  # Maximum delay    
-X = np.full((N-D, D), 0.0)
-y = np.full((N-D),    0.0)
+X = np.zeros((N-D, D))
+y = np.zeros( N-D)
 for n in range(0, N-D):
     X[n,0] = s[n]
     X[n,1] = s[n+1]
@@ -76,10 +76,16 @@ Observations:
   close to zero. However, when reducing max_iter, we get a warning that the 
   training didn't converge. OK - zooming in, it becomes apparent that the loss 
   continues to drop.
+- The random_state = ... in the creation of the MLPRegressor object really 
+  makes a difference. We get a good result with 0 but much less good with 2, 
+  for example. 
 
 
 ToDo:
     
+- Try to explain why with some random seeds, we do not seem to able to get good
+  results. After all, with a linear network, the loss function should be a 
+  hyperparaboloid with a single global minimum and no local minima, right?
 - Maybe try adding some noise to the data
 - Figure out, if we can use custom activation functions. If so, try
   f(x) = x / sqrt(1 + x^2). It's cheaper than the sigmoid and potentially 
