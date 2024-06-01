@@ -5,33 +5,40 @@
 # Import libraries:
 import numpy as np
 import matplotlib.pyplot as plt    
+from scipy.integrate import odeint                  # The numerical ODE solver
 from sklearn.neural_network import MLPRegressor
 
 # Imports from my own libraries:
 import sys
 sys.path.append("../../Libraries")
-#from rs.dynsys import van_der_pol
+from rs.dynsys import van_der_pol
 from rs.datatools import signal_ar_to_nn
   
 # Create the training data. We synthesize a time series of a sinusoid:
-w = 0.1                                # Normalized radian frequency
-N = 201                                # Number of samples
-t = np.linspace(0.0, N-1, N)           # Time axis
-s = np.sin(w*t)                        # Our sine wave
+#w = 0.1                                # Normalized radian frequency
+tMax = 20
+N    = 201                                # Number of samples
+t    = np.linspace(0.0, tMax, N)           # Time axis
 
-# We now have the time series for the sine in s. From that signal, we now 
-# extract a bunch of input vectors (of dimension 2) and scalar target outputs:
-D = 2                                  # Maximum delay    
-X = np.zeros((N-D, 2))
-y = np.zeros( N-D)
-for n in range(0, N-D):
-    X[n,0] = s[n]
-    X[n,1] = s[n+1]
-    y[n]   = s[n+2]
+#s = np.sin(w*t)                        # Our sine wave
 
-X2, y2 = signal_ar_to_nn(s, [1,2])
-# this looks wrong. Maybe we should implement a unit test
+mu = 0
+x0 = 0
+y0 = 1
+#s  = van_der_pol([x0, y0], t, mu)
 
+vt = odeint(van_der_pol,              # Solution to the ODE
+            [x0, y0], t, args=(mu,))
+
+s = vt[:,1]
+
+
+# Set up the delays to be used:
+d = [1,2]
+D = max(d)
+
+# Extract a bunch of input vectors and scalar target outputs for learning:
+X, y = signal_ar_to_nn(s, d)
 
 # Fit a multilayer perceptron regressor to the data and use it for prediction:
 mlp = MLPRegressor(hidden_layer_sizes=(2,), activation="identity",
