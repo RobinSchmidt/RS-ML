@@ -27,11 +27,13 @@ x0   = +0.001                         # Initial condition x(0)
 y0   = -0.001                         # Initial condition y(0)
 tMax =  50.0                          # Length (in seconds?)
 
+
 # Produce the data for plotting. The solution vt = v(t) is a vector-valued 
 # time series:
 t  = np.linspace(0.0, tMax, 1001)     # Time axis
 vt = odeint(van_der_pol,              # Solution to the ODE
             [x0, y0], t, args=(mu,))
+
 
 # Plot the trajectory in phase space:
 (x,y) = vt.T                          # Extract x(t), y(t) from vector v(t)    

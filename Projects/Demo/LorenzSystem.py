@@ -26,20 +26,19 @@ rho   = 28
 beta  = 8/3.0
 
 # Initial conditions:
-x0 = 0                                 # x(0)
-y0 = 1                                 # y(0)
-z0 = 0                                 # z(0)
+x0    = 0                              # x(0)
+y0    = 1                              # y(0)
+z0    = 0                              # z(0)
 
 # Length of signal:
-tMax = 80.0                            # Is the unit seconds? I guess so.
-N    = 10001                           # Numer of samples
+tMax  = 80.0                           # Is the unit seconds? I guess so.
+N     = 10001                          # Numer of samples
 
 
 # Produce the data for plotting. The solution vt = v(t) is a vector-valued 
 # time series:
 t  = np.linspace(0.0, tMax, N)         # Time axis
-v0 = np.array([x0, y0, z0])            # Initial conditions
-vt = odeint(lorenz, v0, t,             # Solution of the ODE
+vt = odeint(lorenz, [x0, y0, z0], t,   # Solution of the ODE
             args=(sigma, rho, beta))       
 
 
