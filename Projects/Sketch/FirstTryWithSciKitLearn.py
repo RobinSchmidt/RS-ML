@@ -69,13 +69,17 @@ Observations:
 - Using 2 hidden neurons in 1 layer with an identity actiavtions function, we 
   should theoretically be able to achieve a perfect match and that seems to 
   indeed work in practice
+  
 - When switching to the tanh activation function, there is some residual error.
   It can be reduced by increasing the number of hidden neurons to, say, 5.
+  
 - With relu, we also get good results with 5 hidden neurons.
+
 - The loss curve drops quickly until around 1000 iterations. Then it looks 
   close to zero. However, when reducing max_iter, we get a warning that the 
   training didn't converge. OK - zooming in, it becomes apparent that the loss 
   continues to drop.
+  
 - The random_state = ... in the creation of the MLPRegressor object really 
   makes a difference. We get a good result with 0 but much less good with 2, 
   for example. 
@@ -86,24 +90,34 @@ ToDo:
 - Try to explain why with some random seeds, we do not seem to able to get good
   results. After all, with a linear network, the loss function should be a 
   hyperparaboloid with a single global minimum and no local minima, right?
+  
 - Maybe try adding some noise to the data
+
 - Figure out, if we can use custom activation functions. If so, try
   f(x) = x / sqrt(1 + x^2). It's cheaper than the sigmoid and potentially 
   less prone to the vanishing gradients problem because it goes into 
   saturation more slowly (I think)
+  
 - Figure out, how to produce multidimensional output
-- Figure out what mlp.loss_curve is - 
+
 - Maybe use array slicing to produce the X,y data arrays
+
 - Maybe introduce variables for the network setup stuff (max_iter, tol, etc.)
+
 - Apply an exponential decay. It should still be possible to model it perfecly
   with 2 hidden (linear) neurons.
+  
 - Add a 2nd sine (with amplitude and phase parameters). To model the signal,
   properly, we'll probably need to add 2 more hidden neurons.
+  
 - Try it with a Van der Pol system and with the Lorenz system
+
 - Experiment with different seeds for the random initialization of the weights.
+
 - Figure out, if we can manually initialize the weights. If so, start with a 
   given know set of weights, run the learning and the try to replicate the 
   results with my C++ implementation.  
+  
 - Write a utility function that takes the time series s and a delay vector d 
   and produces the training data X, y from that. In this example, the delay 
   vector would be [1, 2] because we use s[n-1] and s[n-2] for the prediction. 
