@@ -11,22 +11,15 @@ respect to time and x' = dx/dt, y' = dy/dt are their derivatives with respect
 to time. The system quickly settles into a (quasi?) periodic motion.
 '''
 
-# Import libraries:
+# Imports from standard libraries:
 import numpy as np                    # For array data types
 import matplotlib.pyplot as plt       # For plotting the results
 from scipy.integrate import odeint    # The numerical ODE solver
-from rs.dynsys import van_der_pol     # Move into Libraries!
 
-# This:
-# from ...Libraries.rs.dynsys import van_der_pol  # Fails!
-# fails with the following error:
-# "ImportError: attempted relative import with no known parent package"
-# even when I have __init__.py files in the "rs" as well as the "Libraries"
-# folder. I even tried to put such a file into the root directory of the repo
-# and even one into the "Projects" and the "Demo" directory - but nothing 
-# works! :-( ...Python wis supposed to be easy to use - but for a simple import 
-# from a library directory, I have to jump through hoops?
-
+# Imports from my own libraries (ToDo: Try to do this with relative imports):
+import sys
+sys.path.append("../../Libraries")
+from rs.dynsys import van_der_pol     # Derivative calculation for the system
 
 # Set up user parameters:
 mu   =  1.0                           # System parameter

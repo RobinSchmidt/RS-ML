@@ -3,6 +3,11 @@ Creating packages:
 https://medium.com/@ashley.e.shultz/naming-company-python-packages-d1295fb9008d
 
 For importing functions from different folders:
+https://stackoverflow.com/questions/14132789/relative-imports-for-the-billionth-time
+
+It says: "Thus you cannot do relative imports directly from an interactive session. Relative imports 
+are only for use within module files."
+
 https://www.byteplus.com/en/topic/13255
 https://realpython.com/absolute-vs-relative-python-imports/
 https://docs.python.org/3/reference/import.html#package-relative-imports
