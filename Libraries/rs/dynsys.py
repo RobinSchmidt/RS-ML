@@ -9,15 +9,18 @@ and can be called like:
 
     derivs = f(state, time, ...)
   
-where "state" is the current state vector of the system, time is a scalar time 
-variable and after that, a bunch of parameters for the particular system may 
-follow. The signature of the functions is compatible with the odeint routine 
+where "state" is the current state vector of the system, "time" is a scalar 
+time variable and after that, a bunch of parameters for the particular system 
+may follow. The return value is the vector of derivative values at the given
+time instant. Vectors are passed in and out as NumPy arrays.
+
+The signature of the functions is compatible with the odeint routine 
 from scipy.integrate which implements a numerical ODE solver. Functions that
 implement the equations of autonomous systems will ignore the "time" parameter.
 It is still there as dummy parameter for the compatibility with odeint, though.
 '''
 
-import numpy as np
+import numpy as np                     # I/O is done via numpy.array
 
 def van_der_pol(v, t, mu):
     '''
@@ -32,17 +35,16 @@ def van_der_pol(v, t, mu):
     Parameters
     ----------
     v : np.array of 2 floats
-        The current state of the oscillator. v = [x, y]
+        The current state of the oscillator v = [x, y].
     t : float
-        The current time instant. Not used in the computation but needed as 
-        dummy parameter for compatibility with odeint.
+        The current time instant.
     mu : float
         The system parameter. Higher values make the oscillator more nonlinear.
 
     Returns
     -------
     v' : np.array of 2 floats
-        The derivative vector v' = [x', y'] 
+        The derivative vector v' = [x', y'].
         
     References
     ----------
