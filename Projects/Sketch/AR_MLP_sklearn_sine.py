@@ -34,7 +34,7 @@ s = np.sin(w*t)                        # Our sine wave
 # We now have the time series for the sine in s. From that signal, we now 
 # extract a bunch of input vectors (of dimension 2) and scalar target outputs:
 D = 2                                  # Maximum delay    
-X = np.zeros((N-D, D))
+X = np.zeros((N-D, 2))
 y = np.zeros( N-D)
 for n in range(0, N-D):
     X[n,0] = s[n]
