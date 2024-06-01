@@ -4,8 +4,8 @@ DynSys: Dynamical Systems
 
 This module contains functions that implement the equations of various 
 continuous nonlinear dynamical systems such as the Lorenz system, Van der Pol 
-oscillator, Volterra-Lotka model etc. The functions have all the same signature 
-and can be called like:
+oscillator, Volterra-Lotka model, Roessler attractor, etc. The functions have 
+all the same signature and can be called like:
 
     derivs = f(state, time, ...)
   
@@ -22,9 +22,37 @@ It is still there as dummy parameter for the compatibility with odeint, though.
 
 import numpy as np                     # I/O is done via numpy.array
 
+
+def lorenz(v, t, sigma, rho, beta):
+    '''
+    Derivative calculation for the Lorenz system ...TBC...
+
+    Parameters
+    ----------
+    v : TYPE
+        DESCRIPTION.
+    t : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    TYPE
+        DESCRIPTION.
+        
+    References
+    ----------
+    https://en.wikipedia.org/wiki/Lorenz_system
+    '''
+    x, y, z = v[0], v[1], v[2]
+    xd = sigma * (y - x)               # x' = sigma * (y - x)
+    yd = x * (rho - z) - y             # y' = x * (rho - z) - y
+    zd = x*y - beta*z                  # z' = x*y - beta*z
+    return np.array([xd, yd, zd])
+
+
 def van_der_pol(v, t, mu):
     '''
-    Derivative calculation for a Van der Pol oscillator. This is originally a 
+    Derivative calculation for the Van der Pol oscillator. This is originally a 
     nonlinear, autonomous, second order, ordinary differential equation (ODE). 
     Its two-dimensional form, which we implement here, is given by the 
     following system of two first order ODEs:
@@ -60,6 +88,8 @@ def van_der_pol(v, t, mu):
 '''
 ToDo:
     
--Add Volterra-Lotka model,    
+-Add Volterra-Lotka model, Roessler attractor, and maybe more... 
+
+https://en.wikipedia.org/wiki/R%C3%B6ssler_attractor
 
 '''

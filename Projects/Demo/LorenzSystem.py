@@ -13,40 +13,39 @@
 import numpy as np                     # For array data types
 from scipy.integrate import odeint     # The numerical ODE solver
 import matplotlib.pyplot as plt        # For plotting the results
-plt.style.use('dark_background')       # I really like dark mode!
 
-# Define system parameters:
-a = 10
-b = 28
-c = 8/3.0
+# Imports from my own libraries:
+import sys
+sys.path.append("../../Libraries")
+from rs.dynsys import lorenz           # Derivative calculation for the system
 
-# Define initial conditions. We start close to zero:
+
+# System parameters:
+sigma = 10
+rho   = 28
+beta  = 8/3.0
+
+# Initial conditions:
 x0 = 0                                 # x(0)
 y0 = 1                                 # y(0)
 z0 = 0                                 # z(0)
 
-# Define length of signal:
+# Length of signal:
 tMax = 80.0                            # Is the unit seconds? I guess so.
 N    = 10001                           # Numer of samples
 
-# Define the function to compute the derivative of the Van der Pol system:
-def f(v, t):
-    x  = v[0]
-    y  = v[1]
-    z  = v[2]
-    xd = a * (y-x)                     # x' = a * (y - x)
-    yd = b*x - x*z - y                 # y' = b*x - x*z - y
-    zd = x*y - c*z                     # z' = x*y - c*z
-    return np.array([xd, yd, zd])
 
 # Produce the data for plotting. The solution vt = v(t) is a vector-valued 
 # time series:
-t       = np.linspace(0.0, tMax, N)    # Time axis
-v0      = np.array([x0, y0, z0])       # Initial conditions
-vt      = odeint(f, v0, t)             # Solution of the ODE
-(x,y,z) = vt.T                         # Extract x(t), y(t) from vector v(t)
+t  = np.linspace(0.0, tMax, N)         # Time axis
+v0 = np.array([x0, y0, z0])            # Initial conditions
+vt = odeint(lorenz, v0, t,             # Solution of the ODE
+            args=(sigma, rho, beta))       
+
 
 # Plot a projection of the phase-space trajectory onto xz-plane:
+(x,y,z) = vt.T                         # Extract x(t), y(t), z(t) from v(t)
+plt.style.use('dark_background')       # I really like dark mode!
 fig1 = plt.figure()
 plt.plot(x, z)
 
