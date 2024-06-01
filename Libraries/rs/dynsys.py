@@ -88,8 +88,8 @@ def van_der_pol(v, t, mu):
 '''
 ToDo:
     
--Add Volterra-Lotka model, Roessler attractor, and maybe more... 
+- Add Volterra-Lotka model, Roessler attractor, and maybe more... 
 
-https://en.wikipedia.org/wiki/R%C3%B6ssler_attractor
-
+- Add Rössler attractor:
+  https://en.wikipedia.org/wiki/R%C3%B6ssler_attractor
 '''
