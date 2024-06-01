@@ -2,12 +2,12 @@
 My very first attempt at creating a neural network model using sklearn. I 
 create a linear autoregressive model for a sine wave signal. Autoregressive 
 means that the network tries to predict the current sample from past samples. 
-A single sine wave could be produced by a 2nd order digital filter (although we 
-do not produce it that way here). That means that a neural network with just 1 
-hidden layer containing 2 neurons with linear activation functions should be 
-able to predict the signal perfectly.
+A single sine wave could be produced by a 2nd order digital LTI filter. We 
+don't produce our sine that way here, though - but it is possible. That means 
+that a neural network with just 1 hidden layer containing 2 neurons with linear
+activation functions should be able to predict the signal perfectly.
 
-If the sinewave signal is contained in a 1D array s[n], then the data for the 
+If the sinusoidal signal is contained in a 1D array s[n], then the data for the 
 network to learn looks like:
 
   X = [(s[0], s[1]), (s[1], s[2]), (s[2], s[3]), ...]
@@ -19,12 +19,11 @@ index for which we have 2 past samples available. If s is N samples long, i.e.
 n = 0,..,N-1, then y will we N-2 samples long and X will have a shape of (N,2).
 """
 
-# Import and configure libraries:
+# Import libraries:
 import numpy as np
-from sklearn.neural_network import MLPRegressor
 import matplotlib.pyplot as plt    
-plt.style.use('dark_background')   
-
+from sklearn.neural_network import MLPRegressor
+  
 # Create the training data. We synthesize a time series of a sinusoid:
 w = 0.1                                # Normalized radian frequency
 N = 201                                # Number of samples
@@ -39,7 +38,11 @@ y = np.full((N-D),    0.0)
 for n in range(0, N-D):
     X[n,0] = s[n]
     X[n,1] = s[n+1]
-    y[n]   = s[n+2]    
+    y[n]   = s[n+2]
+# ToDo: Generalize and factor that out into a function timeSeriesToData(s, d) 
+# where d is a vector of delays. Here, d = [1,2]. Call it here like:
+#   X, y = timeSeriesToData(s, [1,2])
+# Or maybe call the function signalToData
 
 # Fit a multilayer perceptron regressor to the data and use it for prediction:
 mlp = MLPRegressor(hidden_layer_sizes=(2,), activation="identity",
@@ -48,6 +51,7 @@ mlp.fit(X, y)
 p = mlp.predict(X);
 
 # Plot reference and predicted signal:
+plt.style.use('dark_background') 
 plt.figure()    
 plt.plot(t,      s)                    # Input signal
 plt.plot(t[D:N], p)                    # Predicted signal
@@ -55,10 +59,9 @@ plt.plot(t[D:N], p)                    # Predicted signal
 # Plot training loss curve:
 plt.figure()
 loss = mlp.loss_curve_
-plt.plot(loss)
-#plt.plot(loss[3000:4000])
-
-
+plt.plot(loss)                         # The whole loss progression
+plt.figure()
+plt.plot(loss[3000:4000])              # A zoomed in view of the tail
 
 """
 Observations:
