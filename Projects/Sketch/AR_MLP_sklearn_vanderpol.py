@@ -18,7 +18,7 @@ from rs.datatools import delayed_values, signal_ar_to_nn
 tMax = 50
 N    = 401                               # Number of samples
 t    = np.linspace(0.0, tMax, N)         # Time axis
-mu   = 1.0
+mu   = 0.0
 x0   = 0
 y0   = 1
 vt   = odeint(van_der_pol,               # Solution to the ODE
@@ -27,7 +27,7 @@ s = vt[:,0]
 #s = vt[:,1]  # Alternative
 
 # Set up the delays to be used:
-d = [1,2]
+d = [1,2,3]
 D = max(d)
 # Set up more modeling parameters here - like number of hidden neurons, etc.
 
@@ -35,7 +35,7 @@ D = max(d)
 X, y = signal_ar_to_nn(s, d)
 
 # Fit a multilayer perceptron regressor to the data and use it for prediction:
-mlp = MLPRegressor(hidden_layer_sizes=(4,), activation="tanh",
+mlp = MLPRegressor(hidden_layer_sizes=(2,), activation="identity",
                    max_iter=10000, tol=1.e-7, random_state = 0) 
 mlp.fit(X, y)
 p = mlp.predict(X);
@@ -47,8 +47,8 @@ p = mlp.predict(X);
 # Now let's do a real autoregressive synthesis using the mlp model. It just 
 # takes an initial section as input and continues it up to a given desired 
 # length using the predictions of the mlp recursively:
-L  = 200           # Desired length for prediction
-qs = s[50:150]     # Initial section to be used
+L  = 300           # Desired length for prediction
+qs = s[50:100]     # Initial section to be used
 q  = np.zeros(L)   # Signal that we want to generate
 Li = len(qs)       # Length of given initial section
 q[0:Li] = qs       # Copy given initial section into our result
@@ -99,6 +99,36 @@ Observations:
     K =  5, S = 3: garbage
     K = 13, S = 0: garbage
     
+  =============================================
+  |Hidden Layers | Act. Func. | Seed | Result |
+  |===========================================|
+  | 3            | ReLU       |   0  | Bad    |
+  | 13           | ReLU       |   0  | Good   |
+  | 8,4,2        | ReLU       |   0  | Good   |
+  | 8,4,2        | ReLU       |   1  | Good   |
+  | 8,4,2        | ReLU       |   2  | Good   |
+  --------------------------------------------|
+  | 8,4,2        | tanh       |   0  | Bad    |  
+  | 8,4,2        | tanh       |   1  | Trash  |
+  | 8,4,2        | tanh       |   2  | Trash  |
+  | 8,4,2        | tanh       |   3  | Trash  |
+  | 4,2          | tanh       |   0  | OK     |
+  | 6,3          | tanh       |   0  | Good   |     
+  | 3            | tanh       |   0  | So-so  |
+  =============================================
+     
+- With d = [1,2,3], HL = (13,), AF = ReLU, Seed = 0, the prediction gets 
+  unstable! Use L = 300 to show this behavior. Using tanh tames the amplitude 
+  but we get wirld oscillations at much higher freq than we should
+  
+- With d = [1,2,3], HL = (8,4,2), AF = ReLU, Seed = 0, we get all zeros
+
+- With d = [1,2,3], HL = (4,2), AF = tanh, Seed = 0 - it looks quite good
+    
+- With mu = 0, we get a sine wave. When we try to model it with linear units,
+  the model tends to introduce an undesired decay. But this decay tends to go 
+  away when we reduce the tolerance in the learning/fitting stage, tol=1.e-7 
+  shows string decay. Using 1.e-9, we get much less decay.
     
 Conclusions:
 
@@ -115,5 +145,8 @@ ToDo:
 - Do a more quantitative assesments of the different trained networks. 
   Currently, I just say good or garbage based on visual inspection. Maybe 
   compute a prediction error compare the values of the different networks.
+  
+- Add the delay vector to the table of results, Maybe also the value of mu and
+  which signal coordinate we model (x or y)
   
 """
