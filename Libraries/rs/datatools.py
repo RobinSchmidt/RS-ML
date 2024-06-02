@@ -1,5 +1,6 @@
 '''
-Functions to deal with data, i.e. read, write, convert, format, ...
+Functions to deal with data, i.e. to read, write, convert, format, extract, 
+clean up, etc.
 '''
 
 import numpy as np 
@@ -16,12 +17,11 @@ def signal_ar_to_nn(s, d):
             X[n-D, k] = s[n - d[k]]
     return X, y    
     
-# NEEDS UNIT TESTS!
-# Example:
-# d = [3,5]
-# s = [1,2,3,4,5,6,7,8,9]
-# y = [6,7,8,9]
-# X = [[3,1],[4,2],[5,3],[6,4]]
+# ToDo:
+# Write a function delayed_values(s, n, d) and use it here like 
+# X[n-D, :] = delayed_values(s, n, d) to replace the inner for-loop. The 
+# rationale is that this delayed_values function will be needed during 
+# recursive signal generation as well
 
 #==============================================================================
 # Unit Tests:
@@ -40,6 +40,7 @@ def test_datatools():
     
     return ok
 
+# If the current file is being run as script, we execute the unit tests:
 if __name__ == "__main__":
     ok = test_datatools()
     assert(ok)
