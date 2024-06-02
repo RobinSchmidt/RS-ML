@@ -113,12 +113,10 @@ plt.plot(q_chunk)
 plt.plot(error)
 print("Max error: ", max_err)
 
-# Plot training loss curve:
+# Plot log of training loss curve:
 plt.figure()
 loss = mlp.loss_curve_
-plt.plot(loss)                         # The whole loss progression
-plt.figure()
-#plt.plot(loss[3000:4000])              # A zoomed in view of the tail
+plt.plot(np.log10(loss))
 
 #==============================================================================
 """
