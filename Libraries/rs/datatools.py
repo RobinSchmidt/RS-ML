@@ -32,10 +32,8 @@ def signal_ar_to_nn(s, d):
     X = np.zeros((N-D, M))
     y = np.zeros( N-D)
     for n in range(D, N):
-        y[n-D]    = s[n]
-        X[n-D, :] = delayed_values(s, n, d)
-        #for k in range(0, M):
-        #    X[n-D, k] = s[n - d[k]]
+        y[n-D] = s[n]
+        X[n-D] = delayed_values(s, n, d)
     return X, y    
     
 # ToDo:
