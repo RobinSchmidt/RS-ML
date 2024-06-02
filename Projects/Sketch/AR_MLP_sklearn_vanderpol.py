@@ -42,7 +42,7 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 delays  = [1,2,3]        # Delay times (in samples)
 layers  = (3,)           # Numbers of neurons in the layers
 act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
-seed    = 0              # Seed for PRNG
+seed    = 2              # Seed for PRNG
 tol     = 1.e-12         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
 
@@ -78,6 +78,7 @@ q  = synthesize_skl_mlp(mlp, delays, qs, syn_len)
 s_chunk = s[syn_beg:in_len]
 q_chunk = q[0:len(s_chunk)]
 error   = s_chunk - q_chunk
+max_err = max(error) / max(s_chunk)    #  Maximum relative error
 
 #==============================================================================
 # Visualization
@@ -98,6 +99,7 @@ plt.figure()
 plt.plot(s_chunk)
 plt.plot(q_chunk)
 plt.plot(error)
+print("Max error: ", max_err)
 
 # Plot training loss curve:
 plt.figure()
@@ -115,7 +117,9 @@ Results for
 ====================================================================
 |    Delays    | Hidden Layers | ActFunc | Seed | MaxErr |  Look   |
 |==================================================================|
-| 1,2,3        | 3             | tanh    |  0   |        | Good    |
+| 1,2,3        | 3             | tanh    |  0   | 0.5084 | Good    |
+| 1,2,3        | 3             | tanh    |  1   | 1.7368 | Trash   |
+| 1,2,3        | 3             | tanh    |  2   | 2.0051 | Trash   |
 ====================================================================
 
 
@@ -200,8 +204,8 @@ ToDo:
   
 - Try a linear MLP (i.e. using the identity activation function) together with
   input vectors that contain nonlinear combinations of delayed input values. I 
-  think, when using products for these nonlinear combination, we essentially do 
-  something like a Volterra kernel model.
+  think, when using products for these nonlinear combinations, we essentially 
+  do something like a Volterra kernel model.
   
 - Try custom activation functions. See:
   https://datascience.stackexchange.com/questions/18647/is-it-possible-to-customize-the-activation-function-in-scikit-learns-mlpclassif
