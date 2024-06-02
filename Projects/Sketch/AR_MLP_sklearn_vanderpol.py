@@ -18,7 +18,7 @@ from sklearn.neural_network import MLPRegressor  # Multilayer perceptron
 import sys
 sys.path.append("../../Libraries")
 from rs.dynsys import van_der_pol
-from rs.datatools import delayed_values, signal_ar_to_nn
+from rs.datatools import signal_ar_to_nn
 from rs.learntools import synthesize_skl_mlp
   
 # Create the signal:
@@ -48,36 +48,24 @@ mlp.fit(X, y)
 p = mlp.predict(X);
 
 
-
-# Under construction....
-# 
 # Now let's do a real autoregressive synthesis using the mlp model. It just 
 # takes an initial section as input and continues it up to a given desired 
 # length using the predictions of the mlp recursively:
-L  = 300           # Desired length for prediction
-qs = s[50:100]     # Initial section to be used
+L  = 300                                  # Desired length for prediction
+qs = s[50:100]                            # Initial section to be used
+q  = synthesize_skl_mlp(mlp, d, qs, L);   
+plt.plot(q)                               # Preliminary for debugging
 
-
-# =============================================================================
-# q  = np.zeros(L)   # Signal that we want to generate
-# Li = len(qs)       # Length of given initial section
-# q[0:Li] = qs       # Copy given initial section into our result
-# 
-# # Recursive prediction of the values q[n] for n >= Li
-# for n in range(Li, L):
-#     xn = delayed_values(q, n, d)
-#     yn = mlp.predict(xn.reshape(1, -1))
-#     q[n] = yn[0]
-# =============================================================================
-    
-    
-q = synthesize_skl_mlp(mlp, d, qs, L);
-    
-
-plt.plot(q)        # Preliminary for debugging
+# ToDo:
 #
-# End of "Under construction". Eventually, the code written here should go into
-# a function synthesize_skl_mlp(mlp, qs, L)
+# - Maybe let the initial section be of length D = max(d). Any data before is 
+#   not used for the synthesis anyway. Maybe have variables 
+#   syn_start (here 50...or 100?), syn_len (here 300)
+# 
+# - Make a plot that overlays the synthesized signal q with the original signal
+#   s in those regions where they overlap. Maybe it should be 
+
+
 
 
     
