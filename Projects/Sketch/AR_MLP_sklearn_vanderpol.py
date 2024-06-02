@@ -31,8 +31,8 @@ from rs.learntools import synthesize_skl_mlp     # Resynthesize via MLP model
 # Setup
   
 # Signal parameters:
-tMax    = 50             # Maximum time value 
-N       = 401            # Number of samples - maybe rename to in_len (input length)
+t_max   = 50             # Maximum time value 
+in_len  = 401            # Number of input samples
 mu      = 1.0            # Nonlinearity parameter
 x0      = 0.0            # Initial condition x(0)
 y0      = 1.0            # Initial condition y(0)
@@ -54,7 +54,7 @@ syn_beg = 150            # Beginning of resynthesis
 # Processing
 
 # Create signal:
-t  = np.linspace(0.0, tMax, N)         # Time axis    
+t  = np.linspace(0.0, t_max, in_len)   # Time axis    
 vt = odeint(van_der_pol,               # Solution to the ODE
             [x0, y0], t, args=(mu,))
 s = vt[:, dim]                         # Select one dimension for time series
@@ -75,7 +75,7 @@ q  = synthesize_skl_mlp(mlp, delays, qs, syn_len)
 
 # Compute synthesis error signal for the region where input and synthesized 
 # signals overlap:
-s_chunk = s[syn_beg:N]
+s_chunk = s[syn_beg:in_len]
 q_chunk = q[0:len(s_chunk)]
 error   = s_chunk - q_chunk
 
@@ -84,13 +84,13 @@ error   = s_chunk - q_chunk
 
 # Create shifted time axis for resynthesized signal:
 tr = np.linspace(syn_beg, syn_beg+syn_len, syn_len)
-tr = tr * (tMax / (N-1))  # Yes - we need to divide by N-1. Look at t and t2.
+tr = tr * (t_max / (in_len-1))
 
 # Plot reference and predicted signal:
 plt.figure()    
-plt.plot(t,      s)                    # Input signal
-plt.plot(t[D:N], p)                    # Predicted signal
-plt.plot(tr,     q)                    # Synthesized signal
+plt.plot(t, s)                         # Input signal
+plt.plot(t[D:in_len], p)               # Predicted signal
+plt.plot(tr, q)                        # Synthesized signal
 
 # Plot original, synthesized and error signal for the region where they 
 # overlap:
