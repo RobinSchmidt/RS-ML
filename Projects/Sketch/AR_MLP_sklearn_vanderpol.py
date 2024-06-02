@@ -18,7 +18,7 @@ from rs.datatools import delayed_values, signal_ar_to_nn
 tMax = 50
 N    = 401                               # Number of samples
 t    = np.linspace(0.0, tMax, N)         # Time axis
-mu   = 0.0
+mu   = 1.0
 x0   = 0
 y0   = 1
 vt   = odeint(van_der_pol,               # Solution to the ODE
@@ -35,8 +35,8 @@ D = max(d)
 X, y = signal_ar_to_nn(s, d)
 
 # Fit a multilayer perceptron regressor to the data and use it for prediction:
-mlp = MLPRegressor(hidden_layer_sizes=(2,), activation="identity",
-                   max_iter=10000, tol=1.e-7, random_state = 0) 
+mlp = MLPRegressor(hidden_layer_sizes=(5,4,3,2), activation="tanh",
+                   max_iter=10000, tol=1.e-12, random_state = 0) 
 mlp.fit(X, y)
 p = mlp.predict(X);
 
@@ -128,7 +128,8 @@ Observations:
 - With mu = 0, we get a sine wave. When we try to model it with linear units,
   the model tends to introduce an undesired decay. But this decay tends to go 
   away when we reduce the tolerance in the learning/fitting stage, tol=1.e-7 
-  shows string decay. Using 1.e-9, we get much less decay.
+  shows string decay. Using 1.e-9, we get much less decay. At 1.e-12, it seems
+  to have gone completely.
     
 Conclusions:
 
@@ -139,6 +140,10 @@ Conclusions:
 - Maybe we could take several of the best ones and try to create even better 
   ones by means of evolutionary algorithms
   
+- With tanh, we seem to get good results only with 1 or 2 hidden layers. More 
+  hidden layers tend to yield unstable systems. ..or well..maybe not generally.
+  (5,4,3,2) seems to be stable
+  
   
 ToDo:
     
@@ -148,5 +153,9 @@ ToDo:
   
 - Add the delay vector to the table of results, Maybe also the value of mu and
   which signal coordinate we model (x or y)
+  
+- Maybe for the training, we should remove the transient part of the signal to
+  avoid fitting thoses parts of the signal that are not representative of the
+  dynamics - or are they? ...not sure
   
 """
