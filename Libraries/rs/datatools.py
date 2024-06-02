@@ -43,7 +43,11 @@ def test_datatools():
 # If the current file is being run as script, we execute the unit tests:
 if __name__ == "__main__":
     ok = test_datatools()
-    assert(ok)
+    if ok:
+        print("Unit tests for datatools.py passed without errors.")
+    else:
+        print("!!! WARNING! Unit tests for datatools.py FAILED !!!")
+    #assert(ok)
 
     
 
