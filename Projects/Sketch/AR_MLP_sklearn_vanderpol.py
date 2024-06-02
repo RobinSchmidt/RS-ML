@@ -25,8 +25,8 @@ from rs.learntools import synthesize_skl_mlp
 tMax = 50
 N    = 401           # Number of samples
 mu   = 1.0           # Nonlinearity parameter
-x0   = 0             # Initial condition x(0)
-y0   = 1             # Initial condition y(0)
+x0   = 0.0           # Initial condition x(0)
+y0   = 1.0           # Initial condition y(0)
 
 # Modeling parameters:
 delays  = [1,2,3]     # Delay times (in samples)
@@ -59,10 +59,24 @@ p = mlp.predict(X);
 # Now let's do a real autoregressive synthesis using the mlp model. It just 
 # takes an initial section as input and continues it up to a given desired 
 # length using the predictions of the mlp recursively:
-L  = 300                                  # Desired length for prediction
-qs = s[50:100]                            # Initial section to be used
+L  = syn_len                              # Desired length for prediction
+D  = max(delays)
+#qs = s[50:100]                            # Initial section to be used
+qs = s[(syn_beg-D):syn_beg]                # Initial section to be used
 q  = synthesize_skl_mlp(mlp, delays, qs, L);   
-plt.plot(q)                               # Preliminary for debugging
+
+
+# Create shifted time axis for resynthesized signal:
+tr = np.linspace(syn_beg, syn_beg+syn_len, syn_len)
+tr = tr * (tMax / (N-1))  # Yes - we need to divide by N-1. Look at t and t2.
+
+#plt.plot(t2, q)
+#plt.plot(q)
+# Preliminary for debugging - actually, we want to include this into the
+# plot below where we plot the input and the predicted signal. But we need an
+# extra time-axis that includes the appropriate shift
+
+
 
 # ToDo:
 #
@@ -75,11 +89,11 @@ plt.plot(q)                               # Preliminary for debugging
 
 
 # Plot reference and predicted signal:
-D = max(delays)
 plt.style.use('dark_background') 
 plt.figure()    
 plt.plot(t,      s)                    # Input signal
-plt.plot(t[D:N], p)                    # Predicted signal
+#plt.plot(t[D:N], p)                    # Predicted signal
+plt.plot(tr,     q)                    # Synthesized signal
 
 # Plot training loss curve:
 plt.figure()
