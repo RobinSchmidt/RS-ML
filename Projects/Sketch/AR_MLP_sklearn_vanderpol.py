@@ -41,7 +41,7 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 # Modeling parameters:
 delays  = [1,2,3,4]      # Delay times (in samples)
 layers  = (10,)          # Numbers of neurons in the layers
-act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
+act_fun = "relu"         # Activation function (identity, tanh, logistic, relu)
 seed    = 0              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
@@ -92,10 +92,11 @@ max_err = max(error) / max(s_chunk)    #  Maximum relative error
 # Visualization
 
 # Create shifted time axis for resynthesized signal:
-tr = np.linspace(syn_beg, syn_beg+syn_len, syn_len)
+#tr = np.linspace(syn_beg, syn_beg+syn_len, syn_len)
+tr = np.linspace(syn_beg-D, syn_beg-D+syn_len, syn_len)
 tr = tr * (t_max / (in_len-1))
 # I think, this might still be wrong. It looks misaligned. It may have to do
-# with a shift by D
+# with a shift by D ...OK - seems to be fixed.
 
 # Plot reference and predicted signal:
 plt.figure()    
