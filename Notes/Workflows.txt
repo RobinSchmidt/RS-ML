@@ -107,6 +107,15 @@ Working in Spyder:
   -Unlock the bottom-center "Console" window, move it to the bottom-right docker, lock it again
   -Save the layout via View -> Window layouts -> Save current layout (Give it a recognizable name)
  -With F11, one can swithc to fullscreen mode - which is nice
+ -It makes a lot of sense to let Spyder clear all variables before running a script. This behavior 
+  can be opted in by going to  Tools -> Preferences -> Run  and checking the "Remove all variables 
+  before execution" checkbox. This behavior is important when we rename variables in a script. If we
+  fail to modify *all* occurences in a script, it may still apparently run fine as long as the 
+  variables with the old names are still present but the next time we run the script, it will 
+  produce errors "NameError: name 'x' is not defined" where 'x' is the old name. Basically, we want
+  to run our scripts in a stateless interpreter - i.e. an interpreter that always starts from the 
+  default state. There may be exceptions, but most of the time, this is the desired behavior.
+
 
 -Autocomplete
  -In the console, one may need to press tab after the dot and in the editor, it sometimes doesn't 
@@ -119,6 +128,9 @@ Working in Spyder:
 
 -Plots:
  -The button in the top-right has a "Fit plots to window" option
+
+
+
 
 -Help:
  -To get help about some class, function etc. place the cursor in front of it and use Ctrl-I. This 
