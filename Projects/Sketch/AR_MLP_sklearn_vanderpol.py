@@ -75,8 +75,6 @@ q  = synthesize_skl_mlp(mlp, delays, qs, syn_len)
 
 # Compute synthesis error signal for the region where input and synthesized 
 # signals overlap:
-#s_chunk = s[syn_beg:in_len]
-#s_chunk = s[syn_beg-2:in_len-2]
 s_chunk = s[syn_beg-D:in_len-D]
 q_chunk = q[0:len(s_chunk)]
 error   = s_chunk - q_chunk
