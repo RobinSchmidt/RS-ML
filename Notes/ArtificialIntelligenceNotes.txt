@@ -88,6 +88,7 @@ Relevant Python Libraries:
 -Pandas:       data handling and preparation, deals with file formats etc., mainly for tabular data
 -HDF5:         data handling
 -MatPlotLib:   data plotting for visualization
+-Chainer:      deep learning framework. https://docs.chainer.org/en/stable/
 
 -Theano:
 -SciPy:        scientific programming

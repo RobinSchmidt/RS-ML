@@ -168,6 +168,9 @@ ToDo:
   add it to the library. See here:
   https://github.com/scikit-learn/scikit-learn/blob/main/sklearn/neural_network/_base.py
   But maybe use TensorFlow or PyTorch instead. Or better: use Keras which is
-  a high-level interface that can use both of them as backend.
+  a high-level interface that can use both of them as backend. To define custom
+  activation functions in keras, see:
+  https://stackoverflow.com/questions/43915482/how-do-you-create-a-custom-activation-function-with-keras
+  
   
 """
