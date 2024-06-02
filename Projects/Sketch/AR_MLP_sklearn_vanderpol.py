@@ -40,7 +40,7 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
 delays  = [1,2,3,4]      # Delay times (in samples)
-layers  = (10)           # Numbers of neurons in the layers
+layers  = (10,)          # Numbers of neurons in the layers
 act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
 seed    = 0              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
@@ -94,6 +94,8 @@ max_err = max(error) / max(s_chunk)    #  Maximum relative error
 # Create shifted time axis for resynthesized signal:
 tr = np.linspace(syn_beg, syn_beg+syn_len, syn_len)
 tr = tr * (t_max / (in_len-1))
+# I think, this might still be wrong. It looks misaligned. It may have to do
+# with a shift by D
 
 # Plot reference and predicted signal:
 plt.figure()    
@@ -125,15 +127,17 @@ Results for
 MaxErr still wrong - I had a bug in the aligment between original and 
 synthesized    
 
-=====================================================================
-|    Delays    | Hidden Layers | ActFunc | Seed | MaxErr |  Look    |
-|===================================================================|
-| 1,2,3        | 3             | tanh    |  0   | 0.5084 | Good     |
-| 1,2,3        | 3             | tanh    |  1   | 1.7368 | Trash    |
-| 1,2,3        | 3             | tanh    |  2   | 2.0051 | Trash    |
-| 1,2,3        | 3             | tanh    |  5   | 2.1488 | Unstable |
-| 1,2          | 3             | tanh    |  0   | 1.6047 | Slow     |
-=====================================================================
+======================================================================
+|    Delays    | Hidden Layers | ActFunc | Seed | MaxErr |  Look     |
+|====================================================================|
+| 1,2,3        | 3             | tanh    |  0   | 0.5084 | Good      |
+| 1,2,3        | 3             | tanh    |  1   | 1.7368 | Trash     |
+| 1,2,3        | 3             | tanh    |  2   | 2.0051 | Trash     |
+| 1,2,3        | 3             | tanh    |  5   | 2.1488 | Unstable  |
+| 1,2,3,4      | 6,3           | tanh    |  0   | 2.7652 | Unstable  |
+| 1,2,3,4      | 10            | tanh    |  0   | 0.0572 | Very Good |
+| 1,2          | 3             | tanh    |  0   | 1.6047 | Slow      |
+======================================================================
 
 
   
