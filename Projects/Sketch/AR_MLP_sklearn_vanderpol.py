@@ -12,7 +12,7 @@ from sklearn.neural_network import MLPRegressor
 import sys
 sys.path.append("../../Libraries")
 from rs.dynsys import van_der_pol
-from rs.datatools import signal_ar_to_nn
+from rs.datatools import delayed_values, signal_ar_to_nn
   
 # Create the signal:
 tMax = 50
@@ -51,12 +51,18 @@ L  = 200           # Desired length for prediction
 qs = s[50:150]     # Initial section to be used
 q  = np.zeros(L)   # Signal that we want to generate
 Li = len(qs)       # Length of given initial section
-
 q[0:Li] = qs       # Copy given initial section into our result
+
+# Recursive prediction of the values q[n] for n >= Li
+for n in range(Li, L):
+    xn = delayed_values(q, n, d)
+    yn = mlp.predict(xn.reshape(1, -1))
+    q[n] = yn
 
 plt.plot(q)        # Preliminary for debugging
 #
-# End of "Under construction"
+# End of "Under construction". Eventually, the code written here should go into
+# a function synthesize_skl_mlp(mlp, qs, L)
 
 
     
