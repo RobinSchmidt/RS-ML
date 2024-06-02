@@ -55,6 +55,8 @@ def signal_ar_to_nn(s, d):
     
 # ToDo:
 #
+# - Write a docstring
+#
 # - Maybe write the loop as "for n in range(0, N-D)". It's just a csometic 
 #   thing and I'm not sure what is better, though. Maybe it's better the way it
 #   currently is. Dunno.
@@ -85,5 +87,13 @@ if __name__ == "__main__":
         print("!!! WARNING! Unit tests for datatools.py FAILED !!!")
     #assert(ok)
 
+'''
+ToDo:
+    
+- Maybe rename to numpy_tools and write similar modules for other libraries 
+  like matplotlib, sklearn, tensorflow, etc. These modules are supposed to 
+  contain convenience functions for working with the respective libraries.
+    
+'''
     
 
