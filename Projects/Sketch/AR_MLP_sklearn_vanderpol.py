@@ -87,6 +87,9 @@ max_err = max(error) / max(s_chunk)    #  Maximum relative error
 # ...ah! I see I have an off-by-D error. The synthesis procedure copies the 
 # initial section into the synthesized signal which is D samples long and 
 # prepended to the actually synthesized section
+# Maybe wrap the model evaluation into a class ModelEvaluator_skl_mlp. Maybe
+# write a class ModelExplorer which programmatically searches the design space
+# for good models.
 
 #==============================================================================
 # Visualization
