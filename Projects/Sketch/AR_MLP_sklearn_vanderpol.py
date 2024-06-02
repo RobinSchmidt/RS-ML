@@ -1,18 +1,25 @@
 """
+In this script, we create a nonlinear autoregressive model of the Van der Pol
+oscillator using a multilayer perceptron from the Scikit-Learn library. Then, 
+we evaluate the so created model by visually inspecting the output that it 
+generates.
 
+ToDo: Looking at plots is well and good but at some point, we should also 
+compute some objective, quantitative error measures ...TBC...
 """
 
-# Import libraries:
+# Imports third party libraries:
 import numpy as np
 import matplotlib.pyplot as plt    
-from scipy.integrate import odeint                  # The numerical ODE solver
-from sklearn.neural_network import MLPRegressor
+from scipy.integrate import odeint               # Numerical ODE solver
+from sklearn.neural_network import MLPRegressor  # Multilayer perceptron
 
 # Imports from my own libraries:
 import sys
 sys.path.append("../../Libraries")
 from rs.dynsys import van_der_pol
 from rs.datatools import delayed_values, signal_ar_to_nn
+from rs.learntools import synthesize_skl_mlp
   
 # Create the signal:
 tMax = 50
@@ -49,15 +56,23 @@ p = mlp.predict(X);
 # length using the predictions of the mlp recursively:
 L  = 300           # Desired length for prediction
 qs = s[50:100]     # Initial section to be used
-q  = np.zeros(L)   # Signal that we want to generate
-Li = len(qs)       # Length of given initial section
-q[0:Li] = qs       # Copy given initial section into our result
 
-# Recursive prediction of the values q[n] for n >= Li
-for n in range(Li, L):
-    xn = delayed_values(q, n, d)
-    yn = mlp.predict(xn.reshape(1, -1))
-    q[n] = yn[0]
+
+# =============================================================================
+# q  = np.zeros(L)   # Signal that we want to generate
+# Li = len(qs)       # Length of given initial section
+# q[0:Li] = qs       # Copy given initial section into our result
+# 
+# # Recursive prediction of the values q[n] for n >= Li
+# for n in range(Li, L):
+#     xn = delayed_values(q, n, d)
+#     yn = mlp.predict(xn.reshape(1, -1))
+#     q[n] = yn[0]
+# =============================================================================
+    
+    
+q = synthesize_skl_mlp(mlp, d, qs, L);
+    
 
 plt.plot(q)        # Preliminary for debugging
 #
