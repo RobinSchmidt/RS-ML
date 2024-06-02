@@ -5,6 +5,26 @@ clean up, etc.
 
 import numpy as np 
 
+
+def delayed_values(s, n, d):
+    N = len(s)
+    M = len(d)    
+    D = max(d)
+    assert(n <  N)
+    assert(n >= D)
+    x = np.zeros(M)
+    for k in range(0, M):
+        x[k] = s[n - d[k]]
+    return x
+
+# ToDo:
+#
+# - Maybe lift the n >= D restriction for n by assuming s[n-d[k]] = 0 for 
+#   n-d[k] < 0. That means, we imagine the signal values to be zero for indices
+#   less that zero.
+# - Maybe get rid of N,D - they are used only once
+
+
 def signal_ar_to_nn(s, d):
     N = len(s)
     M = len(d)    
@@ -12,9 +32,10 @@ def signal_ar_to_nn(s, d):
     X = np.zeros((N-D, M))
     y = np.zeros( N-D)
     for n in range(D, N):
-        y[n-D] = s[n]
-        for k in range(0, M):
-            X[n-D, k] = s[n - d[k]]
+        y[n-D]    = s[n]
+        X[n-D, :] = delayed_values(s, n, d)
+        #for k in range(0, M):
+        #    X[n-D, k] = s[n - d[k]]
     return X, y    
     
 # ToDo:
