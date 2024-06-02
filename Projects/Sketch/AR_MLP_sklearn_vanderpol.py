@@ -42,8 +42,8 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 delays  = [1,2,3]        # Delay times (in samples)
 layers  = (3,)           # Numbers of neurons in the layers
 act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
-seed    = 2              # Seed for PRNG
-tol     = 1.e-12         # Tolerance for fitting
+seed    = 6              # Seed for PRNG
+fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
 
 # Resynthesis parameters:
@@ -62,7 +62,7 @@ s = vt[:, dim]                         # Select one dimension for time series
 # Fit a multilayer perceptron regressor to the data and use it for prediction:
 X, y = signal_ar_to_nn(s, delays)  # Extract input vectors and scalar outputs 
 mlp  = MLPRegressor(hidden_layer_sizes = layers, activation = act_fun,
-                    max_iter = max_its, tol = tol, random_state = seed) 
+                    max_iter = max_its, tol = fit_tol, random_state = seed) 
 mlp.fit(X, y)
 p = mlp.predict(X);
 
@@ -114,13 +114,15 @@ Observations:
  
 Results for     
     
-====================================================================
-|    Delays    | Hidden Layers | ActFunc | Seed | MaxErr |  Look   |
-|==================================================================|
-| 1,2,3        | 3             | tanh    |  0   | 0.5084 | Good    |
-| 1,2,3        | 3             | tanh    |  1   | 1.7368 | Trash   |
-| 1,2,3        | 3             | tanh    |  2   | 2.0051 | Trash   |
-====================================================================
+=====================================================================
+|    Delays    | Hidden Layers | ActFunc | Seed | MaxErr |  Look    |
+|===================================================================|
+| 1,2,3        | 3             | tanh    |  0   | 0.5084 | Good     |
+| 1,2,3        | 3             | tanh    |  1   | 1.7368 | Trash    |
+| 1,2,3        | 3             | tanh    |  2   | 2.0051 | Trash    |
+| 1,2,3        | 3             | tanh    |  5   | 2.1488 | Unstable |
+| 1,2          | 3             | tanh    |  0   | 1.6047 | Slow     |
+=====================================================================
 
 
   
