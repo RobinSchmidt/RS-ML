@@ -9,16 +9,16 @@ compute some objective, quantitative error measures ...TBC...
 """
 
 # Imports third party libraries:
-import numpy as np
+import numpy             as np
 import matplotlib.pyplot as plt    
-from scipy.integrate import odeint               # Numerical ODE solver
+from scipy.integrate        import odeint        # Numerical ODE solver
 from sklearn.neural_network import MLPRegressor  # Multilayer perceptron
 
 # Imports from my own libraries:
 import sys
 sys.path.append("../../Libraries")
-from rs.dynsys import van_der_pol
-from rs.datatools import signal_ar_to_nn
+from rs.dynsys     import van_der_pol
+from rs.datatools  import signal_ar_to_nn
 from rs.learntools import synthesize_skl_mlp
   
 # Create the signal:
@@ -33,17 +33,24 @@ vt   = odeint(van_der_pol,               # Solution to the ODE
 s = vt[:,0]
 #s = vt[:,1]  # Alternative
 
-# Set up the delays to be used:
-d = [1,2,3]
-D = max(d)
+# Set up the modeling parameters:
+delays  = [1,2,3]     # Delay times (in samples)
+layers  = (3,)        # Numbers of neurons in the layers
+actfun  = "tanh"      # Activation function (identity, tanh, logistic, relu)
+seed    = 0           # Seed for PRNG
+tol     = 1.e-12      # Tolerance for fitting
+max_its = 10000       # Maximum number of training iterations (epochs?)
+
+D = max(delays)
+
 # Set up more modeling parameters here - like number of hidden neurons, etc.
 
 # Extract a bunch of input vectors and scalar target outputs for learning:
-X, y = signal_ar_to_nn(s, d)
+X, y = signal_ar_to_nn(s, delays)
 
 # Fit a multilayer perceptron regressor to the data and use it for prediction:
-mlp = MLPRegressor(hidden_layer_sizes=(5,4,3,2), activation="tanh",
-                   max_iter=10000, tol=1.e-12, random_state = 0) 
+mlp = MLPRegressor(hidden_layer_sizes = layers, activation = actfun,
+                   max_iter = max_its, tol = tol, random_state = seed) 
 mlp.fit(X, y)
 p = mlp.predict(X);
 
@@ -53,7 +60,7 @@ p = mlp.predict(X);
 # length using the predictions of the mlp recursively:
 L  = 300                                  # Desired length for prediction
 qs = s[50:100]                            # Initial section to be used
-q  = synthesize_skl_mlp(mlp, d, qs, L);   
+q  = synthesize_skl_mlp(mlp, delays, qs, L);   
 plt.plot(q)                               # Preliminary for debugging
 
 # ToDo:
