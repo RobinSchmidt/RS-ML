@@ -40,6 +40,26 @@ mlp = MLPRegressor(hidden_layer_sizes=(2,), activation="identity",
 mlp.fit(X, y)
 p = mlp.predict(X);
 
+
+
+# Under construction....
+# 
+# Now let's do a real autoregressive synthesis using the mlp model. It just 
+# takes an initial section as input and continues it up to a given desired 
+# length using the predictions of the mlp recursively:
+L  = 200           # Desired length for prediction
+qs = s[50:150]     # Initial section to be used
+q  = np.zeros(L)   # Signal that we want to generate
+Li = len(qs)       # Length of given initial section
+
+q[0:Li] = qs       # Copy given initial section into our result
+
+plt.plot(q)        # Preliminary for debugging
+#
+# End of "Under construction"
+
+
+    
 # Plot reference and predicted signal:
 plt.style.use('dark_background') 
 plt.figure()    
