@@ -18,7 +18,7 @@ def delayed_values(s, n, d):
     s : array of signal values (typically float)
         The signal from which we want to extract delayed values.
     n : int
-        The index with respect to which we wnat to extract the delayed values.
+        The index with respect to which we want to extract the delayed values.
     d : array of int
         The delay values/times. They should all be greater than zero.
         
