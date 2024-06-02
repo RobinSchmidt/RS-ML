@@ -172,5 +172,10 @@ ToDo:
   activation functions in keras, see:
   https://stackoverflow.com/questions/43915482/how-do-you-create-a-custom-activation-function-with-keras
   
+- I think, it would also be very nice, if we could specify the activation 
+  function per layer rather than for the whole network at once. Ideally, I may
+  at some stage be able to specify it per neuron. Maybe for certain tasks, it
+  may make sense to have some tanh neurons, some linear neurons, some swish
+  neurons etc. per layer.
   
 """
