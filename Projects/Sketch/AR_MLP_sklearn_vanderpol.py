@@ -41,16 +41,17 @@ seed    = 0           # Seed for PRNG
 tol     = 1.e-12      # Tolerance for fitting
 max_its = 10000       # Maximum number of training iterations (epochs?)
 
-D = max(delays)
 
-# Set up more modeling parameters here - like number of hidden neurons, etc.
+
+
 
 # Extract a bunch of input vectors and scalar target outputs for learning:
-X, y = signal_ar_to_nn(s, delays)
+
 
 # Fit a multilayer perceptron regressor to the data and use it for prediction:
-mlp = MLPRegressor(hidden_layer_sizes = layers, activation = actfun,
-                   max_iter = max_its, tol = tol, random_state = seed) 
+X, y = signal_ar_to_nn(s, delays)
+mlp  = MLPRegressor(hidden_layer_sizes = layers, activation = actfun,
+                    max_iter = max_its, tol = tol, random_state = seed) 
 mlp.fit(X, y)
 p = mlp.predict(X);
 
@@ -74,6 +75,8 @@ plt.plot(q)                               # Preliminary for debugging
 
 
 
+
+D = max(delays)
 
     
 # Plot reference and predicted signal:
@@ -171,6 +174,16 @@ ToDo:
 - Try other learning algorithms. This here:
   https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html  
   says that for smaller data sets, 'lbfgs' may converge faster.
+  
+- Try other model types, for example:
+  https://scikit-learn.org/stable/modules/svm.html#regression
+  Maybe with SVMs, try to use the "kernel-trick". I think, it consists of 
+  forming nonlinear combinations of the delayed values such as products. 
+  
+- Try a linear MLP (i.e. using the identity activation function) together with
+  input vectors that contain nonlinear combinations of delayed input values. I 
+  think, when using products for these nonlinear combination, we essentially do 
+  something like a Volterra kernel model.
   
 - Try custom activation functions. See:
   https://datascience.stackexchange.com/questions/18647/is-it-possible-to-customize-the-activation-function-in-scikit-learns-mlpclassif
