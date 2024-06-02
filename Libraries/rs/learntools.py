@@ -11,16 +11,16 @@ from .datatools import delayed_values
 def synthesize_skl_mlp(mlp, d, init_sect, length):
     
     # Initialization:
-    q  = np.zeros(length)              # Signal that we want to generate
-    Li = len(init_sect)                # Length of given initial section
-    q[0:Li] = init_sect                # Copy initial section into result
+    s  = np.zeros(length)                  # Signal that we want to generate
+    Li = len(init_sect)                    # Length of given initial section
+    s[0:Li] = init_sect                    # Copy initial section into result
     
     # Recursive prediction of the values q[n] for n >= Li:
     for n in range(Li, length):
-        xn = delayed_values(q, n, d)
-        yn = mlp.predict(xn.reshape(1, -1))
-        q[n] = yn[0]
-    return q
+        X = delayed_values(s, n, d)
+        y = mlp.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
+        s[n] = y[0]                        # [0]:     1D -> 0D (scalar)
+    return s
 
 # ToDo:
 #
