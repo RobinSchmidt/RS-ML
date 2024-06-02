@@ -9,20 +9,23 @@ compute some objective, quantitative error measures ...TBC...
 """
 
 #==============================================================================
-# Imports
+# Imports and Config
 
 # Imports from third party libraries:
-import numpy             as np
-import matplotlib.pyplot as plt    
 from scipy.integrate        import odeint        # Numerical ODE solver
-from sklearn.neural_network import MLPRegressor  # Multilayer perceptron
+from sklearn.neural_network import MLPRegressor  # Multilayer perceptron    
+import numpy             as np
+import matplotlib.pyplot as plt
+import sys
+
+# Configuration:
+plt.style.use('dark_background')                 # Plot in dark mode
+sys.path.append("../../Libraries")               # Make available for import
 
 # Imports from my own libraries:
-import sys
-sys.path.append("../../Libraries")
-from rs.dynsys     import van_der_pol
-from rs.datatools  import signal_ar_to_nn
-from rs.learntools import synthesize_skl_mlp
+from rs.dynsys     import van_der_pol            # To generate the input data
+from rs.datatools  import signal_ar_to_nn        # For data reformatting
+from rs.learntools import synthesize_skl_mlp     # Resynthesize via MLP model
 
 #==============================================================================
 # Setup
@@ -54,12 +57,7 @@ syn_beg = 150            # Beginning of resynthesis
 t  = np.linspace(0.0, tMax, N)         # Time axis    
 vt = odeint(van_der_pol,               # Solution to the ODE
             [x0, y0], t, args=(mu,))
-s = vt[:,dim]                          # Select one dimension for time series
-
-#s = vt[:,0]
-#s = vt[:,1]  # Alternative
-# ToDo: have a signal parameter "dim" or similar that selects, which dimension
-# we wnat to use as our time series. Then here, do s = vt[:,dim]
+s = vt[:, dim]                         # Select one dimension for time series
 
 # Fit a multilayer perceptron regressor to the data and use it for prediction:
 X, y = signal_ar_to_nn(s, delays)  # Extract input vectors and scalar outputs 
@@ -89,7 +87,6 @@ tr = np.linspace(syn_beg, syn_beg+syn_len, syn_len)
 tr = tr * (tMax / (N-1))  # Yes - we need to divide by N-1. Look at t and t2.
 
 # Plot reference and predicted signal:
-plt.style.use('dark_background') 
 plt.figure()    
 plt.plot(t,      s)                    # Input signal
 plt.plot(t[D:N], p)                    # Predicted signal
@@ -226,5 +223,8 @@ ToDo:
 - Try to model both time series x[n], y[n] simultaneously using an MLP with 2
   output neurons. I'm not sure, if that's possible with sklearn. If not, look 
   into keras for that
+  
+- Create a notebook from this - this can be used for a portfolio in a job 
+  application
   
 """
