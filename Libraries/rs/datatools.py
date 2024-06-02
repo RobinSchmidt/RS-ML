@@ -7,11 +7,29 @@ import numpy as np
 
 
 def delayed_values(s, n, d):
-    N = len(s)
-    M = len(d)    
-    D = max(d)
-    assert(n <  N)
-    assert(n >= D)
+    '''
+    Given a time series signal s, an index n into s and an array of delay 
+    values d = [d0, d1, d2, ...], this function extracts the signal values 
+    s[n-d0], s[n-d1], s[n-d2], ... and puts them into an array and returns that 
+    array.
+
+    Parameters
+    ----------
+    s : array of signal values (typically float)
+        The signal from which we want to extract delayed values.
+    n : int
+        The index with respect to which we wnat to extract the delayed values.
+    d : array of int
+        The delay values/times. They should all be greater than zero.
+        
+    Returns
+    -------
+    x : array of signal values (typically float, same as s)
+        The array of delayed values from the signal s.
+    '''
+    assert(n <  len(s))
+    assert(n >= max(d))
+    M = len(d)       
     x = np.zeros(M)
     for k in range(0, M):
         x[k] = s[n - d[k]]
@@ -19,10 +37,9 @@ def delayed_values(s, n, d):
 
 # ToDo:
 #
-# - Maybe lift the n >= D restriction for n by assuming s[n-d[k]] = 0 for 
+# - Maybe lift the n >= max(d) restriction for n by assuming s[n-d[k]] = 0 for 
 #   n-d[k] < 0. That means, we imagine the signal values to be zero for indices
 #   less that zero.
-# - Maybe get rid of N,D - they are used only once
 
 
 def signal_ar_to_nn(s, d):
@@ -37,10 +54,10 @@ def signal_ar_to_nn(s, d):
     return X, y    
     
 # ToDo:
-# Write a function delayed_values(s, n, d) and use it here like 
-# X[n-D, :] = delayed_values(s, n, d) to replace the inner for-loop. The 
-# rationale is that this delayed_values function will be needed during 
-# recursive signal generation as well
+#
+# - Maybe write the loop as "for n in range(0, N-D)". It's just a csometic 
+#   thing and I'm not sure what is better, though. Maybe it's better the way it
+#   currently is. Dunno.
 
 #==============================================================================
 # Unit Tests:
