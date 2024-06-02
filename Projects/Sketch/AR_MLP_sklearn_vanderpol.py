@@ -21,36 +21,36 @@ from rs.dynsys     import van_der_pol
 from rs.datatools  import signal_ar_to_nn
 from rs.learntools import synthesize_skl_mlp
   
-# Create the signal:
+# Signal parameters:
 tMax = 50
-N    = 401                               # Number of samples
-t    = np.linspace(0.0, tMax, N)         # Time axis
-mu   = 1.0
-x0   = 0
-y0   = 1
-vt   = odeint(van_der_pol,               # Solution to the ODE
-              [x0, y0], t, args=(mu,))
-s = vt[:,0]
-#s = vt[:,1]  # Alternative
+N    = 401           # Number of samples
+mu   = 1.0           # Nonlinearity parameter
+x0   = 0             # Initial condition x(0)
+y0   = 1             # Initial condition y(0)
 
-# Set up the modeling parameters:
+# Modeling parameters:
 delays  = [1,2,3]     # Delay times (in samples)
 layers  = (3,)        # Numbers of neurons in the layers
-actfun  = "tanh"      # Activation function (identity, tanh, logistic, relu)
+act_fun = "tanh"      # Activation function (identity, tanh, logistic, relu)
 seed    = 0           # Seed for PRNG
 tol     = 1.e-12      # Tolerance for fitting
 max_its = 10000       # Maximum number of training iterations (epochs?)
 
+# Resynthesis parameters:
+syn_len = 300         # Length of resynthesized signal
+syn_beg =  50         # Beginning of resynthesis    
 
 
-
-
-# Extract a bunch of input vectors and scalar target outputs for learning:
-
+# Create signal:
+t  = np.linspace(0.0, tMax, N)         # Time axis    
+vt = odeint(van_der_pol,               # Solution to the ODE
+            [x0, y0], t, args=(mu,))
+s = vt[:,0]
+#s = vt[:,1]  # Alternative
 
 # Fit a multilayer perceptron regressor to the data and use it for prediction:
-X, y = signal_ar_to_nn(s, delays)
-mlp  = MLPRegressor(hidden_layer_sizes = layers, activation = actfun,
+X, y = signal_ar_to_nn(s, delays)  # Extract input vectors and scalar outputs 
+mlp  = MLPRegressor(hidden_layer_sizes = layers, activation = act_fun,
                     max_iter = max_its, tol = tol, random_state = seed) 
 mlp.fit(X, y)
 p = mlp.predict(X);
@@ -74,23 +74,19 @@ plt.plot(q)                               # Preliminary for debugging
 #   s in those regions where they overlap. Maybe it should be 
 
 
-
-
-D = max(delays)
-
-    
 # Plot reference and predicted signal:
-#plt.style.use('dark_background') 
-#plt.figure()    
-#plt.plot(t,      s)                    # Input signal
-#plt.plot(t[D:N], p)                    # Predicted signal
+D = max(delays)
+plt.style.use('dark_background') 
+plt.figure()    
+plt.plot(t,      s)                    # Input signal
+plt.plot(t[D:N], p)                    # Predicted signal
 
 # Plot training loss curve:
-#plt.figure()
-#loss = mlp.loss_curve_
-#plt.plot(loss)                         # The whole loss progression
-#plt.figure()
-#plt.plot(loss[3000:4000])              # A zoomed in view of the tail
+plt.figure()
+loss = mlp.loss_curve_
+plt.plot(loss)                         # The whole loss progression
+plt.figure()
+plt.plot(loss[3000:4000])              # A zoomed in view of the tail
 
 """
 Observations:
@@ -200,5 +196,9 @@ ToDo:
   at some stage be able to specify it per neuron. Maybe for certain tasks, it
   may make sense to have some tanh neurons, some linear neurons, some swish
   neurons etc. per layer.
+  
+- Eventually, the goal is to apply it to musical instrument samples as 
+  explained in the paper "Neural Network Modeling of Speech and Music Signals" 
+  by Axel Roebel, see: https://hal.science/hal-02911718  
   
 """
