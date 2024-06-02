@@ -35,8 +35,8 @@ D = max(d)
 X, y = signal_ar_to_nn(s, d)
 
 # Fit a multilayer perceptron regressor to the data and use it for prediction:
-mlp = MLPRegressor(hidden_layer_sizes=(2,), activation="identity",
-                   max_iter=4000, tol=1.e-7, random_state = 0) 
+mlp = MLPRegressor(hidden_layer_sizes=(4,), activation="tanh",
+                   max_iter=10000, tol=1.e-7, random_state = 0) 
 mlp.fit(X, y)
 p = mlp.predict(X);
 
@@ -57,7 +57,7 @@ q[0:Li] = qs       # Copy given initial section into our result
 for n in range(Li, L):
     xn = delayed_values(q, n, d)
     yn = mlp.predict(xn.reshape(1, -1))
-    q[n] = yn
+    q[n] = yn[0]
 
 plt.plot(q)        # Preliminary for debugging
 #
@@ -67,16 +67,16 @@ plt.plot(q)        # Preliminary for debugging
 
     
 # Plot reference and predicted signal:
-plt.style.use('dark_background') 
-plt.figure()    
-plt.plot(t,      s)                    # Input signal
-plt.plot(t[D:N], p)                    # Predicted signal
+#plt.style.use('dark_background') 
+#plt.figure()    
+#plt.plot(t,      s)                    # Input signal
+#plt.plot(t[D:N], p)                    # Predicted signal
 
 # Plot training loss curve:
-plt.figure()
-loss = mlp.loss_curve_
-plt.plot(loss)                         # The whole loss progression
-plt.figure()
+#plt.figure()
+#loss = mlp.loss_curve_
+#plt.plot(loss)                         # The whole loss progression
+#plt.figure()
 #plt.plot(loss[3000:4000])              # A zoomed in view of the tail
 
 """
@@ -88,5 +88,32 @@ Observations:
   signal values for prediction. Maybe we need to modify the file for the sine, 
   too. ..OK...done: we now also have the signal q, which should be what we 
   actually want. Some more tests are needed, though
+  
+- Let K be the number of neurons in the (single) hidden layer and let's pick 
+  tanh as actiavtion function and S be the random see. The results are as 
+  follows: 
+    K =  2, S = 0: garbage
+    K =  3, S = 0: good
+    K =  3, S = 1: garbage
+    K =  4, S = 0: good
+    K =  5, S = 3: garbage
+    K = 13, S = 0: garbage
     
+    
+Conclusions:
+
+- The result depends crucially on the random seed. Maybe to find a global 
+  optimum we should train a lot of networks of each architechture and pick
+  the best among them.
+  
+- Maybe we could take several of the best ones and try to create even better 
+  ones by means of evolutionary algorithms
+  
+  
+ToDo:
+    
+- Do a more quantitative assesments of the different trained networks. 
+  Currently, I just say good or garbage based on visual inspection. Maybe 
+  compute a prediction error compare the values of the different networks.
+  
 """
