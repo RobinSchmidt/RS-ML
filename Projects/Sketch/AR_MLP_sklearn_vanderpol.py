@@ -82,9 +82,11 @@ plt.figure()
 """
 Observations:
     
-- It actually looks too good to be true. I think, using p = mlp.predict is not
-  the right thing to do. We want to predict recursively, i.e. use previous 
-  predictor outputs. Predicting from X uses the true input signal values for 
-  prediction. Maybe we need to modify the file for the sine, too
+- The predicted signal p actually looks too good to be true. I think, using 
+  p = mlp.predict is not the right thing to do. We want to predict recursively, 
+  i.e. use previous predictor outputs. Predicting from X uses the true input 
+  signal values for prediction. Maybe we need to modify the file for the sine, 
+  too. ..OK...done: we now also have the signal q, which should be what we 
+  actually want. Some more tests are needed, though
     
 """
