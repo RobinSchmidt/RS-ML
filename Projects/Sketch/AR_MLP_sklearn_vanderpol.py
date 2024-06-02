@@ -157,5 +157,17 @@ ToDo:
 - Maybe for the training, we should remove the transient part of the signal to
   avoid fitting thoses parts of the signal that are not representative of the
   dynamics - or are they? ...not sure
+
+- Try other learning algorithms. This here:
+  https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html  
+  says that for smaller data sets, 'lbfgs' may converge faster.
+  
+- Try custom activation functions. See:
+  https://datascience.stackexchange.com/questions/18647/is-it-possible-to-customize-the-activation-function-in-scikit-learns-mlpclassif
+  It's not possible with sklearn by default but the article says that one might
+  add it to the library. See here:
+  https://github.com/scikit-learn/scikit-learn/blob/main/sklearn/neural_network/_base.py
+  But maybe use TensorFlow or PyTorch instead. Or better: use Keras which is
+  a high-level interface that can use both of them as backend.
   
 """

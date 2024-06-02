@@ -138,6 +138,15 @@ https://arxiv.org/abs/1812.08466   Fréchet Audio Distance: A Metric for Evaluat
 https://arxiv.org/abs/1912.10211   PANNs: Large-Scale Pretrained Audio Neural Networks for Audio Pattern Recognition
 https://arxiv.org/pdf/1402.3511v1  A Clockwork RNN
 
+
+Comparisons of different ML libraries:
+
+https://www.datacamp.com/tutorial/pytorch-vs-tensorflow-vs-keras
+https://viso.ai/deep-learning/pytorch-vs-tensorflow/
+https://opencv.org/blog/pytorch-vs-tensorflow/
+
+...looks like for my purposes: Keras > PyTorch > TensorFlow
+
 ----------------------------------------------------------------------------------------------------
 Examples:
 

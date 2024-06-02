@@ -52,6 +52,8 @@ Types of activation functions:
 -The softmax function is sometimes lumped in with the activation functions as well - but it's 
  different. It's not a univariate function. It's vector valued with vector input. ..dunno what that
  implies for backprop - the algo may have to be modified to account for that (not sure).
+-GELU: https://arxiv.org/abs/1606.08415
+-Swish: https://arxiv.org/abs/1710.05941
 
 
 Types of Loss Functions:
