@@ -8,7 +8,10 @@ ToDo: Looking at plots is well and good but at some point, we should also
 compute some objective, quantitative error measures ...TBC...
 """
 
-# Imports third party libraries:
+#==============================================================================
+# Imports
+
+# Imports from third party libraries:
 import numpy             as np
 import matplotlib.pyplot as plt    
 from scipy.integrate        import odeint        # Numerical ODE solver
@@ -20,33 +23,43 @@ sys.path.append("../../Libraries")
 from rs.dynsys     import van_der_pol
 from rs.datatools  import signal_ar_to_nn
 from rs.learntools import synthesize_skl_mlp
+
+#==============================================================================
+# Setup
   
 # Signal parameters:
-tMax = 50
-N    = 401           # Number of samples
-mu   = 1.0           # Nonlinearity parameter
-x0   = 0.0           # Initial condition x(0)
-y0   = 1.0           # Initial condition y(0)
+tMax    = 50             # Maximum time value 
+N       = 401            # Number of samples - maybe rename to in_len (input length)
+mu      = 1.0            # Nonlinearity parameter
+x0      = 0.0            # Initial condition x(0)
+y0      = 1.0            # Initial condition y(0)
+dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
-delays  = [1,2,3]     # Delay times (in samples)
-layers  = (3,)        # Numbers of neurons in the layers
-act_fun = "tanh"      # Activation function (identity, tanh, logistic, relu)
-seed    = 0           # Seed for PRNG
-tol     = 1.e-12      # Tolerance for fitting
-max_its = 10000       # Maximum number of training iterations (epochs?)
+delays  = [1,2,3]        # Delay times (in samples)
+layers  = (3,)           # Numbers of neurons in the layers
+act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
+seed    = 0              # Seed for PRNG
+tol     = 1.e-12         # Tolerance for fitting
+max_its = 10000          # Maximum number of training iterations (epochs?)
 
 # Resynthesis parameters:
-syn_len = 300         # Length of resynthesized signal
-syn_beg =  50         # Beginning of resynthesis    
+syn_len = 400            # Length of resynthesized signal
+syn_beg = 150            # Beginning of resynthesis    
 
+#==============================================================================
+# Processing
 
 # Create signal:
 t  = np.linspace(0.0, tMax, N)         # Time axis    
 vt = odeint(van_der_pol,               # Solution to the ODE
             [x0, y0], t, args=(mu,))
-s = vt[:,0]
+s = vt[:,dim]                          # Select one dimension for time series
+
+#s = vt[:,0]
 #s = vt[:,1]  # Alternative
+# ToDo: have a signal parameter "dim" or similar that selects, which dimension
+# we wnat to use as our time series. Then here, do s = vt[:,dim]
 
 # Fit a multilayer perceptron regressor to the data and use it for prediction:
 X, y = signal_ar_to_nn(s, delays)  # Extract input vectors and scalar outputs 
@@ -55,53 +68,48 @@ mlp  = MLPRegressor(hidden_layer_sizes = layers, activation = act_fun,
 mlp.fit(X, y)
 p = mlp.predict(X);
 
-
 # Now let's do a real autoregressive synthesis using the mlp model. It just 
 # takes an initial section as input and continues it up to a given desired 
 # length using the predictions of the mlp recursively:
-L  = syn_len                              # Desired length for prediction
 D  = max(delays)
-#qs = s[50:100]                            # Initial section to be used
-qs = s[(syn_beg-D):syn_beg]                # Initial section to be used
-q  = synthesize_skl_mlp(mlp, delays, qs, L);   
+qs = s[(syn_beg-D):syn_beg]            # Initial section to be used
+q  = synthesize_skl_mlp(mlp, delays, qs, syn_len)
 
+# Compute synthesis error signal for the region where input and synthesized 
+# signals overlap:
+s_chunk = s[syn_beg:N]
+q_chunk = q[0:len(s_chunk)]
+error   = s_chunk - q_chunk
+
+#==============================================================================
+# Visualization
 
 # Create shifted time axis for resynthesized signal:
 tr = np.linspace(syn_beg, syn_beg+syn_len, syn_len)
 tr = tr * (tMax / (N-1))  # Yes - we need to divide by N-1. Look at t and t2.
 
-#plt.plot(t2, q)
-#plt.plot(q)
-# Preliminary for debugging - actually, we want to include this into the
-# plot below where we plot the input and the predicted signal. But we need an
-# extra time-axis that includes the appropriate shift
-
-
-
-# ToDo:
-#
-# - Maybe let the initial section be of length D = max(d). Any data before is 
-#   not used for the synthesis anyway. Maybe have variables 
-#   syn_start (here 50...or 100?), syn_len (here 300)
-# 
-# - Make a plot that overlays the synthesized signal q with the original signal
-#   s in those regions where they overlap. Maybe it should be 
-
-
 # Plot reference and predicted signal:
 plt.style.use('dark_background') 
 plt.figure()    
 plt.plot(t,      s)                    # Input signal
-#plt.plot(t[D:N], p)                    # Predicted signal
+plt.plot(t[D:N], p)                    # Predicted signal
 plt.plot(tr,     q)                    # Synthesized signal
+
+# Plot original, synthesized and error signal for the region where they 
+# overlap:
+plt.figure()
+plt.plot(s_chunk)
+plt.plot(q_chunk)
+plt.plot(error)
 
 # Plot training loss curve:
 plt.figure()
 loss = mlp.loss_curve_
 plt.plot(loss)                         # The whole loss progression
 plt.figure()
-plt.plot(loss[3000:4000])              # A zoomed in view of the tail
+#plt.plot(loss[3000:4000])              # A zoomed in view of the tail
 
+#==============================================================================
 """
 Observations:
     
@@ -170,7 +178,7 @@ Conclusions:
   
 ToDo:
     
-- Do a more quantitative assesments of the different trained networks. 
+- Do a more quantitative evaluations of the different trained networks. 
   Currently, I just say good or garbage based on visual inspection. Maybe 
   compute a prediction error compare the values of the different networks.
   
@@ -214,5 +222,9 @@ ToDo:
 - Eventually, the goal is to apply it to musical instrument samples as 
   explained in the paper "Neural Network Modeling of Speech and Music Signals" 
   by Axel Roebel, see: https://hal.science/hal-02911718  
+  
+- Try to model both time series x[n], y[n] simultaneously using an MLP with 2
+  output neurons. I'm not sure, if that's possible with sklearn. If not, look 
+  into keras for that
   
 """
