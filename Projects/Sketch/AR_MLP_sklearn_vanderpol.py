@@ -39,10 +39,10 @@ y0      = 1.0            # Initial condition y(0)
 dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
-delays  = [1,2,3]        # Delay times (in samples)
-layers  = (3,)           # Numbers of neurons in the layers
+delays  = [1,2,3,4]      # Delay times (in samples)
+layers  = (10)           # Numbers of neurons in the layers
 act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
-seed    = 6              # Seed for PRNG
+seed    = 0              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
 
@@ -75,10 +75,18 @@ q  = synthesize_skl_mlp(mlp, delays, qs, syn_len)
 
 # Compute synthesis error signal for the region where input and synthesized 
 # signals overlap:
-s_chunk = s[syn_beg:in_len]
+#s_chunk = s[syn_beg:in_len]
+#s_chunk = s[syn_beg-2:in_len-2]
+s_chunk = s[syn_beg-D:in_len-D]
 q_chunk = q[0:len(s_chunk)]
 error   = s_chunk - q_chunk
 max_err = max(error) / max(s_chunk)    #  Maximum relative error
+# It looks like q is shifted with respect to s. Check, if we have an off-by-one
+# error somewhere - in the synthesis or in the extraction of the chunks etc.
+# Maybe make unit test with an extremely simple signal - a straight line
+# ...ah! I see I have an off-by-D error. The synthesis procedure copies the 
+# initial section into the synthesized signal which is D samples long and 
+# prepended to the actually synthesized section
 
 #==============================================================================
 # Visualization
@@ -113,7 +121,10 @@ plt.figure()
 Observations:
  
 Results for     
-    
+
+MaxErr still wrong - I had a bug in the aligment between original and 
+synthesized    
+
 =====================================================================
 |    Delays    | Hidden Layers | ActFunc | Seed | MaxErr |  Look    |
 |===================================================================|
