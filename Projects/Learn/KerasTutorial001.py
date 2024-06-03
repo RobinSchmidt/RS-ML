@@ -78,6 +78,39 @@ Here, boston_housing is a dataset provided by Keras. It represents a collection
 of housing information in Boston area, each having 13 features.
 '''
 
+'''
+===============================================================================
+Step 3 − Process the data
+
+Let us change the dataset according to our model, so that, we can feed into our 
+model. The data can be changed using below code.
+'''
+
+x_train_scaled = preprocessing.scale(x_train) 
+scaler = preprocessing.StandardScaler().fit(x_train) 
+x_test_scaled = scaler.transform(x_test)
+
+'''
+Here, we have normalized the training data using sklearn.preprocessing.scale 
+function. preprocessing.StandardScaler().fit function returns a scalar with the 
+normalized mean and standard deviation of the training data, which we can apply
+to the test data using scalar.transform function. This will normalize the test
+data as well with the same setting as that of training data.
+'''
+
+'''
+===============================================================================
+Step 4 − Create the model
+
+Let us create the actual model.
+'''
+
+model = Sequential() 
+model.add(Dense(64, kernel_initializer = 'normal', activation = 'relu',
+                input_shape = (13,))) 
+model.add(Dense(64, activation = 'relu')) 
+model.add(Dense(1))
+# This produces a warning!
 
 
 
@@ -87,6 +120,11 @@ of housing information in Boston area, each having 13 features.
 
 
 
+
+
+
+
+#==============================================================================
 '''
 
 Hmmm...Keras throws an error - it doesn't find the tensorflow mdoule
