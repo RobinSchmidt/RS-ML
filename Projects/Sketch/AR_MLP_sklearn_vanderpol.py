@@ -40,9 +40,9 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
 delays  = [1,2,3,4]      # Delay times (in samples)
-layers  = (32)           # Numbers of neurons in the layers
+layers  = (25)           # Numbers of neurons in the layers
 act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
-seed    = 0              # Seed for PRNG
+seed    = 6              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
 
@@ -378,7 +378,15 @@ ToDo:
   shape matches well and only the frequency is off. A wrong frequency can be 
   dealt with by interpolation.
   
-
+- For network pruning, we could compute the correlations between the input
+  weight vectors and if two have a high correlation, we could perhaps collapse
+  the neurons into a single one. The input weights of the new neuron that 
+  replaces the two correlated ones may be given by the average of the two and 
+  the output weights by their sum. Rationale: The new neuron's activation 
+  should respond to inputs similarly to the two original ones - that's why we 
+  average the input weights. The neurons in the next layer should be affected
+  by the new neuron's activation similarly to the two original ones - that's
+  why we take the sum.
   
 - Figure out if the final performance of the model correlates with the early
   performance. The goal is to find out, if in our exploration of the model 
