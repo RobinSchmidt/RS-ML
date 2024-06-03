@@ -10,6 +10,7 @@ comments. The #-type comments are my own.
 """
 
 '''
+===============================================================================
 In this chapter, let us write a simple MPL based ANN to do regression 
 prediction. Till now, we have only done the classification based prediction. 
 Now, we will try to predict the next possible value by analyzing the previous 
@@ -36,10 +37,6 @@ are as follows:
 - Use 500 as epochs.
 '''
 
-
-#==============================================================================
-# Imports and Config
-
 # Tell the keras library that we want to use PyTorch as backend:
 import os
 os.environ["KERAS_BACKEND"] = "torch"
@@ -51,6 +48,13 @@ os.environ["KERAS_BACKEND"] = "torch"
 # unless TensorFlow is installed. This is because keras uses TensorFlow as 
 # backend by default.
 
+'''
+===============================================================================
+Step 1 − Import the modules
+
+Let us import the necessary modules.
+'''
+
 import keras 
 from keras.datasets import boston_housing 
 from keras.models import Sequential 
@@ -60,7 +64,22 @@ from keras.callbacks import EarlyStopping
 from sklearn import preprocessing 
 from sklearn.preprocessing import scale
 
-#import numpy as np
+'''
+===============================================================================
+Step 2 − Load data
+
+Let us import the Boston housing dataset.
+'''
+
+(x_train, y_train), (x_test, y_test) = boston_housing.load_data()
+
+'''
+Here, boston_housing is a dataset provided by Keras. It represents a collection 
+of housing information in Boston area, each having 13 features.
+'''
+
+
+
 
 
 
