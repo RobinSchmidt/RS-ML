@@ -187,7 +187,17 @@ Wobbly:    Frequency wobbles (sometimes fast, sometimes slow)
 Trash:     Total garbage that has nothing to do with original
 Unstable:  Runaway oscillations or explosion
 
-  
+- I tried to sample of the input signal with higher and lower sample rates by
+  increasing in_len (and also syn_len accrodingly). The result was that the 
+  models tend to give better fits when in_len is smaller. A lower sampling rate 
+  seems to make the modeling task easier. Thinking about it, this seems to be 
+  plausible because our unit sample delays cover a greater time window. We see
+  "more" of the past signal in terms of the absolute time window. Maybe with
+  higher sampling rates, it could be beneficial to apply a Haar transform on
+  the delayed samples first. Don't use the delayed samples directly but instead
+  use their Haar trafo (or maybe Walsh-Hadamard trafo or other kind of Wavelet
+  trafo - maybe Daubechies is worth to try as well).
+
 - Let K be the number of neurons in the (single) hidden layer and let's pick 
   tanh as actiavtion function and S be the random see. The results are as 
   follows: 
@@ -310,7 +320,7 @@ ToDo:
   shape matches well and only the frequency is off. A wrong frequency can be 
   dealt with by interpolation.
   
-- Try denser sampling of the input signal  
+
   
 - Figure out if the final performance of the model correlates with the early
   performance. The goal is to find out, if in our exploration of the model 
