@@ -42,7 +42,7 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 delays  = [1,2,3,4]      # Delay times (in samples)
 layers  = (8,4,2)        # Numbers of neurons in the layers
 act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
-seed    = 6              # Seed for PRNG
+seed    = 9              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
 
@@ -176,9 +176,9 @@ different set of delays, hidden neurons or activation function is used
 | 1,2,3,4      | 8,4,2  | tanh     |  4   | 1.8063 | F,S      |
 | 1,2,3,4      | 8,4,2  | tanh     |  5   | 1.1275 | Fast     |
 | 1,2,3,4      | 8,4,2  | tanh     |  6   | 1.7338 | Fast     |
-
-
-
+| 1,2,3,4      | 8,4,2  | tanh     |  7   | 1.6416 | Bad      |
+| 1,2,3,4      | 8,4,2  | tanh     |  8   | 1.8659 | Const    |
+| 1,2,3,4      | 8,4,2  | tanh     |  9   | 1.6370 | Wobbly   |
 |-------------------------------------------------------------|
 | 1,2,3        | 3      | logistic | 0..5 |        | Trash    |
 | 1,2,3        | 3      | logistic |  6   | 0.3398 | Good     |
@@ -203,7 +203,12 @@ Trash:     Total garbage that has nothing to do with original
 Unstable:  Runaway oscillations or explosion
 
 Sometimes, the signal has more than one of the features (like shifted and 
-fast). In such cases, we use only the first letters like F,S.
+fast). In such cases, we use only the first letters like F,S. ToDo: Some of the
+settings classified as "Trash" could be further specified as "Conat" because
+they converge to a constant. Apparently, the quality of the attractor has 
+changed from quasi-periodic to a fixed point.
+
+
 
 - I tried to sample of the input signal with higher and lower sample rates by
   increasing in_len (and also syn_len accrodingly). The result was that the 
