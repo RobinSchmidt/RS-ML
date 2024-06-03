@@ -157,7 +157,46 @@ Epoch 271/500
 ...
 '''
 
+'''
+===============================================================================
+Step 7 − Evaluate the model
 
+Let us evaluate the model using test data.
+'''
+
+score = model.evaluate(x_test_scaled, y_test, verbose = 0) 
+print('Test loss:', score[0]) 
+print('Test accuracy:', score[1])
+
+'''
+Executing the above code will output the below information:
+
+Test loss: 21.928471583946077 Test accuracy: 2.9599233234629914
+'''
+# The actual values may differ. It probably uses a different random seed for 
+# each run. ToDo: figure out how to pick the random seed. We want 
+# reproducibility
+
+'''
+===============================================================================
+Step 8 − Predict
+
+Finally, predict using test data as below
+'''
+
+prediction = model.predict(x_test_scaled) 
+print(prediction.flatten()) 
+print(y_test)
+
+'''
+The output of the above application is as follows 
+
+[ 7.5612316 17.583357 21.09344 31.859276 25.055613 18.673872 26.600405 
+ 22.403967 19.060272 22.264952 17.4191 17.00466 15.58924 41.624374 20.220217...
+ 
+The output of both array have around 10-30% difference and it indicate our 
+model predicts with reasonable range.
+'''
 
 
 
