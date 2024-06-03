@@ -39,10 +39,10 @@ y0      = 1.0            # Initial condition y(0)
 dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
-delays  = [1,2,3  ]      # Delay times (in samples)
-layers  = (3,)           # Numbers of neurons in the layers
+delays  = [1,2,3,4]      # Delay times (in samples)
+layers  = (10)           # Numbers of neurons in the layers
 act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
-seed    = 9              # Seed for PRNG
+seed    = 0              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
 
@@ -100,10 +100,10 @@ tr = tr * (t_max / (in_len-1))
 # with a shift by D ...OK - seems to be fixed.
 
 # Plot reference and predicted signal:
-plt.figure()    
-plt.plot(t, s)                         # Input signal
-plt.plot(t[D:in_len], p)               # Predicted signal
-plt.plot(tr, q)                        # Synthesized signal
+#plt.figure()    
+#plt.plot(t, s)                         # Input signal
+#plt.plot(t[D:in_len], p)               # Predicted signal
+#plt.plot(tr, q)                        # Synthesized signal
 
 # Plot original, synthesized and error signal for the region where they 
 # overlap:
@@ -114,9 +114,9 @@ plt.plot(error)
 print("Max error: ", max_err)
 
 # Plot log of training loss curve:
-plt.figure()
-loss = mlp.loss_curve_
-plt.plot(np.log10(loss))
+#plt.figure()
+#loss = mlp.loss_curve_
+#plt.plot(np.log10(loss))
 
 #==============================================================================
 """
@@ -151,24 +151,38 @@ different set of delays, hidden neurons or activation function is used
 MaxErr still wrong - I had a bug in the aligment between original and 
 synthesized
 
-======================================================================
-|    Delays    | Hidden Layers | ActFunc | Seed | MaxErr |  Look     |
-|====================================================================|
-| 1,2,3        | 3             | tanh    |  0   | 0.7939 | Fast      |
-| 1,2,3        | 3             | tanh    |  1   | 1.8415 | Trash     |
-| 1,2,3        | 3             | tanh    |  2   | 1.9640 | Trash     |
-| 1,2,3        | 3             | tanh    |  3   | 1.6238 | Trash     |
-| 1,2,3        | 3             | tanh    |  4   | 2.0073 | Trash     |
-| 1,2,3        | 3             | tanh    |  5   | 2.1479 | Unstable  |
-| 1,2,3        | 3             | tanh    |  6   | 0.9008 | Fast      |
-| 1,2,3        | 3             | tanh    |  7   | 1.8362 | Trash     |
-| 1,2,3        | 3             | tanh    |  8   | 0.6420 | Slow      |
-| 1,2,3        | 3             | tanh    |  9   | 0.3766 | Good      |
-|--------------------------------------------------------------------|
+===============================================================
+|    Delays    | Layers | ActFunc  | Seed | MaxErr |  Look    |
+|=============================================================|
+| 1,2,3        | 3      | tanh     |  0   | 0.7939 | Fast     |
+| 1,2,3        | 3      | tanh     |  1   | 1.8415 | Trash    |
+| 1,2,3        | 3      | tanh     |  2   | 1.9640 | Trash    |
+| 1,2,3        | 3      | tanh     |  3   | 1.6238 | Trash    |
+| 1,2,3        | 3      | tanh     |  4   | 2.0073 | Trash    |
+| 1,2,3        | 3      | tanh     |  5   | 2.1479 | Unstable |
+| 1,2,3        | 3      | tanh     |  6   | 0.9008 | Fast     |
+| 1,2,3        | 3      | tanh     |  7   | 1.8362 | Trash    |
+| 1,2,3        | 3      | tanh     |  8   | 0.6420 | Slow     |
+| 1,2,3        | 3      | tanh     |  9   | 0.3766 | Good     |
+|-------------------------------------------------------------|
+| 1,2,3,4      | 10     | tanh    |  0   | 0.0572 | Perfect   |  *
+|-------------------------------------------------------------|
+| 1,2,3,4      | 6,3    | tanh    |  0   | 2.7651 | Unstable  |
 
-| 1,2,3,4      | 6,3           | tanh    |  0   | 2.7652 | Unstable  |
-| 1,2,3,4      | 10            | tanh    |  0   | 0.0572 | Very Good |
-| 1,2          | 3             | tanh    |  0   | 1.6047 | Slow      |
+
+
+|-------------------------------------------------------------|
+| 1,2,3        | 3      | logistic | 0..5 |        | Trash    |
+| 1,2,3        | 3      | logistic |  6   | 0.3398 | Good     |
+|-------------------------------------------------------------|
+
+
+
+
+
+
+
+| 1,2          | 3      | tanh    |  0   | 1.6047 | Slow      |
 
 |--------------------------------------------------------------------|
 | 1,2,3,4      | 10            | relu    |  0   | 0.1103 | Very Good |
