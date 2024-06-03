@@ -2,10 +2,10 @@
 In this script, we create a nonlinear autoregressive model of the Van der Pol
 oscillator using a multilayer perceptron from the Scikit-Learn library. Then, 
 we evaluate the so created model by visually inspecting the output that it 
-generates.
-
-ToDo: Looking at plots is well and good but at some point, we should also 
-compute some objective, quantitative error measures ...TBC...
+generates. In the bottom section is a table where I noted down my visual 
+impression of different models using different random seeds for the weight
+initialization. I have also computed a crude preliminary error measure which is
+ noted down into the table.
 """
 
 #==============================================================================
@@ -48,7 +48,7 @@ max_its = 10000          # Maximum number of training iterations (epochs?)
 
 # Resynthesis parameters:
 syn_len = 400            # Length of resynthesized signal
-syn_beg = 150            # Beginning of resynthesis    
+syn_beg = 150            # Beginning of resynthesis
 
 #==============================================================================
 # Processing
@@ -79,15 +79,6 @@ s_chunk = s[syn_beg-D:in_len-D]
 q_chunk = q[0:len(s_chunk)]
 error   = s_chunk - q_chunk
 max_err = max(error) / max(s_chunk)    #  Maximum relative error
-# It looks like q is shifted with respect to s. Check, if we have an off-by-one
-# error somewhere - in the synthesis or in the extraction of the chunks etc.
-# Maybe make unit test with an extremely simple signal - a straight line
-# ...ah! I see I have an off-by-D error. The synthesis procedure copies the 
-# initial section into the synthesized signal which is D samples long and 
-# prepended to the actually synthesized section
-# Maybe wrap the model evaluation into a class ModelEvaluator_skl_mlp. Maybe
-# write a class ModelExplorer which programmatically searches the design space
-# for good models.
 
 #==============================================================================
 # Visualization
