@@ -196,7 +196,13 @@ Unstable:  Runaway oscillations or explosion
   higher sampling rates, it could be beneficial to apply a Haar transform on
   the delayed samples first. Don't use the delayed samples directly but instead
   use their Haar trafo (or maybe Walsh-Hadamard trafo or other kind of Wavelet
-  trafo - maybe Daubechies is worth to try as well).
+  trafo - maybe Daubechies is worth to try as well). See:
+  https://en.wikipedia.org/wiki/Haar_wavelet
+  https://en.wikipedia.org/wiki/Hadamard_transform
+  https://en.wikipedia.org/wiki/Daubechies_wavelet
+  But this kind of pre-processing of the vector of delayed values makes only 
+  sense if the delays form a continuous sequences like 1,2,3,4 - but not 
+  something like 1,2,5,8. It would be linear pre-processing layer.
 
 - Let K be the number of neurons in the (single) hidden layer and let's pick 
   tanh as actiavtion function and S be the random see. The results are as 
