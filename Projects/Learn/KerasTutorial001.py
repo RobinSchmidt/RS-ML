@@ -112,10 +112,50 @@ model.add(Dense(64, activation = 'relu'))
 model.add(Dense(1))
 # This produces a warning!
 
+'''
+===============================================================================
+Step 5 − Compile the model
 
+Let us compile the model using selected loss function, optimizer and metrics.
+'''
 
+model.compile(
+   loss = 'mse', 
+   optimizer = RMSprop(), 
+   metrics = ['mean_absolute_error']
+)
 
+'''
+===============================================================================
+Step 6 − Train the model
 
+Let us train the model using fit() method.
+'''
+
+history = model.fit(
+   x_train_scaled, y_train,    
+   batch_size=128, 
+   epochs = 500, 
+   verbose = 1, 
+   validation_split = 0.2, 
+   callbacks = [EarlyStopping(monitor = 'val_loss', patience = 20)]
+)
+
+'''
+Here, we have used callback function, EarlyStopping. The purpose of this 
+callback is to monitor the loss value during each epoch and compare it with 
+previous epoch loss value to find the improvement in the training. If there is
+no improvement for the patience times, then the whole process will be stopped.
+
+Executing the application will give the below information as output:
+    
+Train on 323 samples, validate on 81 samples Epoch 1/500
+...
+Epoch 271/500
+3/3 ━━━━━━━━━━━━━━━━━━━━ 0s 10ms/step - loss: 6.4838 - mean_absolute_error: 
+1.8082 - val_loss: 11.5821 - val_mean_absolute_error: 2.3138
+...
+'''
 
 
 
