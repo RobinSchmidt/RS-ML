@@ -203,6 +203,17 @@ Unstable:  Runaway oscillations or explosion
   But this kind of pre-processing of the vector of delayed values makes only 
   sense if the delays form a continuous sequences like 1,2,3,4 - but not 
   something like 1,2,5,8. It would be linear pre-processing layer.
+  
+- Another idea for the pre-processing transformation: For the purpose of an 
+  example, let's assume d = [1,2,3,4]. Maybe we can fit a cubic polynomial to 
+  these points s[n-1]...s[n-4] and evaluate its 0th, 1st, 2nd and 3rd 
+  derivative at n = 0. This vector of 4 derivative values is then our 
+  transformed vector on which we perform the usual MLP training. This idea can 
+  be generalized to arbitrary degrees. Such a linear pre-processing stage can 
+  generally expressed by a matrix. Maybe for research purposes, we should have 
+  an API the let's us specify such a pre-processing matrix. In production, 
+  we'll probably want to use special matrices for which the matrix-vector 
+  product can be computed efficiently (like in O(N) or O(N*log(N)))
 
 - Let K be the number of neurons in the (single) hidden layer and let's pick 
   tanh as actiavtion function and S be the random see. The results are as 

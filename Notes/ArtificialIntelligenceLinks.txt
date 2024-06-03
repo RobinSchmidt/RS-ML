@@ -83,6 +83,8 @@ https://www.youtube.com/playlist?list=PLoROMvodv4rMiGQp3WXShtMGgzqpfVfbU
 Deep Learning Fundamentals, Season 01 | coder zero
 https://www.youtube.com/playlist?list=PLMBGi9ehLupv6584EOFktvz2f-hzkdJgZ
 
+Scikit Learn Tutorial For Beginners | Machine Learning with Scikit-...
+https://www.youtube.com/watch?v=7z8-QWlbmoo&list=PLVHgQku8Z9348d6xguTn8zbcUYntz3dQG
 
 
 LEARN PANDAS in about 10 minutes! A great python module for Data Science!
