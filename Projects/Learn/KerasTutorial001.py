@@ -1,6 +1,4 @@
 """
-ToDo: rename thsi file and move into the "Learn" folder
-
 My first attempt with keras. I follow through this tutorial:
 
 https://www.tutorialspoint.com/keras/keras_regression_prediction_using_mpl.htm
@@ -55,14 +53,17 @@ Step 1 − Import the modules
 Let us import the necessary modules.
 '''
 
-import keras 
-from keras.datasets import boston_housing 
-from keras.models import Sequential 
-from keras.layers import Dense 
-from keras.optimizers import RMSprop 
-from keras.callbacks import EarlyStopping 
-from sklearn import preprocessing 
-from sklearn.preprocessing import scale
+#import keras 
+from keras.datasets        import boston_housing 
+from keras.models          import Sequential 
+from keras.layers          import Dense 
+from keras.optimizers      import RMSprop 
+from keras.callbacks       import EarlyStopping 
+from sklearn               import preprocessing 
+#from sklearn.preprocessing import scale
+
+# The commented out imports were present in the tutorial but do not seem to be 
+# needed
 
 '''
 ===============================================================================
