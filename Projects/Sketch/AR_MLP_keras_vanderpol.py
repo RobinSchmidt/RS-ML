@@ -21,7 +21,8 @@ sys.path.append("../../Libraries")         # Make available for import
 from keras.models     import Sequential
 from keras.layers     import Input
 from keras.layers     import Dense
-#from keras.optimizers import RMSprop
+from keras.optimizers import RMSprop
+from keras.callbacks  import EarlyStopping 
 
 # Imports from my own libraries:
 from rs.dynsys     import van_der_pol            # To generate the input data
@@ -46,23 +47,36 @@ delays  = [1,2,3,4]
 # Processing
 
 # Create signal:
-t  = np.linspace(0.0, t_max, in_len)   # Time axis    
-vt = odeint(van_der_pol,               # Solution to the ODE
+t  = np.linspace(0.0, t_max, in_len)     # Time axis    
+vt = odeint(van_der_pol,                 # Solution to the ODE
             [x0, y0], t, args=(mu,))
-s = vt[:, dim]                         # Select one dimension for time series
+s = vt[:, dim]                           # Select one dimension for time series
 
 # Create the model
-X, y = signal_ar_to_nn(s, delays)      # Extract data for modeling
-
+X, y  = signal_ar_to_nn(s, delays)       # Extract data for modeling
 model = Sequential()
-model.add(Input(shape=(4,)))     # use len(delays)
+model.add(Input(shape=(len(delays),)))   # use len(delays)
 #model.add(Dense(64, kernel_initializer = 'normal', activation = 'relu',
 #                input_shape = (13,))) 
-model.add(Dense(10, activation = 'tanh')) 
+model.add(Dense(3, activation = 'tanh')) 
 model.add(Dense(1))
 # This produces a warning!
 
+model.compile(
+   loss = 'mse', 
+   optimizer = RMSprop(), 
+   metrics = ['mean_absolute_error']
+)
 
+history = model.fit(
+   X, y,    
+   #batch_size=128, 
+   epochs  = 80, 
+   verbose =  1,
+   #validation_split = 0.2, 
+   callbacks = [EarlyStopping(monitor = 'val_loss', patience = 20)]
+)
+# 
 
 
 
