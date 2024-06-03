@@ -41,7 +41,7 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 # Modeling parameters:
 delays  = [1,2,3,4]      # Delay times (in samples)
 layers  = (10)           # Numbers of neurons in the layers
-act_fun = "relu"         # Activation function (identity, tanh, logistic, relu)
+act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
 seed    = 0              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
@@ -147,9 +147,6 @@ syn_beg = 150            # Beginning of resynthesis
 The MaxErr values are rounded down (because the values were copy-and-pasted). 
 The subdivisions of the table occur whenever the model type is changed, i.e. a 
 different set of delays, hidden neurons or activation function is used
-
-MaxErr still wrong - I had a bug in the aligment between original and 
-synthesized
 
 ===============================================================
 |    Delays    | Layers | ActFunc  | Seed | MaxErr |  Look    |
@@ -312,6 +309,8 @@ ToDo:
   models that are too fast or slow. We still may want to rate them goof, if the 
   shape matches well and only the frequency is off. A wrong frequency can be 
   dealt with by interpolation.
+  
+- Try denser sampling of the input signal  
   
 - Figure out if the final performance of the model correlates with the early
   performance. The goal is to find out, if in our exploration of the model 
