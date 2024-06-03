@@ -5,7 +5,7 @@ we evaluate the so created model by visually inspecting the output that it
 generates. In the bottom section is a table where I noted down my visual 
 impression of different models using different random seeds for the weight
 initialization. I have also computed a crude preliminary error measure which is
- noted down into the table.
+noted down into the table.
 """
 
 #==============================================================================

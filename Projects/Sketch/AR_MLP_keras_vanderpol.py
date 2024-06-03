@@ -52,15 +52,13 @@ vt = odeint(van_der_pol,                 # Solution to the ODE
             [x0, y0], t, args=(mu,))
 s = vt[:, dim]                           # Select one dimension for time series
 
-# Create the model
+# Create the model:
 X, y  = signal_ar_to_nn(s, delays)       # Extract data for modeling
 model = Sequential()
-model.add(Input(shape=(len(delays),)))   # use len(delays)
-#model.add(Dense(64, kernel_initializer = 'normal', activation = 'relu',
-#                input_shape = (13,))) 
+model.add(Input(shape=(len(delays),)))
 model.add(Dense(3, activation = 'tanh')) 
 model.add(Dense(1))
-# This produces a warning!
+
 
 model.compile(
    loss = 'mse', 
