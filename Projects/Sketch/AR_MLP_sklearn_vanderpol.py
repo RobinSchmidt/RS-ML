@@ -39,9 +39,9 @@ y0      = 1.0            # Initial condition y(0)
 dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
-delays  = [1,2,3,4]      # Delay times (in samples)
-layers  = (10,)          # Numbers of neurons in the layers
-act_fun = "relu"         # Activation function (identity, tanh, logistic, relu)
+delays  = [1,2,3  ]      # Delay times (in samples)
+layers  = (3,)           # Numbers of neurons in the layers
+act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
 seed    = 0              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
@@ -122,23 +122,57 @@ plt.plot(np.log10(loss))
 """
 Observations:
  
-Results for     
+The table below shows results for the following setup:
+
+# Signal parameters:
+t_max   = 50             # Maximum time value 
+in_len  = 401            # Number of input samples
+mu      = 1.0            # Nonlinearity parameter
+x0      = 0.0            # Initial condition x(0)
+y0      = 1.0            # Initial condition y(0)
+dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
+
+# Modeling parameters:
+delays  = See table      # Delay times (in samples)
+layers  = See table      # Numbers of neurons in the layers
+act_fun = See table      # Activation function (identity, tanh, logistic, relu)
+seed    = See table      # Seed for PRNG
+fit_tol = 1.e-16         # Tolerance for fitting
+max_its = 10000          # Maximum number of training iterations (epochs?)
+
+# Resynthesis parameters:
+syn_len = 400            # Length of resynthesized signal
+syn_beg = 150            # Beginning of resynthesis        
 
 MaxErr still wrong - I had a bug in the aligment between original and 
-synthesized    
+synthesized
 
 ======================================================================
 |    Delays    | Hidden Layers | ActFunc | Seed | MaxErr |  Look     |
 |====================================================================|
-| 1,2,3        | 3             | tanh    |  0   | 0.5084 | Good      |
+| 1,2,3        | 3             | tanh    |  0   | 0.7939 | Fast      |
+
 | 1,2,3        | 3             | tanh    |  1   | 1.7368 | Trash     |
 | 1,2,3        | 3             | tanh    |  2   | 2.0051 | Trash     |
 | 1,2,3        | 3             | tanh    |  5   | 2.1488 | Unstable  |
 | 1,2,3,4      | 6,3           | tanh    |  0   | 2.7652 | Unstable  |
 | 1,2,3,4      | 10            | tanh    |  0   | 0.0572 | Very Good |
 | 1,2          | 3             | tanh    |  0   | 1.6047 | Slow      |
+
+|--------------------------------------------------------------------|
+| 1,2,3,4      | 10            | relu    |  0   | 0.1103 | Very Good |
 ======================================================================
 
+The table contains some visual assesment of the outputs produced by the model. 
+The words have the following meaning:
+
+         
+Good:      Good fit
+Bad:       Bad fit
+Fast:      Frequency too high
+Slow:      Frequency too low
+Trash:     Total garbage that has nothing to do with original
+Unstable:  Runaway oscillations or explosion
 
   
 - Let K be the number of neurons in the (single) hidden layer and let's pick 
@@ -250,5 +284,19 @@ ToDo:
   
 - Create a notebook from this - this can be used for a portfolio in a job 
   application
+  
+- Try to explore the space of all possible models more systematically to find a 
+  globally optimal one. Maybe start with a bunch of smaller models, select the 
+  best and apply some growing strategy. Like: (1) Copy the model including the
+  weights, (2) Add a neuron, (3) Re-train. (4) Accept bigger model only if it's
+  really better than it's smaller predecessor. Maybe write a class 
+  ModelExplorer
+  
+- Figure out if the final performance of the model correlates with the early
+  performance. The goal is to find out, if in our exploration of the model 
+  space, it may be possible to identify promising models early, i.e. after 
+  partial training. If a model that eventually performs well already shows this
+  in early stages of the training, we do not need to train all explored models
+  fully which saves a lot of training time.
   
 """

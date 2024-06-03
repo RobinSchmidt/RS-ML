@@ -130,6 +130,10 @@ Working in Spyder:
  -The button in the top-right has a "Fit plots to window" option
 
 
+-My Preferences (I only list those which are different from the default):
+ -Appearance -> Interface theme: Dark
+ -Run -> Remove all variables before execution
+ -Editor -> Source code -> Uncheck "Intelligent backspace"
 
 
 -Help:
