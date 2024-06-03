@@ -40,9 +40,9 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
 delays  = [1,2,3,4]      # Delay times (in samples)
-layers  = (8,4,2)        # Numbers of neurons in the layers
+layers  = (32)           # Numbers of neurons in the layers
 act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
-seed    = 9              # Seed for PRNG
+seed    = 0              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
 
@@ -166,8 +166,22 @@ different set of delays, hidden neurons or activation function is used
 | 1,2,3        | 3      | tanh     |  9   | 0.3766 | Good     |
 |-------------------------------------------------------------|
 | 1,2,3,4      | 10     | tanh     |  0   | 0.0572 | Perfect  |  *
+| 1,2,3,4      | 10     | tanh     | 1..3 |        | Fast     |
+| 1,2,3,4      | 10     | tanh     |  4   |        | Slow     |
+| 1,2,3,4      | 10     | tanh     |  5   | 0.0732 | Perfect  |
+|-------------------------------------------------------------|
+| 1,2,3,4      | 20     | tanh     |  2   | 0.0535 | Perfect  |  *
+| 1,2,3,4      | 20     | tanh     |  6   | 0.0213 | Perfect  |  *
+|-------------------------------------------------------------|
+| 1,2,3,4      | 32     | tanh     |0..20 |        | All Good | 
 |-------------------------------------------------------------|
 | 1,2,3,4      | 6,3    | tanh     |  0   | 2.7651 | Unstable |
+|-------------------------------------------------------------|
+| 1,2,3,4      | 7,3    | tanh     |  0   | 0.8076 | Fast     |
+|-------------------------------------------------------------|
+| 1,2,3,4      | 6,4    | tanh     |  0   | 1.0264 | Fast     |
+|-------------------------------------------------------------|
+| 1,2,3,4      | 5,5    | tanh     |  0   | 0.4652 | Good     |
 |-------------------------------------------------------------|
 | 1,2,3,4      | 8,4,2  | tanh     |  0   | 0.2554 | Wobbly   |
 | 1,2,3,4      | 8,4,2  | tanh     |  1   | 1.8763 | Shifted  |
@@ -179,6 +193,8 @@ different set of delays, hidden neurons or activation function is used
 | 1,2,3,4      | 8,4,2  | tanh     |  7   | 1.6416 | Bad      |
 | 1,2,3,4      | 8,4,2  | tanh     |  8   | 1.8659 | Const    |
 | 1,2,3,4      | 8,4,2  | tanh     |  9   | 1.6370 | Wobbly   |
+|-------------------------------------------------------------|
+| 1,2,3,4      | 4,3,2  | tanh     |  5   | 2.4396 | Unstable |
 |-------------------------------------------------------------|
 | 1,2,3        | 3      | logistic | 0..5 |        | Trash    |
 | 1,2,3        | 3      | logistic |  6   | 0.3398 | Good     |
@@ -208,7 +224,9 @@ settings classified as "Trash" could be further specified as "Conat" because
 they converge to a constant. Apparently, the quality of the attractor has 
 changed from quasi-periodic to a fixed point.
 
-
+- If enough hidden neurons are used, the results seem to become less dependent 
+  on the seed. With 32 neurons, I got good results with every seed I tried 
+  (which was 0..20).
 
 - I tried to sample of the input signal with higher and lower sample rates by
   increasing in_len (and also syn_len accrodingly). The result was that the 
