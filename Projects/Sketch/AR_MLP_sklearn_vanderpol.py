@@ -342,7 +342,10 @@ ToDo:
   add it to the library. See here:
   https://github.com/scikit-learn/scikit-learn/blob/main/sklearn/neural_network/_base.py
   In the local Ananconda installation in Windows, the file is here:
-  C:\Users\rob\anaconda3\Lib\site-packages\sklearn\neural_network      
+      
+  C:/Users/rob/anaconda3/Lib/site-packages/sklearn/neural_network
+  ....this path with backslashes trips up the Python interpreter!!!
+  
   But maybe use TensorFlow or PyTorch instead. Or better: use Keras which is
   a high-level interface that can use both of them as backend. To define custom
   activation functions in keras, see:
