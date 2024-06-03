@@ -1,6 +1,42 @@
 """
-My first attempt with keras ...TBC...
+My first attempt with keras. I follow through this tutorial:
+
+https://www.tutorialspoint.com/keras/keras_regression_prediction_using_mpl.htm
+
+I also reproduce the explanatory text from the website in the docstring-type
+comments. The #-type comments are my own.
 """
+
+'''
+In this chapter, let us write a simple MPL based ANN to do regression 
+prediction. Till now, we have only done the classification based prediction. 
+Now, we will try to predict the next possible value by analyzing the previous 
+(continuous) values and its influencing factors. The core features of the model 
+are as follows:
+
+- Input layer consists of (13,) values.
+
+- First layer, Dense consists of 64 units and ‘relu’ activation function with 
+  ‘normal’ kernel initializer.
+  
+- Second layer, Dense consists of 64 units and ‘relu’ activation function.
+
+- Output layer, Dense consists of 1 unit.
+
+- Use mse as loss function.
+
+- Use RMSprop as Optimizer.
+
+- Use accuracy as metrics.
+
+- Use 128 as batch size.
+
+- Use 500 as epochs.
+'''
+
+
+#==============================================================================
+# Imports and Config
 
 # Tell the keras library that we want to use PyTorch as backend:
 import os
@@ -13,12 +49,20 @@ os.environ["KERAS_BACKEND"] = "torch"
 # unless TensorFlow is installed. This is because keras uses TensorFlow as 
 # backend by default.
 
-import numpy as np
 import keras 
-#from keras.models     import Sequential 
-#from keras.layers     import Dense 
-#from keras.optimizers import RMSprop 
-#from keras.callbacks import EarlyStopping 
+from keras.datasets import boston_housing 
+from keras.models import Sequential 
+from keras.layers import Dense 
+from keras.optimizers import RMSprop 
+from keras.callbacks import EarlyStopping 
+from sklearn import preprocessing 
+from sklearn.preprocessing import scale
+
+#import numpy as np
+
+
+
+
 
 
 
