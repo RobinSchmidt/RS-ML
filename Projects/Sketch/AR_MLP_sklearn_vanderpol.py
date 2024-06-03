@@ -41,7 +41,7 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 # Modeling parameters:
 delays  = [1,2,3,4]      # Delay times (in samples)
 layers  = (10)           # Numbers of neurons in the layers
-act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
+act_fun = "relu"         # Activation function (identity, tanh, logistic, relu)
 seed    = 0              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
@@ -154,6 +154,9 @@ synthesized
 ===============================================================
 |    Delays    | Layers | ActFunc  | Seed | MaxErr |  Look    |
 |=============================================================|
+| 1,2          | 3      | tanh     |  0   | 1.7101 | Trash    |
+| 1,2          | 3      | tanh     |  1   | 1.1268 | Wobbly   |
+|-------------------------------------------------------------|
 | 1,2,3        | 3      | tanh     |  0   | 0.7939 | Fast     |
 | 1,2,3        | 3      | tanh     |  1   | 1.8415 | Trash    |
 | 1,2,3        | 3      | tanh     |  2   | 1.9640 | Trash    |
@@ -165,37 +168,25 @@ synthesized
 | 1,2,3        | 3      | tanh     |  8   | 0.6420 | Slow     |
 | 1,2,3        | 3      | tanh     |  9   | 0.3766 | Good     |
 |-------------------------------------------------------------|
-| 1,2,3,4      | 10     | tanh    |  0   | 0.0572 | Perfect   |  *
+| 1,2,3,4      | 10     | tanh     |  0   | 0.0572 | Perfect  |  *
 |-------------------------------------------------------------|
-| 1,2,3,4      | 6,3    | tanh    |  0   | 2.7651 | Unstable  |
-
-
-
+| 1,2,3,4      | 6,3    | tanh     |  0   | 2.7651 | Unstable |
 |-------------------------------------------------------------|
 | 1,2,3        | 3      | logistic | 0..5 |        | Trash    |
 | 1,2,3        | 3      | logistic |  6   | 0.3398 | Good     |
 |-------------------------------------------------------------|
-
-
-
-
-
-
-
-| 1,2          | 3      | tanh    |  0   | 1.6047 | Slow      |
-
-|--------------------------------------------------------------------|
-| 1,2,3,4      | 10            | relu    |  0   | 0.1103 | Very Good |
-======================================================================
+| 1,2,3,4      | 10     | relu     |  0   | 0.1103 | Perfect  |
+===============================================================  *
 
 The table contains some visual assesment of the outputs produced by the model. 
 The words have the following meaning:
 
-         
+Pefect:    A very good, almost perfect, fit         
 Good:      Good fit
 Bad:       Bad fit
 Fast:      Frequency too high
 Slow:      Frequency too low
+Wobbly:    Frequency wobbles (sometimes fast, sometimes slow)
 Trash:     Total garbage that has nothing to do with original
 Unstable:  Runaway oscillations or explosion
 
@@ -315,13 +306,18 @@ ToDo:
   best and apply some growing strategy. Like: (1) Copy the model including the
   weights, (2) Add a neuron, (3) Re-train. (4) Accept bigger model only if it's
   really better than it's smaller predecessor. Maybe write a class 
-  ModelExplorer
+  ModelExplorer. Maybe we need a better way to measure the error. Maybe a 
+  (stretched?) cross-correlation could be appropriate. By "stretched", I mean 
+  to first apply time stretching to the synthesized signal to compesate for 
+  models that are too fast or slow. We still may want to rate them goof, if the 
+  shape matches well and only the frequency is off. A wrong frequency can be 
+  dealt with by interpolation.
   
 - Figure out if the final performance of the model correlates with the early
   performance. The goal is to find out, if in our exploration of the model 
   space, it may be possible to identify promising models early, i.e. after 
   partial training. If a model that eventually performs well already shows this
   in early stages of the training, we do not need to train all explored models
-  fully which saves a lot of training time.
+  fully which saves a lot of training time. ..Hmm...doesn't seem to be the case
   
 """
