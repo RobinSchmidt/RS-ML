@@ -92,6 +92,9 @@ Question: Should I primarily use Jupyter, Spyder, PyCharm, VS Code or Visual Stu
 https://ssiddique.info/pycharm-vs-spyder-vs-jupyter.html
 
 
+----------------------------------------------------------------------------------------------------
+Installing Keras:
+
 To install Keras on Windows:
 -Open the Anaconda Navigator from the Start-Menu
 -Click on the Launch button of the "CMD.exe Prompt" field
@@ -99,13 +102,23 @@ To install Keras on Windows:
 
 I guess, we will also nee to install either TensorFlow or PyTorch to be used as backend? Let's try:
 
-conda install tensorflow  
--> gives an error message. Apparently it doesn't find any version of  TensorFlow that is compatible 
-   with the current Python installation
+  conda install tensorflow  
 
-conda install pytorch
--> That seems to work
+This gives an error message. Apparently it doesn't find any version of  TensorFlow that is compatible 
+with the current Python installation. Let's do:
 
+  conda install pytorch
+
+OK - that seems to work. Now trying to import keras from a Python script gives the error message:
+
+  ModuleNotFoundError: No module named 'tensorflow'
+
+So, apparently, keras indeed need TensorFlow to be correctly installed. Or can we somehow tell it to
+use PyTorch instead? Aha! This article:
+
+  https://medium.com/@btatmaja/trying-keras-core-with-pytorch-backend-4a643275911f
+
+says that keras uses TensorFlow as backend by default
 
 ----------------------------------------------------------------------------------------------------
 Working in Spyder:
