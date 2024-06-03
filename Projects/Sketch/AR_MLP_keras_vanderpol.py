@@ -1,4 +1,6 @@
 """
+ToDo: rename thsi file and move into the "Learn" folder
+
 My first attempt with keras. I follow through this tutorial:
 
 https://www.tutorialspoint.com/keras/keras_regression_prediction_using_mpl.htm
