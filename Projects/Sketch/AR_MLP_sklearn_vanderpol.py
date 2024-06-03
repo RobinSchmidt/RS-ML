@@ -40,9 +40,9 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
 delays  = [1,2,3,4]      # Delay times (in samples)
-layers  = (10)           # Numbers of neurons in the layers
+layers  = (8,4,2)        # Numbers of neurons in the layers
 act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
-seed    = 0              # Seed for PRNG
+seed    = 6              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
 
@@ -169,23 +169,41 @@ different set of delays, hidden neurons or activation function is used
 |-------------------------------------------------------------|
 | 1,2,3,4      | 6,3    | tanh     |  0   | 2.7651 | Unstable |
 |-------------------------------------------------------------|
+| 1,2,3,4      | 8,4,2  | tanh     |  0   | 0.2554 | Wobbly   |
+| 1,2,3,4      | 8,4,2  | tanh     |  1   | 1.8763 | Shifted  |
+| 1,2,3,4      | 8,4,2  | tanh     |  2   | 1.9080 | Trash    |
+| 1,2,3,4      | 8,4,2  | tanh     |  3   | 1.7335 | Fast     |
+| 1,2,3,4      | 8,4,2  | tanh     |  4   | 1.8063 | F,S      |
+| 1,2,3,4      | 8,4,2  | tanh     |  5   | 1.1275 | Fast     |
+| 1,2,3,4      | 8,4,2  | tanh     |  6   | 1.7338 | Fast     |
+
+
+
+|-------------------------------------------------------------|
 | 1,2,3        | 3      | logistic | 0..5 |        | Trash    |
 | 1,2,3        | 3      | logistic |  6   | 0.3398 | Good     |
 |-------------------------------------------------------------|
 | 1,2,3,4      | 10     | relu     |  0   | 0.1103 | Perfect  |
 ===============================================================  *
 
+
+
+
 The table contains some visual assesment of the outputs produced by the model. 
 The words have the following meaning:
 
-Pefect:    A very good, almost perfect, fit         
+Perfect:   A very good, almost perfect, fit         
 Good:      Good fit
 Bad:       Bad fit
 Fast:      Frequency too high
 Slow:      Frequency too low
 Wobbly:    Frequency wobbles (sometimes fast, sometimes slow)
+Shifted:   Shape looks okay, but signal is shifted in time
 Trash:     Total garbage that has nothing to do with original
 Unstable:  Runaway oscillations or explosion
+
+Sometimes, the signal has more than one of the features (like shifted and 
+fast). In such cases, we use only the first letters like F,S.
 
 - I tried to sample of the input signal with higher and lower sample rates by
   increasing in_len (and also syn_len accrodingly). The result was that the 
