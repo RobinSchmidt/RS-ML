@@ -325,6 +325,12 @@ ToDo:
   avoid fitting thoses parts of the signal that are not representative of the
   dynamics - or are they? ...not sure
 
+- Try a different loss function. Check, what is available. I guess, using 
+  different loss functions alters the loss function landscape ins ways that may
+  make it more or less easy to find a (global) minimum. Maybe it could even be 
+  beneficial to use different loss functions during different phases of the 
+  training?
+
 - Try other learning algorithms. This here:
   https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html  
   says that for smaller data sets, 'lbfgs' may converge faster.
@@ -344,6 +350,8 @@ ToDo:
   It's not possible with sklearn by default but the article says that one might
   add it to the library. See here:
   https://github.com/scikit-learn/scikit-learn/blob/main/sklearn/neural_network/_base.py
+  In the local Ananconda installation in Windows, the file is here:
+  C:\Users\rob\anaconda3\Lib\site-packages\sklearn\neural_network      
   But maybe use TensorFlow or PyTorch instead. Or better: use Keras which is
   a high-level interface that can use both of them as backend. To define custom
   activation functions in keras, see:
@@ -354,6 +362,11 @@ ToDo:
   at some stage be able to specify it per neuron. Maybe for certain tasks, it
   may make sense to have some tanh neurons, some linear neurons, some swish
   neurons etc. per layer.
+  
+- The sklearn MLP seems to be indeed rather limited, see:
+  https://scikit-learn.org/stable/modules/neural_networks_supervised.html#multi-layer-perceptron  
+  So, we should really swicth to a more powerful library. I guess, I should 
+  look into Keras next.
   
 - Eventually, the goal is to apply it to musical instrument samples as 
   explained in the paper "Neural Network Modeling of Speech and Music Signals" 

@@ -30,7 +30,8 @@ def synthesize_skl_mlp(mlp, d, init_sect, length):
 #   https://docs.python.org/3/library/typing.html    
 #   https://stackoverflow.com/questions/2489669/how-do-python-functions-handle-the-types-of-parameters-that-you-pass-in
 #   ...but: maybe we could also use other types of models with the same API. 
-#   Maybe we should rename the "mlp" parameter to "model"
+#   Maybe we should rename the "mlp" parameter to "model". See also:
+#   https://stackoverflow.com/questions/54868698/what-type-is-a-sklearn-model
 #  
 # Notes:
 #    
