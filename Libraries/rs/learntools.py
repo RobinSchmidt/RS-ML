@@ -8,29 +8,33 @@ import numpy as np
 import os
 os.environ["KERAS_BACKEND"] = "torch"      # Keras shall use PyTorch as backend
 
-from sklearn.neural_network import MLPRegressor
-from keras.models           import Sequential
+import sklearn
+import keras
+
+#from sklearn.neural_network import MLPRegressor
+#from keras.models           import Sequential
 
 from .datatools             import delayed_values
 
 
 '''
 A dispatcher function that makes it convenient to make predictions with various
-different types of models using the same code...TBC...
-
+different types of models uniformly using the same code. Different model types
+have different APIs for making predictions. We unify them here. This is mainly 
+a convenience function for research purposes. ...TBC...
 '''
-
 def predict(model, X):
-    if isinstance(model, MLPRegressor):
+    if isinstance(model, sklearn.neural_network.MLPRegressor):
         y = model.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
         return y[0]                          # [0]:     1D -> 0D (scalar)
-    elif isinstance(model, Sequential):
+    elif isinstance(model, keras.models.Sequential):
         y = model(X.reshape(1, -1))          # VERIFY!
         return y                             # Output may be vector valued
     else:
         print("Model type not supported in prediction dispatcher.")
-        assert(False) # Not sure, if it is Pythonic to handle errors like this
+        assert(False) 
         return None
+        # Not sure, if it is Pythonic to handle errors like this -> figure out!
         
     
         
@@ -60,6 +64,7 @@ def synthesize_skl_mlp(mlp, d, init_sect, length):
 #   ...but: maybe we could also use other types of models with the same API. 
 #   Maybe we should rename the "mlp" parameter to "model". See also:
 #   https://stackoverflow.com/questions/54868698/what-type-is-a-sklearn-model
+#   ...ok - we now have a dispatch between two different model types
 #  
 # Notes:
 #    
