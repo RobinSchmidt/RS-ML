@@ -42,6 +42,8 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
 delays  = [1,2,3,4]
+layers  = [3]            # Numbers of neurons in the layers
+act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
 
 #==============================================================================
 # Processing
@@ -53,12 +55,15 @@ vt = odeint(van_der_pol,                 # Solution to the ODE
 s = vt[:, dim]                           # Select one dimension for time series
 
 # Create the model:
-X, y  = signal_ar_to_nn(s, delays)       # Extract data for modeling
+X, y  = signal_ar_to_nn(s, delays)          # Extract data for modeling
 model = Sequential()
-model.add(Input(shape=(len(delays),)))
-model.add(Dense(3, activation = 'tanh')) 
-model.add(Dense(1))
-
+model.add(Input(shape=(len(delays),)))      # Input layer
+#model.add(Dense(3, activation = 'tanh')) 
+for i in range(0, len(layers)):
+    L = Dense(layers[i],                    # Hidden layer i
+              activation = act_fun)
+    model.add(L) 
+model.add(Dense(1))                         # Output layer
 
 model.compile(
    loss = 'mse', 
