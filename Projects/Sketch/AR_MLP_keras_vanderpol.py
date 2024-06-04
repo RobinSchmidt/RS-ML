@@ -23,18 +23,12 @@ import keras.optimizers as optis
 from keras.models     import Sequential
 from keras.layers     import Input
 from keras.layers     import Dense
-#from keras.optimizers import RMSprop
 from keras.callbacks  import EarlyStopping 
 
 # Imports from my own libraries:
 from rs.dynsys     import van_der_pol            # To generate the input data
 from rs.datatools  import signal_ar_to_nn        # For data reformatting
 from rs.learntools import synthesize_keras_mlp   # Resynthesize via MLP model
-
-
-#from rs.learntools import delayed_values         # PRELIMINARY -> get rid
-# This is only for initial tests 
-
 
 #tf.config.experimental.enable_op_determinism()
 # If using TensorFlow, this will make GPU ops as deterministic as possible
@@ -54,11 +48,13 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
 delays  = [1,2,3,4]      
-layers  = [8,4,2]        # Numbers of neurons in the hidden layers
+layers  = [10]           # Numbers of neurons in the hidden layers
 act_fun = "relu"         # Activation function
-seed    = 5              # Seed for PRNG
+seed    = 0              # Seed for PRNG
 epochs  = 200
 verbose = 1
+
+loss    = 'mse'
 
 #opt     = optis.RMSprop()
 #opt     = optis.SGD()
@@ -94,11 +90,16 @@ s = vt[:, dim]                              # Select one dimension
 
 # Set seed for reproducible results:
 keras.utils.set_random_seed(seed)
-# We seem to have to do this before building the model. Doing it right before
-# the call to model.fit() seems to be too late. When doing that, the first run
-# of the script after a kernel reset and variable clearing will produce a 
-# different result than subsequent runs. Moreover, the result of that first 
-# run is different every time. ToDo: Figure out and document why!
+#
+# - Calling keras.utils.set_random_seed will set the seed in Python, numpy and 
+#   Keras' backend. See:
+#   https://www.tensorflow.org/api_docs/python/tf/keras/utils/set_random_seed
+#
+# - We seem to have to do this before building the model. Doing it right before
+#   the call to model.fit() seems to be too late. When doing that, the first 
+#   run of the script after a kernel reset and variable clearing will produce a 
+#   different result than subsequent runs. Moreover, the result of that first 
+#   run is different every time. ToDo: Figure out and document why!
 
 # Build the model:
 model = Sequential()
@@ -109,7 +110,7 @@ for i in range(0, len(layers)):
     model.add(L)
 model.add(Dense(1, activation = 'linear'))  # Output layer
 model.compile(
-   loss = 'mse', 
+   loss = loss, 
    optimizer = opt, 
    metrics = ['mean_absolute_error']
 )
@@ -120,11 +121,10 @@ model.compile(
 #   explicitly.
 #
 # - ToDo: explain some of the other settings like the loss-function, optimizer,
-#   metrics, etc. Maybe pass some more parameters for further cutomization.
+#   metrics, etc. Maybe pass some more parameters for further customization.
 
 # Train the model:
 X, y = signal_ar_to_nn(s, delays)           # Extract/convert data for modeling
-
 history = model.fit(
    X, y,    
    #batch_size=128, 
@@ -133,13 +133,9 @@ history = model.fit(
    #validation_split = 0.2, 
    callbacks = [EarlyStopping(monitor = 'val_loss', patience = 20)]
 )
-# Notes:
+# ToDo:
 #
-# - Calling keras.utils.set_random_seed will set the seed in Python, numpy and 
-#   Keras' backend. see
-#   https://www.tensorflow.org/api_docs/python/tf/keras/utils/set_random_seed
-#
-# - ToDo: explain some of the other parameters licke epochs, etc. This seems to
+# - Explain some of the other parameters licke epochs, etc. This seems to
 #   be different from sklearn's MLPRegressor which has a tolerance parameter. 
 #   Figure this out! And what is the purpose of this this "callbacks" thing?
 
