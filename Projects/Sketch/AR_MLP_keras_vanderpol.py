@@ -25,6 +25,17 @@ from keras.layers     import Input
 from keras.layers     import Dense
 from keras.callbacks  import EarlyStopping 
 
+# Needed for registering custom activation function:s
+from keras.layers import Activation
+from keras import backend
+#from keras.utils.generic_utils import get_custom_objects
+# But it doesn't work. The last line produces an error:
+#   ModuleNotFoundError: No module named 'keras.utils.generic_utils'   
+# Maybe it works only with TensorFlow?
+
+
+
+
 # Imports from my own libraries:
 from rs.dynsys     import van_der_pol            # To generate the input data
 from rs.datatools  import signal_ar_to_nn        # For data reformatting
@@ -87,6 +98,11 @@ opt  = optis.Adam()           # Good
 # That's disappointing
 # softsign(x) = x / (abs(x) + 1).
 
+# d = [1,2,3,4], l = [10], seed = 0, epochs = 200, opti = Adam works also well
+# with a weird custom activation given by arcsinh(x) + (1 / (1 + x*x)). This 
+# function is very asymmetric. Maybe symmetry is not so desirable after all? It
+# may limit the space of reachable functions? Dunno - figure out!
+
 # Resynthesis parameters:
 syn_len = 400            # Length of resynthesized signal
 syn_beg = 150            # Beginning of resynthesis
@@ -113,11 +129,37 @@ keras.utils.set_random_seed(seed)
 #   different result than subsequent runs. Moreover, the result of that first 
 #   run is different every time. ToDo: Figure out and document why!
 
+
+# Register custom activations functions (it doesn't work yet):
+#def actfun_asinh(x):
+#    return keras.ops.arcsinh(x)
+#act_fun = actfun_asinh 
+#get_custom_objects().update({'asinh': Activation(actfun_asinh)})
+# ToDo: Maybe wrap all this setup work for keras (setting the seed, registering
+# activation functions, etc.) into a function setup_keras or configure_keras or
+# config_keras. Maybe move this function into the rs.learntools module
+
+# Test:
+#def actfun_asinh(x):
+#    return np.arcsinh(x)
+#act_fun = actfun_asinh 
+# Nope! That doesn't work
+
+#act_fun = keras.ops.arcsinh
+# This works! But it is not very flexible. We can only pick and choose from
+# keras.ops. I really want to do my own custom function
+
+def actfun_weird(x):
+    return keras.ops.arcsinh(x) + (1 / (1 + x*x))
+act_fun = actfun_weird 
+# OK - this also works
+
+
 # Build the model:
 model = Sequential()
 model.add(Input(shape=(len(delays),)))      # Input layer
 for i in range(0, len(layers)):
-    L = Dense(layers[i],                    # Hidden layer i
+    L = Dense(layers[i],                    # Hidden layer i              
               activation = act_fun)  
     model.add(L)
 model.add(Dense(1, activation = 'linear'))  # Output layer
