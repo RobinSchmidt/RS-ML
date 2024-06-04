@@ -61,11 +61,12 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 delays  = [1,2,3,4]      
 layers  = [10]           # Numbers of neurons in the hidden layers
 act_fun = "tanh"         # Activation function
-seed    = 0              # Seed for PRNG
+seed    = 6              # Seed for PRNG
 epochs  = 200
 verbose = 1
 
 loss    = 'mse'
+
 
 #opt     = optis.RMSprop()
 #opt     = optis.SGD()
@@ -107,6 +108,43 @@ opt  = optis.Adam()           # Good
 syn_len = 400            # Length of resynthesized signal
 syn_beg = 150            # Beginning of resynthesis
 
+
+#==============================================================================
+# Some experimentation with custom activation functions - this is very much
+# under construction and a lot of it is throwaway code:
+
+# Register custom activations functions (it doesn't work yet):
+#def actfun_asinh(x):
+#    return keras.ops.arcsinh(x)
+#act_fun = actfun_asinh 
+#get_custom_objects().update({'asinh': Activation(actfun_asinh)})
+# ToDo: Maybe wrap all this setup work for keras (setting the seed, registering
+# activation functions, etc.) into a function setup_keras or configure_keras or
+# config_keras. Maybe move this function into the rs.learntools module
+
+# Test:
+#def actfun_asinh(x):
+#    return np.arcsinh(x)
+#act_fun = actfun_asinh 
+# Nope! That doesn't work
+
+#act_fun = keras.ops.arcsinh
+# This works! But it is not very flexible. We can only pick and choose from
+# keras.ops. I really want to do my own custom function
+
+#def actfun_asinh(x):
+#    return keras.ops.arcsinh(x)
+#act_fun = actfun_asinh 
+# OK - this also works
+
+#def actfun_pow_5_7(x):
+#    return keras.ops.exp(keras.ops.log(x) * 5.0/7.0) # y = x^(5/7)
+#act_fun = actfun_pow_5_7 
+# produces NaNs. No surprise. log of negative numbers is undefined
+
+
+
+
 #==============================================================================
 # Processing
 
@@ -128,32 +166,6 @@ keras.utils.set_random_seed(seed)
 #   run of the script after a kernel reset and variable clearing will produce a 
 #   different result than subsequent runs. Moreover, the result of that first 
 #   run is different every time. ToDo: Figure out and document why!
-
-
-# Register custom activations functions (it doesn't work yet):
-#def actfun_asinh(x):
-#    return keras.ops.arcsinh(x)
-#act_fun = actfun_asinh 
-#get_custom_objects().update({'asinh': Activation(actfun_asinh)})
-# ToDo: Maybe wrap all this setup work for keras (setting the seed, registering
-# activation functions, etc.) into a function setup_keras or configure_keras or
-# config_keras. Maybe move this function into the rs.learntools module
-
-# Test:
-#def actfun_asinh(x):
-#    return np.arcsinh(x)
-#act_fun = actfun_asinh 
-# Nope! That doesn't work
-
-#act_fun = keras.ops.arcsinh
-# This works! But it is not very flexible. We can only pick and choose from
-# keras.ops. I really want to do my own custom function
-
-def actfun_weird(x):
-    return keras.ops.arcsinh(x) + (1 / (1 + x*x))
-act_fun = actfun_weird 
-# OK - this also works
-
 
 # Build the model:
 model = Sequential()
