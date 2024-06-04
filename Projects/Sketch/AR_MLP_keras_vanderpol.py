@@ -19,10 +19,11 @@ sys.path.append("../../Libraries")         # Make available for import
 
 # Imports from Keras:
 import keras    
+import keras.optimizers as optis
 from keras.models     import Sequential
 from keras.layers     import Input
 from keras.layers     import Dense
-from keras.optimizers import RMSprop
+#from keras.optimizers import RMSprop
 from keras.callbacks  import EarlyStopping 
 
 # Imports from my own libraries:
@@ -53,11 +54,28 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
 delays  = [1,2,3,4]      
-layers  = [5]            # Numbers of neurons in the hidden layers
+layers  = [10]            # Numbers of neurons in the hidden layers
 act_fun = "tanh"         # Activation function
-seed    = 0              # Seed for PRNG
-epochs  = 50
-verbose = 0
+seed    = 9              # Seed for PRNG
+epochs  = 200
+verbose = 1
+
+#opt     = optis.RMSprop()
+#opt     = optis.SGD()
+opt     = optis.Adam()      # Yep
+#opt     = optis.Adadelta()  # Nope!
+#opt = optis.Adagrad()        # Nope!
+#opt = optis.AdamW()         # Yep
+#opt = optis.Adamax()         # Mixed
+
+# d = [1,2,3,4], l = [3], tanh, seed = 6, epochs = 200, opti = Adam
+# -> high freq oscillations / unstable. 1,2,4,5,9 lead to constant 
+# output, 7 seems to produce the right shape after some settling time. 0 or 3 
+# produces a sine-like shape.
+
+# Good results were achieved with:
+# d = [1,2,3,4], l = [10], tanh, seed = 6,7, epochs = 200, opti = AdamW,Adam 
+
 
 # Resynthesis parameters:
 syn_len = 400            # Length of resynthesized signal
@@ -90,7 +108,7 @@ for i in range(0, len(layers)):
 model.add(Dense(1, activation = 'linear'))  # Output layer
 model.compile(
    loss = 'mse', 
-   optimizer = RMSprop(), 
+   optimizer = opt, 
    metrics = ['mean_absolute_error']
 )
 # Notes:
@@ -169,8 +187,11 @@ Observations:
   we notice that neither the loss nor mean_absolute_error decreases 
   monotonically. At least not when using "optimizer = RMSprop()". Maybe that's
   a feature of this particular optimizer? It seems weird to me. Try other 
-  optimizers!
-  
+  optimizers! Aha! SGD seems to give much better results than RMSOpt
+
+- With th SGD optimizer, we seem to need something like 200 epochs. With less,
+  we seem to get models that produce a constant output
+
 
 ToDo:
     
