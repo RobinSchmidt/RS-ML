@@ -42,3 +42,6 @@ def synthesize_skl_mlp(mlp, d, init_sect, length):
 #   between MLPRegressor and MLPClassifier - the "synthesize" already implies
 #   that we are dealing with regression. Maybe for classification, use classify
 #   instead
+#
+# - Hmm - the function also seems to work with a keras model. Apparently, the
+#   predict method of keras and sklearn have the same API? Figure out!

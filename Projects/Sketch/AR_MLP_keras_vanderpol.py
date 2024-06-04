@@ -28,7 +28,7 @@ from keras.callbacks  import EarlyStopping
 # Imports from my own libraries:
 from rs.dynsys     import van_der_pol            # To generate the input data
 from rs.datatools  import signal_ar_to_nn        # For data reformatting
-#from rs.learntools import synthesize_skl_mlp     # Resynthesize via MLP model
+from rs.learntools import synthesize_skl_mlp     # Resynthesize via MLP model
 
 #tf.config.experimental.enable_op_determinism()
 # If using TensorFlow, this will make GPU ops as deterministic as possible
@@ -47,12 +47,16 @@ y0      = 1.0            # Initial condition y(0)
 dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
-delays  = [1,2,3,4]
-layers  = [32]           # Numbers of neurons in the layers
+delays  = [1,2,3,4]      
+layers  = [10]            # Numbers of neurons in the hidden layers
 act_fun = "tanh"         # Activation function
 seed    = 0              # Seed for PRNG
+epochs  = 50
+verbose = 0
 
-epochs  = 20
+# Resynthesis parameters:
+syn_len = 400            # Length of resynthesized signal
+syn_beg = 150            # Beginning of resynthesis
 
 #==============================================================================
 # Processing
@@ -85,7 +89,6 @@ model.compile(
 # - ToDo: explain some of the other settings like the loss-function, optimizer,
 #   metrics, etc. Maybe pass some more parameters for further cutomization.
 
-
 # Train the model:
 X, y = signal_ar_to_nn(s, delays)           # Extract/convert data for modeling
 keras.utils.set_random_seed(seed)           # Set seed for reproducible results
@@ -93,7 +96,7 @@ history = model.fit(
    X, y,    
    #batch_size=128, 
    epochs  = epochs, 
-   verbose =   1,
+   verbose = verbose,
    #validation_split = 0.2, 
    callbacks = [EarlyStopping(monitor = 'val_loss', patience = 20)]
 )
@@ -107,7 +110,18 @@ history = model.fit(
 #   be different from sklearn's MLPRegressor which has a tolerance parameter. 
 #   Figure this out! And what is the purpose of this this "callbacks" thing?
 
+# Evaluate the model:
+score = model.evaluate(X, y, verbose = 1) 
+print('Test loss:',     score[0]) 
+print('Test accuracy:', score[1])
 
+# Use the model for synthesis:
+D  = max(delays)
+qs = s[(syn_beg-D):syn_beg]            # Initial section to be used
+
+q  = synthesize_skl_mlp(model, delays, qs, syn_len)    
+# This seems to work but produces verbose output
+    
 
 
 

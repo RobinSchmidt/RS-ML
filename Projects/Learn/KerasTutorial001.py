@@ -207,6 +207,14 @@ model predicts with reasonable range.
 #==============================================================================
 '''
 
+See also:
+    
+- This is a good explanation of the whole process after a model architechture 
+  has been built (i.e. compile -> fit -> evaluate -> predict ...etc):      
+  https://keras.io/api/models/model_training_apis/
+
+
+
 Hmmm...Keras throws an error - it doesn't find the tensorflow mdoule
 
 See:
