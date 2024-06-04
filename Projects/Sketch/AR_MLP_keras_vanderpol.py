@@ -54,9 +54,9 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
 delays  = [1,2,3,4]      
-layers  = [10]            # Numbers of neurons in the hidden layers
-act_fun = "tanh"         # Activation function
-seed    = 9              # Seed for PRNG
+layers  = [8,4,2]        # Numbers of neurons in the hidden layers
+act_fun = "relu"         # Activation function
+seed    = 5              # Seed for PRNG
 epochs  = 200
 verbose = 1
 
@@ -76,6 +76,8 @@ opt     = optis.Adam()      # Yep
 # Good results were achieved with:
 # d = [1,2,3,4], l = [10], tanh, seed = 6,7, epochs = 200, opti = AdamW,Adam 
 
+# With l = [8,4,2] and tanh, I get mostly bad results, relu with seed 1 or 4 
+# seems to work well (using Adam)
 
 # Resynthesis parameters:
 syn_len = 400            # Length of resynthesized signal
