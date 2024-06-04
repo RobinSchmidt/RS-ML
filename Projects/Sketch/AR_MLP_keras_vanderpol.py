@@ -49,7 +49,7 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 # Modeling parameters:
 delays  = [1,2,3,4]      
 layers  = [10]           # Numbers of neurons in the hidden layers
-act_fun = "relu"         # Activation function
+act_fun = "tanh"         # Activation function
 seed    = 0              # Seed for PRNG
 epochs  = 200
 verbose = 1
@@ -58,11 +58,17 @@ loss    = 'mse'
 
 #opt     = optis.RMSprop()
 #opt     = optis.SGD()
-opt     = optis.Adam()      # Yep
+
+# Adam variants:
+opt  = optis.Adam()           # Good
+#opt = optis.AdamW()          # Good
+#opt = optis.Adamax()         # Mixed
+#opt = optis.Nadam()          # Mixed
+
 #opt     = optis.Adadelta()  # Nope!
 #opt = optis.Adagrad()        # Nope!
-#opt = optis.AdamW()         # Yep
-#opt = optis.Adamax()         # Mixed
+
+
 
 # d = [1,2,3,4], l = [3], tanh, seed = 6, epochs = 200, opti = Adam
 # -> high freq oscillations / unstable. 1,2,4,5,9 lead to constant 
@@ -71,9 +77,15 @@ opt     = optis.Adam()      # Yep
 
 # Good results were achieved with:
 # d = [1,2,3,4], l = [10], tanh, seed = 6,7, epochs = 200, opti = AdamW,Adam 
+# d = [1,2,3,4], l = [32], tanh, seed = 0,   epochs = 200, opti = Adam 
+# ...but SGD seems to fail with this topology
 
 # With l = [8,4,2] and tanh, I get mostly bad results, relu with seed 1 or 4 
 # seems to work well (using Adam)
+
+# With the softsign activations function, I did not yet achieve good results.
+# That's disappointing
+# softsign(x) = x / (abs(x) + 1).
 
 # Resynthesis parameters:
 syn_len = 400            # Length of resynthesized signal
@@ -196,6 +208,21 @@ ToDo:
 - Try using TensorFlow as backend just to show that it works, too. Maybe we 
   will get different results because the random weight initialization works 
   differently in TensorFlow? Try it!
+  
+- Figure out if we can also do RBF networks:
+  https://en.wikipedia.org/wiki/Radial_basis_function_network
+  https://stackoverflow.com/questions/53855941/how-to-implement-rbf-activation-function-in-keras
+  https://github.com/PetraVidnerova/rbf_keras
+  https://github.com/genomexyz/machine_learning/blob/master/rbfnn.py
+  
+  https://www.reddit.com/r/statistics/comments/mpu4sx/d_why_did_the_rbf_kernel_lose_popularity_in/
+  https://stats.stackexchange.com/questions/151701/why-dont-people-use-deeper-rbfs-or-rbf-in-combination-with-mlp
+  https://stats.stackexchange.com/questions/151701/why-dont-people-use-deeper-rbfs-or-rbf-in-combination-with-mlp
+  https://www.quora.com/Why-are-radial-basis-function-based-neural-networks-more-efficient-at-universal-function-approximation-than-sigmoid-function-based-neural-networks
+  -> mentions that RNNs tend to use tanh. I guess, it has to do with stability.
+     Saturating functions wil stabilize the output
+  https://www.quora.com/What-is-the-reason-that-the-Radial-Basis-Function-RBF-fails-when-there-is-no-noise-but-only-trend-in-data
+  
 
 Activation functions:
 https://stackoverflow.com/questions/43915482/how-do-you-create-a-custom-activation-function-with-keras
@@ -215,6 +242,11 @@ https://machinelearningmastery.com/rectified-linear-activation-function-for-deep
 How about asinh? or x^(3/5), x^(5/7) ...I think, numerator and denominator 
 should be odd (for odd symmetry) and the fraction should be greater than 1/2 
 for finite gradient at 0
+
+
+
+
+
 
 '''
 
