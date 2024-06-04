@@ -3,53 +3,10 @@ Convenience functions to deal with Python's machine learning libraries sich as
 sklearn, etc ...TBC...
 '''
 
-
-"""
-import os
-os.environ["KERAS_BACKEND"] = "torch"      # Keras shall use PyTorch as backend
-
-import sklearn
-import keras
-
-from sklearn.neural_network import MLPRegressor
-from keras.models           import Sequential
-"""
-
 import numpy as np 
 from .datatools import delayed_values
 
 
-'''
-A dispatcher function that makes it convenient to make predictions with various
-different types of models uniformly using the same code. Different model types
-have different APIs for making predictions. We unify them here. This is mainly 
-a convenience function for research purposes. ...TBC...
-'''
-"""
-def predict(model, X):
-    if isinstance(model, sklearn.neural_network.MLPRegressor):
-        y = model.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
-        return y[0]                          # [0]:     1D -> 0D (scalar)
-    elif isinstance(model, keras.models.Sequential):
-        y = model(X.reshape(1, -1))          # VERIFY!
-        return y                             # Output may be vector valued
-    else:
-        print("Model type not supported in prediction dispatcher.")
-        assert(False) 
-        return None
-        # Not sure, if it is Pythonic to handle errors like this -> figure out!
-"""        
-# Notes
-#
-# - In keras models, the predict function is not meant to be used for single 
-#   data points, see: https://keras.io/api/models/model_training_apis/
-#   It works, though but it's probably inefficient. We have (at least) 3 ways 
-#   to do the prediction: model(..), model.__call__(..), model.predict(..). I 
-#   guess, just using the ()-operator is the preferred way, so that's what we
-#   do here. [FIGURE OUT!]
- 
-        
-    
 def synthesize_skl_mlp(mlp, d, init_sect, length):
     
     # Initialization:
@@ -60,7 +17,6 @@ def synthesize_skl_mlp(mlp, d, init_sect, length):
     # Recursive prediction of the values q[n] for n >= Li:
     for n in range(Li, length):
         X = delayed_values(s, n, d)
-        #s[n] = predict(mlp, X)
         y = mlp.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
         s[n] = y[0]                        # [0]:     1D -> 0D (scalar)
     return s
@@ -91,6 +47,7 @@ def synthesize_skl_mlp(mlp, d, init_sect, length):
 #   predict method of keras and sklearn have the same API? Figure out!
 
 
+
 def synthesize_keras_mlp(mlp, d, init_sect, length):
     
     # Initialization:
@@ -101,11 +58,19 @@ def synthesize_keras_mlp(mlp, d, init_sect, length):
     # Recursive prediction of the values q[n] for n >= Li:
     for n in range(Li, length):
         X = delayed_values(s, n, d)
-        y = mlp(X.reshape(1, -1))          # reshape: 1D -> 2D 
+        y = mlp(X.reshape(1, -1))          # VERIFY!  reshape: 1D -> 2D 
         s[n] = y                        
     return s
 
-
+# Notes
+#
+# - This function has a lot of code duplication from synthesize_skl_mlp. I 
+#   tried to refactor it to factor out a "predict" function as free function
+#   that can take both types of models and dispatches based on isinstance(). 
+#   But that caused more problems than it solves, so for the time being, I 
+#   accept that duplication. The function is currently in the file Attic.txt 
+#   just in case...but I need to get more experienced with Python before I can 
+#   really make an informed decision what the best way to deal with this is.
 
 
 

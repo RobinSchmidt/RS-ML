@@ -1,1 +1,31 @@
 # Some sort of attic for code that is currently not used anywhere but may become useful again later
+
+
+
+
+'''
+A dispatcher function that makes it convenient to make predictions with various
+different types of models uniformly using the same code. Different model types
+have different APIs for making predictions. We unify them here. This is mainly 
+a convenience function for research purposes. ...TBC...
+'''
+def predict(model, X):
+    if isinstance(model, sklearn.neural_network.MLPRegressor):
+        y = model.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
+        return y[0]                          # [0]:     1D -> 0D (scalar)
+    elif isinstance(model, keras.models.Sequential):
+        y = model(X.reshape(1, -1))          # VERIFY!
+        return y                             # Output may be vector valued
+    else:
+        print("Model type not supported in prediction dispatcher.")
+        assert(False) 
+        return None
+        # Not sure, if it is Pythonic to handle errors like this -> figure out!    
+# Notes
+#
+# - In keras models, the predict function is not meant to be used for single 
+#   data points, see: https://keras.io/api/models/model_training_apis/
+#   It works, though but it's probably inefficient. We have (at least) 3 ways 
+#   to do the prediction: model(..), model.__call__(..), model.predict(..). I 
+#   guess, just using the ()-operator is the preferred way, so that's what we
+#   do here. [FIGURE OUT!]
