@@ -4,17 +4,19 @@ sklearn, etc ...TBC...
 '''
 
 
-import numpy as np 
+"""
 import os
 os.environ["KERAS_BACKEND"] = "torch"      # Keras shall use PyTorch as backend
 
 import sklearn
 import keras
 
-#from sklearn.neural_network import MLPRegressor
-#from keras.models           import Sequential
+from sklearn.neural_network import MLPRegressor
+from keras.models           import Sequential
+"""
 
-from .datatools             import delayed_values
+import numpy as np 
+from .datatools import delayed_values
 
 
 '''
@@ -23,6 +25,7 @@ different types of models uniformly using the same code. Different model types
 have different APIs for making predictions. We unify them here. This is mainly 
 a convenience function for research purposes. ...TBC...
 '''
+"""
 def predict(model, X):
     if isinstance(model, sklearn.neural_network.MLPRegressor):
         y = model.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
@@ -35,8 +38,16 @@ def predict(model, X):
         assert(False) 
         return None
         # Not sure, if it is Pythonic to handle errors like this -> figure out!
-        
-    
+"""        
+# Notes
+#
+# - In keras models, the predict function is not meant to be used for single 
+#   data points, see: https://keras.io/api/models/model_training_apis/
+#   It works, though but it's probably inefficient. We have (at least) 3 ways 
+#   to do the prediction: model(..), model.__call__(..), model.predict(..). I 
+#   guess, just using the ()-operator is the preferred way, so that's what we
+#   do here. [FIGURE OUT!]
+ 
         
     
 def synthesize_skl_mlp(mlp, d, init_sect, length):
@@ -49,9 +60,9 @@ def synthesize_skl_mlp(mlp, d, init_sect, length):
     # Recursive prediction of the values q[n] for n >= Li:
     for n in range(Li, length):
         X = delayed_values(s, n, d)
-        s[n] = predict(mlp, X)
-        #y = mlp.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
-        #s[n] = y[0]                        # [0]:     1D -> 0D (scalar)
+        #s[n] = predict(mlp, X)
+        y = mlp.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
+        s[n] = y[0]                        # [0]:     1D -> 0D (scalar)
     return s
 
 # ToDo:
@@ -78,3 +89,25 @@ def synthesize_skl_mlp(mlp, d, init_sect, length):
 #
 # - Hmm - the function also seems to work with a keras model. Apparently, the
 #   predict method of keras and sklearn have the same API? Figure out!
+
+
+def synthesize_keras_mlp(mlp, d, init_sect, length):
+    
+    # Initialization:
+    s  = np.zeros(length)                  # Signal that we want to generate
+    Li = len(init_sect)                    # Length of given initial section
+    s[0:Li] = init_sect                    # Copy initial section into result
+    
+    # Recursive prediction of the values q[n] for n >= Li:
+    for n in range(Li, length):
+        X = delayed_values(s, n, d)
+        y = mlp(X.reshape(1, -1))          # reshape: 1D -> 2D 
+        s[n] = y                        
+    return s
+
+
+
+
+
+
+

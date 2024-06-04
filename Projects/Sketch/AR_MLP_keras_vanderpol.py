@@ -28,10 +28,10 @@ from keras.callbacks  import EarlyStopping
 # Imports from my own libraries:
 from rs.dynsys     import van_der_pol            # To generate the input data
 from rs.datatools  import signal_ar_to_nn        # For data reformatting
-from rs.learntools import synthesize_skl_mlp     # Resynthesize via MLP model
+from rs.learntools import synthesize_keras_mlp   # Resynthesize via MLP model
 
 
-from rs.learntools import delayed_values         # PRELIMINARY -> get rid
+#from rs.learntools import delayed_values         # PRELIMINARY -> get rid
 # This is only for initial tests 
 
 
@@ -123,36 +123,20 @@ print('Test accuracy:', score[1])
 # Use the model for synthesis:
 D  = max(delays)
 qs = s[(syn_beg-D):syn_beg]            # Initial section to be used
+q  = synthesize_keras_mlp(model, delays, qs, syn_len)    
 
-#q  = synthesize_skl_mlp(model, delays, qs, syn_len)    
 # This seems to work but produces verbose output. Let's try to do it by hand:
     
-# This should be wrapped into a function call like the synthesize... above:
-q  = np.zeros(syn_len)          # Signal that we want to generate
-Li = len(qs)                    # Length of given initial section
-q[0:Li] = qs                    # Copy initial section into result
-for n in range(Li, syn_len):
-    X = delayed_values(q, n, delays)
-    y = model(X.reshape(1, -1))           # reshape: 1D -> 2D 
-    #y = model.__call__(X.reshape(1, -1))  # reshape: 1D -> 2D 
-    #y = model.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
-    q[n] = y[0]                          # [0]:     1D -> 0D (scalar)
-
-# Actually, using the predict function is not meant to be used for single data
-# points, see:
-# https://keras.io/api/models/model_training_apis/
-# It works, though - but it's probably inefficient. OK - we have (at least) 3 
-# ways to do the prediction: model(..), model.__call__(..), model.predict(..).
-# Maybe we can adapt the synthesize_skl_mlp to do a runtime type-inference for
-# the model type and then do a dispatch. Like
-#
-# if( is_of_type(mlp, sklearn.neural_network.MLPRegressor) )
-#   y = ..
-# else if( is_of_type(mlp, keras.models.Sequential) )
-#   y = 
-#
-# Maybe this dispatch should be factored out into a free function
-# predict(model, X) ...or maybe predict_single(model, X)
+# # This should be wrapped into a function call like the synthesize... above:
+# q  = np.zeros(syn_len)          # Signal that we want to generate
+# Li = len(qs)                    # Length of given initial section
+# q[0:Li] = qs                    # Copy initial section into result
+# for n in range(Li, syn_len):
+#     X = delayed_values(q, n, delays)
+#     y = model(X.reshape(1, -1))           # reshape: 1D -> 2D 
+#     #y = model.__call__(X.reshape(1, -1))  # reshape: 1D -> 2D 
+#     #y = model.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
+#     q[n] = y[0]                          # [0]:     1D -> 0D (scalar)
 
 
 # Compute synthesis error signal for the region where input and synthesized 
