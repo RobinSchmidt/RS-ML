@@ -30,6 +30,11 @@ from rs.dynsys     import van_der_pol            # To generate the input data
 from rs.datatools  import signal_ar_to_nn        # For data reformatting
 #from rs.learntools import synthesize_skl_mlp     # Resynthesize via MLP model
 
+# If using TensorFlow, this will make GPU ops as deterministic as possible,
+# but it will affect the overall performance:
+#tf.config.experimental.enable_op_determinism()
+# See: https://keras.io/examples/keras_recipes/reproducibility_recipes/
+
 #==============================================================================
 # Setup
   
@@ -59,7 +64,6 @@ s = vt[:, dim]                              # Select one dimension
 # Build the model:
 model = Sequential()
 model.add(Input(shape=(len(delays),)))      # Input layer
-#model.add(Dense(3, activation = 'tanh')) 
 for i in range(0, len(layers)):
     L = Dense(layers[i],                    # Hidden layer i
               activation = act_fun)
@@ -72,19 +76,16 @@ model.compile(
 )
 # ToDo: Check, which activation function is used by the output layer. Maybe
 # it's the default ReLU? I guess linear would be better for the output layer.
-# Check also activation function for the input layer.
+# Check also activation function for the input layer. But I guess, the input 
+# layer just sends the value as-is to the next layer
 
 # Train the model:
        
-# Set the seed using keras.utils.set_random_seed. This will set:
-# 1) `numpy` seed
-# 2) backend random seed
-# 3) `python` random seed
+# Calling keras.utils.set_random_seed will set the seed in Python, numpy and 
+# Keras' backend:
 keras.utils.set_random_seed(seed)
+# See: https://www.tensorflow.org/api_docs/python/tf/keras/utils/set_random_seed
 
-# If using TensorFlow, this will make GPU ops as deterministic as possible,
-# but it will affect the overall performance, so be mindful of that.
-#tf.config.experimental.enable_op_determinism()
     
 X, y  = signal_ar_to_nn(s, delays)          # Extract data for modeling
 history = model.fit(
@@ -103,10 +104,6 @@ history = model.fit(
 
 
 '''
-
-Reproducibilty:
-https://keras.io/examples/keras_recipes/reproducibility_recipes/
-https://www.tensorflow.org/api_docs/python/tf/keras/utils/set_random_seed
 
 Activation functions:
 https://stackoverflow.com/questions/43915482/how-do-you-create-a-custom-activation-function-with-keras
