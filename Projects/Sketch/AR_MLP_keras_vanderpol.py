@@ -53,7 +53,7 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
 delays  = [1,2,3,4]      
-layers  = [10]            # Numbers of neurons in the hidden layers
+layers  = [5]            # Numbers of neurons in the hidden layers
 act_fun = "tanh"         # Activation function
 seed    = 0              # Seed for PRNG
 epochs  = 50
@@ -133,8 +133,26 @@ Li = len(qs)                    # Length of given initial section
 q[0:Li] = qs                    # Copy initial section into result
 for n in range(Li, syn_len):
     X = delayed_values(q, n, delays)
-    y = model.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
+    y = model(X.reshape(1, -1))           # reshape: 1D -> 2D 
+    #y = model.__call__(X.reshape(1, -1))  # reshape: 1D -> 2D 
+    #y = model.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
     q[n] = y[0]                          # [0]:     1D -> 0D (scalar)
+
+# Actually, using the predict function is not meant to be used for single data
+# points, see:
+# https://keras.io/api/models/model_training_apis/
+# It works, though - but it's probably inefficient. OK - we have (at least) 3 
+# ways to do the prediction: model(..), model.__call__(..), model.predict(..).
+# Maybe we can adapt the synthesize_skl_mlp to do a runtime type-inference for
+# the model type and then do a dispatch. Like
+#
+# if( is_of_type(mlp, sklearn.neural_network.MLPRegressor) )
+#   y = ..
+# else if( is_of_type(mlp, keras.models.Sequential) )
+#   y = 
+#
+# Maybe this dispatch should be factored out into a free function
+# predict(model, X) ...or maybe predict_single(model, X)
 
 
 # Compute synthesis error signal for the region where input and synthesized 

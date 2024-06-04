@@ -3,11 +3,38 @@ Convenience functions to deal with Python's machine learning libraries sich as
 sklearn, etc ...TBC...
 '''
 
+
 import numpy as np 
-#from sklearn.neural_network import MLPRegressor
-from .datatools import delayed_values
+import os
+os.environ["KERAS_BACKEND"] = "torch"      # Keras shall use PyTorch as backend
+
+from sklearn.neural_network import MLPRegressor
+from keras.models           import Sequential
+
+from .datatools             import delayed_values
 
 
+'''
+A dispatcher function that makes it convenient to make predictions with various
+different types of models using the same code...TBC...
+
+'''
+
+def predict(model, X):
+    if isinstance(model, MLPRegressor):
+        y = model.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
+        return y[0]                          # [0]:     1D -> 0D (scalar)
+    elif isinstance(model, Sequential):
+        y = model(X.reshape(1, -1))          # VERIFY!
+        return y                             # Output may be vector valued
+    else:
+        print("Model type not supported in prediction dispatcher.")
+        assert(False) # Not sure, if it is Pythonic to handle errors like this
+        return None
+        
+    
+        
+    
 def synthesize_skl_mlp(mlp, d, init_sect, length):
     
     # Initialization:
@@ -18,8 +45,9 @@ def synthesize_skl_mlp(mlp, d, init_sect, length):
     # Recursive prediction of the values q[n] for n >= Li:
     for n in range(Li, length):
         X = delayed_values(s, n, d)
-        y = mlp.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
-        s[n] = y[0]                        # [0]:     1D -> 0D (scalar)
+        s[n] = predict(mlp, X)
+        #y = mlp.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
+        #s[n] = y[0]                        # [0]:     1D -> 0D (scalar)
     return s
 
 # ToDo:
