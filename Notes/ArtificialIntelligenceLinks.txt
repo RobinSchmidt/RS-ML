@@ -116,7 +116,7 @@ https://ml-cheatsheet.readthedocs.io/en/latest/activation_functions.html
 
 
 ----------------------------------------------------------------------------------------------------
-Papers and Blog Posts:
+Papers, Articles, Blog Posts:
 
 https://nlp.seas.harvard.edu/2018/04/03/attention.html
 https://github.com/harvardnlp/annotated-transformer
@@ -146,6 +146,17 @@ Comparisons of different ML libraries:
 https://www.datacamp.com/tutorial/pytorch-vs-tensorflow-vs-keras
 https://viso.ai/deep-learning/pytorch-vs-tensorflow/
 https://opencv.org/blog/pytorch-vs-tensorflow/
+
+TF:
++ More customizable
+- Less easy to use
+- Longer training time
++ Less memory usage
++ Has TensorBoard viualizer
+
+PT:
+- native support for the ONNX (Open Neural Network Exchange) format
+
 
 ...looks like for my purposes: Keras > PyTorch > TensorFlow
 
