@@ -72,6 +72,14 @@ vt = odeint(van_der_pol,                    # Solution to the ODE
             [x0, y0], t, args=(mu,))
 s = vt[:, dim]                              # Select one dimension
 
+# Set seed for reproducible results:
+keras.utils.set_random_seed(seed)
+# We seem to have to do this before building the model. Doing it right before
+# the call to model.fit() seems to be too late. When doing that, the first run
+# of the script after a kernel reset and variable clearing will produce a 
+# different result than subsequent runs. Moreover, the result of that first 
+# run is different every time. ToDo: Figure out and document why!
+
 # Build the model:
 model = Sequential()
 model.add(Input(shape=(len(delays),)))      # Input layer
@@ -96,7 +104,7 @@ model.compile(
 
 # Train the model:
 X, y = signal_ar_to_nn(s, delays)           # Extract/convert data for modeling
-keras.utils.set_random_seed(seed)           # Set seed for reproducible results
+
 history = model.fit(
    X, y,    
    #batch_size=128, 
@@ -125,28 +133,12 @@ D  = max(delays)
 qs = s[(syn_beg-D):syn_beg]            # Initial section to be used
 q  = synthesize_keras_mlp(model, delays, qs, syn_len)    
 
-# This seems to work but produces verbose output. Let's try to do it by hand:
-    
-# # This should be wrapped into a function call like the synthesize... above:
-# q  = np.zeros(syn_len)          # Signal that we want to generate
-# Li = len(qs)                    # Length of given initial section
-# q[0:Li] = qs                    # Copy initial section into result
-# for n in range(Li, syn_len):
-#     X = delayed_values(q, n, delays)
-#     y = model(X.reshape(1, -1))           # reshape: 1D -> 2D 
-#     #y = model.__call__(X.reshape(1, -1))  # reshape: 1D -> 2D 
-#     #y = model.predict(X.reshape(1, -1))  # reshape: 1D -> 2D 
-#     q[n] = y[0]                          # [0]:     1D -> 0D (scalar)
-
-
 # Compute synthesis error signal for the region where input and synthesized 
 # signals overlap:
 s_chunk = s[syn_beg-D:in_len-D]
 q_chunk = q[0:len(s_chunk)]
 error   = s_chunk - q_chunk
 max_err = max(abs(error)) / max(abs(s_chunk))    #  Maximum relative error
-
-
 
 #==============================================================================
 # Visualization
@@ -158,7 +150,6 @@ tr = tr * (t_max / (in_len-1))
 # Plot reference and predicted signal:
 #plt.figure()    
 #plt.plot(t, s)                         # Input signal
-#plt.plot(t[D:in_len], p)               # Predicted signal
 #plt.plot(tr, q)                        # Synthesized signal
 
 # Plot original, synthesized and error signal for the region where they 
@@ -171,10 +162,7 @@ print("Max error: ", max_err)
 
 
 
-
-
 '''
-
 Observations:
     
 - When observing the training progress (by passing "verbose = 1" to model.fit),
@@ -183,7 +171,6 @@ Observations:
   a feature of this particular optimizer? It seems weird to me. Try other 
   optimizers!
   
-
 
 ToDo:
     

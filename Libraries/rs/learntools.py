@@ -58,7 +58,7 @@ def synthesize_keras_mlp(mlp, d, init_sect, length):
     # Recursive prediction of the values q[n] for n >= Li:
     for n in range(Li, length):
         X = delayed_values(s, n, d)
-        y = mlp(X.reshape(1, -1))          # VERIFY!  reshape: 1D -> 2D 
+        y = mlp(X.reshape(1, -1))          # reshape: 1D -> 2D 
         s[n] = y                        
     return s
 
