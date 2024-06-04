@@ -18,6 +18,7 @@ plt.style.use('dark_background')           # Plot in dark mode
 sys.path.append("../../Libraries")         # Make available for import
 
 # Imports from Keras:
+import keras    
 from keras.models     import Sequential
 from keras.layers     import Input
 from keras.layers     import Dense
@@ -43,19 +44,19 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 # Modeling parameters:
 delays  = [1,2,3,4]
 layers  = [3]            # Numbers of neurons in the layers
-act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
+act_fun = "tanh"         # Activation function
+seed    = 0              # Seed for PRNG
 
 #==============================================================================
 # Processing
 
 # Create signal:
-t  = np.linspace(0.0, t_max, in_len)     # Time axis    
-vt = odeint(van_der_pol,                 # Solution to the ODE
+t  = np.linspace(0.0, t_max, in_len)        # Time axis    
+vt = odeint(van_der_pol,                    # Solution to the ODE
             [x0, y0], t, args=(mu,))
-s = vt[:, dim]                           # Select one dimension for time series
+s = vt[:, dim]                              # Select one dimension
 
-# Create the model:
-X, y  = signal_ar_to_nn(s, delays)          # Extract data for modeling
+# Build the model:
 model = Sequential()
 model.add(Input(shape=(len(delays),)))      # Input layer
 #model.add(Dense(3, activation = 'tanh')) 
@@ -64,18 +65,33 @@ for i in range(0, len(layers)):
               activation = act_fun)
     model.add(L) 
 model.add(Dense(1))                         # Output layer
-
 model.compile(
    loss = 'mse', 
    optimizer = RMSprop(), 
    metrics = ['mean_absolute_error']
 )
+# ToDo: Check, which activation function is used by the output layer. Maybe
+# it's the default ReLU? I guess linear would be better for the output layer.
+# Check also activation function for the input layer.
 
+# Train the model:
+       
+# Set the seed using keras.utils.set_random_seed. This will set:
+# 1) `numpy` seed
+# 2) backend random seed
+# 3) `python` random seed
+keras.utils.set_random_seed(seed)
+
+# If using TensorFlow, this will make GPU ops as deterministic as possible,
+# but it will affect the overall performance, so be mindful of that.
+#tf.config.experimental.enable_op_determinism()
+    
+X, y  = signal_ar_to_nn(s, delays)          # Extract data for modeling
 history = model.fit(
    X, y,    
    #batch_size=128, 
-   epochs  = 80, 
-   verbose =  1,
+   epochs  = 100, 
+   verbose =   1,
    #validation_split = 0.2, 
    callbacks = [EarlyStopping(monitor = 'val_loss', patience = 20)]
 )
@@ -83,6 +99,35 @@ history = model.fit(
 
 
 
+
+
+
+'''
+
+Reproducibilty:
+https://keras.io/examples/keras_recipes/reproducibility_recipes/
+https://www.tensorflow.org/api_docs/python/tf/keras/utils/set_random_seed
+
+Activation functions:
+https://stackoverflow.com/questions/43915482/how-do-you-create-a-custom-activation-function-with-keras
+https://keras.io/api/layers/activations/
+https://datascience.stackexchange.com/questions/58884/how-to-create-custom-activation-functions-in-keras-tensorflow
+
+Apparently, we do not need to specify the derivative. This:
+https://stackoverflow.com/questions/51754639/how-to-define-the-derivative-of-a-custom-activation-function-in-keras
+says that the derivative will be computed by automatic differentiation. But 
+maybe only when using TensorFlow as backend?
+
+https://sefiks.com/2018/12/01/using-custom-activation-functions-in-keras/
+
+https://machinelearningmastery.com/rectified-linear-activation-function-for-deep-learning-neural-networks/
+
+
+How about asinh? or x^(3/5), x^(5/7) ...I think, numerator and denominator 
+should be odd (for odd symmetry) and the fraction should be greater than 1/2 
+for finite gradient at 0
+
+'''
 
 
 
