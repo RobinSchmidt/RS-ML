@@ -105,7 +105,7 @@ history = model.fit(
 #
 # - ToDo: explain some of the other parameters licke epochs, etc. This seems to
 #   be different from sklearn's MLPRegressor which has a tolerance parameter. 
-#   Figure this out!
+#   Figure this out! And what is the purpose of this this "callbacks" thing?
 
 
 
