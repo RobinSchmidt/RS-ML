@@ -79,16 +79,16 @@ s_chunk = s[syn_beg-D:in_len-D]
 q_chunk = q[0:len(s_chunk)]
 error   = s_chunk - q_chunk
 max_err = max(error) / max(s_chunk)    #  Maximum relative error
+# !!! BUG !!! We need to do  max(abs(error)) / max(abs(s_chunk))
+# Then, the table below needs to be re-evaluated. We expect 50% of its content 
+# to be wrong!
 
 #==============================================================================
 # Visualization
 
 # Create shifted time axis for resynthesized signal:
-#tr = np.linspace(syn_beg, syn_beg+syn_len, syn_len)
 tr = np.linspace(syn_beg-D, syn_beg-D+syn_len, syn_len)
 tr = tr * (t_max / (in_len-1))
-# I think, this might still be wrong. It looks misaligned. It may have to do
-# with a shift by D ...OK - seems to be fixed.
 
 # Plot reference and predicted signal:
 #plt.figure()    
