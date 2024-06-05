@@ -1,4 +1,9 @@
 """
+ToDo: Rename to AR_MLP_sklearn_DynSys. We now use it for learning different
+dynamical systems which are selected using the "ode" variable. But maybe
+that's not such a good idea after all...maybe we should use separate scripts 
+for different systems. But that would mean a lot of code duplication...hmmm...
+
 In this script, we create a nonlinear autoregressive model of the Van der Pol
 oscillator using a multilayer perceptron from the Scikit-Learn library. Then, 
 we evaluate the so created model by visually inspecting the output that it 
@@ -31,28 +36,28 @@ from rs.learntools import synthesize_skl_mlp     # Resynthesize via MLP model
 # Setup
   
 # Signal parameters:
-ode     = 'lorenz'       # Select the ODE system
-p1      = 10.0           # 1st parameter
-p2      = 28.0           # 2nd ...
-p3      = 8.0/3          # 3rd ...
-x0      = -1.81          # x(0) initial condition
-y0      = -0.89          # y(0) ...
-z0      = 21.38          # z(0) ...
-dim     = 1              # Dimension to use as signal. 0 is x, 1 is y, 2 is z
-t_max   = 200             # Maximum time value 
-in_len  = 10001           # Number of input samples
+ode     = 'van_der_pol'  # Select the ODE system
+p1      = 1.0            # 1st parameter
+p2      = 0.0            # 2nd ...
+p3      = 0.0            # 3rd ...
+x0      = 0.0            # x(0) initial condition
+y0      = 1.0            # y(0) ...
+z0      = 0.0            # z(0) ...
+dim     = 0              # Dimension to use as signal. 0 is x, 1 is y, 2 is z
+t_max   = 50             # Maximum time value 
+in_len  = 401            # Number of input samples
 
 # Modeling parameters:
-delays  = 2*[1,2,3,5,6,7]  # Delay times (in samples)
-layers  = (50)           # Numbers of neurons in the layers
-act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
-seed    = 5              # Seed for PRNG
+delays  = [1,2,3,4]      # Delay times (in samples)
+layers  = (10)           # Numbers of neurons in the layers
+act_fun = 'tanh'         # Activation function (identity, tanh, logistic, relu)
+seed    = 0              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
 
 # Resynthesis parameters:
-syn_len =  10000          # Length of resynthesized signal
-syn_beg =   100          # Beginning of resynthesis
+syn_len = 400            # Length of resynthesized signal
+syn_beg = 150            # Beginning of resynthesis 
 
 #==============================================================================
 # Processing
@@ -117,20 +122,20 @@ tr = tr * (t_max / (in_len-1))
 #plt.plot(t[D:in_len], p)               # Predicted signal
 #plt.plot(tr, q)                        # Synthesized signal
 
-# Throwaway code for looking at Lorenz system modling output
-plotMax = 2000
-plt.figure()
-plt.plot(s[0:plotMax])
-plt.plot(p[0:plotMax])
-plt.figure()
-plt.plot(q[0:plotMax]) 
+# Throwaway code for looking at Lorenz system modeling output
+#plotMax = 2000
+#plt.figure()
+#plt.plot(s[0:plotMax])
+#plt.plot(p[0:plotMax])
+#plt.figure()
+#plt.plot(q[0:plotMax]) 
 
 # Plot original, synthesized and error signal for the region where they 
 # overlap:
-#plt.figure()
-#plt.plot(s_chunk)
-#plt.plot(q_chunk)
-#plt.plot(error)
+plt.figure()
+plt.plot(s_chunk)
+plt.plot(q_chunk)
+plt.plot(error)
 print("Max error: ", max_err)
 
 # Plot log of training loss curve:
@@ -368,8 +373,8 @@ x0      = -1.81          # x(0) initial condition
 y0      = -0.89          # y(0) ...
 z0      = 21.38          # z(0) ...
 dim     = 1              # Dimension to use as signal. 0 is x, 1 is y, 2 is z
-t_max   = 200             # Maximum time value 
-in_len  = 10001           # Number of input samples
+t_max   = 200            # Maximum time value 
+in_len  = 10001          # Number of input samples
 
 # Modeling parameters:
 delays  = [1,2,3,5,6,7]  # Delay times (in samples)
@@ -380,8 +385,8 @@ fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
 
 # Resynthesis parameters:
-syn_len =  10000          # Length of resynthesized signal
-syn_beg =   100          # Beginning of resynthesis
+syn_len = 10000          # Length of resynthesized signal
+syn_beg =  100           # Beginning of resynthesis
 
 Variations of the above settings that also gave reasonable looking results:
 delays = [1,2,3,5,6,7], layers = (30), seed = 4
