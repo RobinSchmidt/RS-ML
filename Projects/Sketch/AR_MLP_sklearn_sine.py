@@ -57,12 +57,10 @@ plt.figure()
 plt.plot(t,      s)                    # Input signal
 plt.plot(t[D:N], p)                    # Predicted signal
 
-# Plot training loss curve:
+# Plot log of training loss curve:
 plt.figure()
 loss = mlp.loss_curve_
-plt.plot(loss)                         # The whole loss progression
-plt.figure()
-plt.plot(loss[3000:4000])              # A zoomed in view of the tail
+plt.plot(np.log10(loss))
 
 """
 Observations:
@@ -87,6 +85,11 @@ Observations:
 
 
 ToDo:
+    
+- Currently, we only predict one sample into the future using delayed 
+  *original* input samples. Ultimately, we are interested in recursive 
+  prediction. Add that. See AR_MLP_sklearn_vand_der_pol. There, we already do 
+  that. 
     
 - Try to explain why with some random seeds, we do not seem to able to get good
   results. After all, with a linear network, the loss function should be a 
