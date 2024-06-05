@@ -39,19 +39,19 @@ x0      = -1.81          # x(0) initial condition
 y0      = -0.89          # y(0) ...
 z0      = 21.38          # z(0) ...
 dim     = 1              # Dimension to use as signal. 0 is x, 1 is y, 2 is z
-t_max   = 20             # Maximum time value 
-in_len  = 1001           # Number of input samples
+t_max   = 200             # Maximum time value 
+in_len  = 10001           # Number of input samples
 
 # Modeling parameters:
-delays  = [1,2,3,4]      # Delay times (in samples)
-layers  = (3)            # Numbers of neurons in the layers
+delays  = [1,2,3,5,6,7]  # Delay times (in samples)
+layers  = (50)           # Numbers of neurons in the layers
 act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
-seed    = 2              # Seed for PRNG
+seed    = 1              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
 
 # Resynthesis parameters:
-syn_len =  1000          # Length of resynthesized signal
+syn_len =  10000          # Length of resynthesized signal
 syn_beg =   100          # Beginning of resynthesis
 
 #==============================================================================
@@ -112,13 +112,18 @@ tr = np.linspace(syn_beg-D, syn_beg-D+syn_len, syn_len)
 tr = tr * (t_max / (in_len-1))
 
 # Plot reference and predicted signal:
-plt.figure()    
-plt.plot(t, s)                         # Input signal
-plt.plot(t[D:in_len], p)               # Predicted signal
+#plt.figure()    
+#plt.plot(t, s)                         # Input signal
+#plt.plot(t[D:in_len], p)               # Predicted signal
 #plt.plot(tr, q)                        # Synthesized signal
 
+# Throwaway code for looking at Lorenz system modling output
+plotMax = 2000
 plt.figure()
-plt.plot(tr, q) 
+plt.plot(s[0:plotMax])
+plt.plot(p[0:plotMax])
+plt.figure()
+plt.plot(q[0:plotMax]) 
 
 # Plot original, synthesized and error signal for the region where they 
 # overlap:
@@ -377,7 +382,10 @@ max_its = 10000          # Maximum number of training iterations (epochs?)
 syn_len =  1000          # Length of resynthesized signal
 syn_beg =   100          # Beginning of resynthesis
 
-
+- The initial conditions were chosen to be a point on or near the attractor to
+  get rid of the transient in the time series because such a transient is not
+  representative of the system dynamics and therefore we don't want to see it
+  in our training data.
 
 
 -------------------------------------------------------------------------------  
