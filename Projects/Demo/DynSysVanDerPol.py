@@ -22,7 +22,7 @@ sys.path.append("../../Libraries")
 from rs.dynsys import van_der_pol     # Derivative calculation for the system
 
 # Set up user parameters:
-mu   =  1.0                           # System parameter
+mu   =  3.0                           # System parameter
 x0   = +0.001                         # Initial condition x(0)
 y0   = -0.001                         # Initial condition y(0)
 tMax =  50.0                          # Length (in seconds?)
@@ -57,7 +57,10 @@ Observations:
 
 - Using small values for the initial conditions, we see a build-up phase.
 
-- Uinsg mu = -0.1 gives (approximately?) a decaying sinusoid
+- Using mu = -0.1 gives (approximately?) a decaying sinusoid
+
+- When increasing mu, x approaches a square wave and y appraoches a bipolar
+  spike train. 
  
  
 ToDo: 
@@ -67,5 +70,17 @@ ToDo:
 - Try to import van_der_pol via relative imports. I'd like to write it in one 
   line like "from ...Libraries.rs.dynsys import va_der_pol" but that doesn't 
   work. Figure out if and how this can be made to work
+  
+- Try other oscillators like Duffing, Volterra-Lotka, etc. Try to find some 
+  that can produce sawtooth waves. Maybe then combine equations form saw- and
+  square-oscillators to create intermediate waveforms
+  https://en.wikipedia.org/wiki/Duffing_equation
+  https://de.wikipedia.org/wiki/Duffing-Oszillator
+  https://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equations
+  https://de.wikipedia.org/wiki/Lotka-Volterra-Gleichungen
+  Yes - the Volterra-Lotka model seems suitable for sawtooth (and a unipolar 
+  spike train)
+  
+  
  
 '''
