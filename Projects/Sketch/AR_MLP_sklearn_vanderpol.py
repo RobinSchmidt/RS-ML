@@ -43,10 +43,10 @@ t_max   = 200             # Maximum time value
 in_len  = 10001           # Number of input samples
 
 # Modeling parameters:
-delays  = [1,2,3,5,6,7]  # Delay times (in samples)
+delays  = 2*[1,2,3,5,6,7]  # Delay times (in samples)
 layers  = (50)           # Numbers of neurons in the layers
 act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
-seed    = 1              # Seed for PRNG
+seed    = 5              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
 
@@ -356,8 +356,51 @@ Conclusions:
 Modeling the Lorenz system:
 
 - I did not yet find a good set of parameters to model it well. My current best
-  attempt (which is still very bad) was:
+  attempt was:
 
+      
+# Signal parameters:
+ode     = 'lorenz'       # Select the ODE system
+p1      = 10.0           # 1st parameter
+p2      = 28.0           # 2nd ...
+p3      = 8.0/3          # 3rd ...
+x0      = -1.81          # x(0) initial condition
+y0      = -0.89          # y(0) ...
+z0      = 21.38          # z(0) ...
+dim     = 1              # Dimension to use as signal. 0 is x, 1 is y, 2 is z
+t_max   = 200             # Maximum time value 
+in_len  = 10001           # Number of input samples
+
+# Modeling parameters:
+delays  = [1,2,3,5,6,7]  # Delay times (in samples)
+layers  = (50)           # Numbers of neurons in the layers
+act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
+seed    = 3              # Seed for PRNG
+fit_tol = 1.e-16         # Tolerance for fitting
+max_its = 10000          # Maximum number of training iterations (epochs?)
+
+# Resynthesis parameters:
+syn_len =  10000          # Length of resynthesized signal
+syn_beg =   100          # Beginning of resynthesis
+
+Variations of the above settings that also gave reasonable looking results:
+delays = [1,2,3,5,6,7], layers = (30), seed = 4
+delays = [1,2,3,5,6,7], layers = (20), seed = 1
+
+- It appears that we never seem to get enough downward teeth. The models seem 
+  to want to do only two oscillations in the bottom section.
+
+- Using  delays = [1,2,3,5,6,7], layers = (60), seed = 1 
+  gives a quasi-periodic signal alternating between 3 up and 3 down teeth
+
+- Using  delays = 2*[1,2,3,5,6,7], layers = (50), seed = 5
+  also kinda worked, so we may also use delays that are spaced further apart.
+
+
+
+An older (worse, low order) attempt was:
+
+    
 # Signal parameters:
 ode     = 'lorenz'       # Select the ODE system
 p1      = 10.0           # 1st parameter
@@ -381,6 +424,12 @@ max_its = 10000          # Maximum number of training iterations (epochs?)
 # Resynthesis parameters:
 syn_len =  1000          # Length of resynthesized signal
 syn_beg =   100          # Beginning of resynthesis
+
+
+
+
+
+
 
 - The initial conditions were chosen to be a point on or near the attractor to
   get rid of the transient in the time series because such a transient is not
