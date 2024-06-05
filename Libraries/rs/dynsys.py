@@ -32,7 +32,10 @@ def lorenz(v, t, sigma, rho, beta):
       y' = x * (rho - z) - y
       z' = x*y - beta*z
     
-    where sigma, rho and beta are fixed parameters.
+    where sigma, rho and beta are fixed parameters. Some standard values are
+    sigma = 10, rho = 28, beta = 8/3.0 (ToDo: make these values default 
+                                        parameters)
+    
     
     Parameters
     ----------
