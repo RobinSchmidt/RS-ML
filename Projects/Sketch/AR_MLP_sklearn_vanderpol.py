@@ -213,7 +213,7 @@ work. ...someday...maybe...
 The table contains some visual assesment of the outputs produced by the model. 
 The words have the following meaning:
 
-Perfect:   A very good, almost perfect, fit         
+Perfect:   A very good fit - almost perfect.
 Good:      Good fit
 Bad:       Bad fit
 Fast:      Frequency too high
@@ -225,7 +225,7 @@ Unstable:  Runaway oscillations or explosion
 
 Sometimes, the signal has more than one of the features (like shifted and 
 fast). In such cases, we use only the first letters like F,S. ToDo: Some of the
-settings classified as "Trash" could be further specified as "Conat" because
+settings classified as "Trash" could be further specified as "Const" because
 they converge to a constant. Apparently, the quality of the attractor has 
 changed from quasi-periodic to a fixed point.
 
@@ -233,8 +233,8 @@ changed from quasi-periodic to a fixed point.
   on the seed. With 32 neurons, I got good results with every seed I tried 
   (which was 0..20).
 
-- I tried to sample of the input signal with higher and lower sample rates by
-  increasing in_len (and also syn_len accrodingly). The result was that the 
+- I tried to sample the input signal with higher and lower sample rates by
+  increasing in_len (and also syn_len accordingly). The result was that the 
   models tend to give better fits when in_len is smaller. A lower sampling rate 
   seems to make the modeling task easier. Thinking about it, this seems to be 
   plausible because our unit sample delays cover a greater time window. We see
@@ -261,7 +261,8 @@ changed from quasi-periodic to a fixed point.
   we'll probably want to use special matrices for which the matrix-vector 
   product can be computed efficiently (like in O(N) or O(N*log(N)))
 
-- Let K be the number of neurons in the (single) hidden layer and let's pick 
+- OLD - but maybe some settings should be included in the table above:
+  Let K be the number of neurons in the (single) hidden layer and let's pick 
   tanh as actiavtion function and S be the random see. The results are as 
   follows: 
     K =  2, S = 0: garbage
@@ -301,7 +302,11 @@ changed from quasi-periodic to a fixed point.
   the model tends to introduce an undesired decay. But this decay tends to go 
   away when we reduce the tolerance in the learning/fitting stage, tol=1.e-7 
   shows string decay. Using 1.e-9, we get much less decay. At 1.e-12, it seems
-  to have gone completely.
+  to have gone completely. ...okay - I have now set fit_tol to 1.e-16. It 
+  doesn't seem to unduly lengthen the training process and seems to solve the
+  problem. ToDo: figure out and document, what the "tol" parameter in 
+  MLPRegressor exactly does. Is it a tolerance for the norm of the gradient or
+  what?
     
 Conclusions:
 
