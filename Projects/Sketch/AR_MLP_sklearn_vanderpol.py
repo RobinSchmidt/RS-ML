@@ -23,7 +23,7 @@ plt.style.use('dark_background')                 # Plot in dark mode
 sys.path.append("../../Libraries")               # Make available for import
 
 # Imports from my own libraries:
-from rs.dynsys     import van_der_pol            # To generate the input data
+from rs.dynsys     import van_der_pol, lorenz    # To generate the input data
 from rs.datatools  import signal_ar_to_nn        # For data reformatting
 from rs.learntools import synthesize_skl_mlp     # Resynthesize via MLP model
 
@@ -33,10 +33,20 @@ from rs.learntools import synthesize_skl_mlp     # Resynthesize via MLP model
 # Signal parameters:
 t_max   = 50             # Maximum time value 
 in_len  = 401            # Number of input samples
+
 mu      = 1.0            # Nonlinearity parameter
+
 x0      = 0.0            # Initial condition x(0)
 y0      = 1.0            # Initial condition y(0)
+z0      = 0.0            # Initial condition z(0)
+
 dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
+
+ode     = 'van_der_pol'
+p1      = 1.0
+p2      = 0.0
+p3      = 0.0
+
 
 # Modeling parameters:
 delays  = [1,2,3,4]      # Delay times (in samples)
@@ -55,8 +65,23 @@ syn_beg = 150            # Beginning of resynthesis
 
 # Create signal:
 t  = np.linspace(0.0, t_max, in_len)   # Time axis    
-vt = odeint(van_der_pol,               # Solution to the ODE
-            [x0, y0], t, args=(mu,))
+
+#vt = odeint(van_der_pol,               # Solution to the ODE
+#            [x0, y0], t, args=(mu,))
+
+if(ode == 'van_der_pol'): 
+    vt = odeint(van_der_pol, [x0,y0],    t, args=(p1,))
+elif(ode == 'lorenz'):
+    vt = odeint(lorenz,      [x0,y0,z0], t, args=(p1,p2,p2))
+else:
+    vt = np.zeros(len(t))
+    # ToDo: Maybe throw a warning "Unknown ODE string" or something
+    
+# ToDo:           
+# 
+# Maybe use a "match"-statement, see:
+# https://www.freecodecamp.org/news/python-switch-statement-switch-case-example/        
+
 s = vt[:, dim]                         # Select one dimension for time series
 
 # Fit a multilayer perceptron regressor to the data and use it for prediction:
