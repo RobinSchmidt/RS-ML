@@ -78,7 +78,9 @@ q  = synthesize_skl_mlp(mlp, delays, qs, syn_len)
 s_chunk = s[syn_beg-D:in_len-D]
 q_chunk = q[0:len(s_chunk)]
 error   = s_chunk - q_chunk
-max_err = max(error) / max(s_chunk)    #  Maximum relative error
+max_err = max(abs(error)) / max(abs(s_chunk))    #  Maximum relative error
+
+#max_err = max(error) / max(s_chunk)    #  Maximum relative error
 # !!! BUG !!! We need to do  max(abs(error)) / max(abs(s_chunk))
 # Then, the table below needs to be re-evaluated. We expect 50% of its content 
 # to be wrong!
@@ -192,6 +194,18 @@ different set of delays, hidden neurons or activation function is used
 |-------------------------------------------------------------|
 | 1,2,3,4      | 10     | relu     |  0   | 0.1103 | Perfect  |
 ===============================================================  *
+
+The MaxErr values might be wrong because they were obtained with the buggy 
+code:
+    
+  max_err = max(error) / max(s_chunk)
+
+which has now been fixed to:
+    
+  max_err = max(abs(error)) / max(abs(s_chunk))
+  
+So - yeah - this data needs to be re-collected. This requires some manual grunt
+work. ...someday...maybe...
 
 
 
