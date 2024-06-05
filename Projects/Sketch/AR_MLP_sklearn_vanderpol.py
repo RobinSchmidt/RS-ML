@@ -31,28 +31,28 @@ from rs.learntools import synthesize_skl_mlp     # Resynthesize via MLP model
 # Setup
   
 # Signal parameters:
-ode     = 'van_der_pol'  # Select the ODE system
-p1      = 1.0            # 1st parameter
-p2      = 0.0            # 2nd ...
-p3      = 0.0            # 3rd ...
-x0      = 0.0            # x(0) initial condition
-y0      = 1.0            # y(0) ...
-z0      = 0.0            # z(0) ...
-dim     = 0              # Dimension to use as signal. 0 is x, 1 is y, 2 is z
-t_max   = 50             # Maximum time value 
-in_len  = 401            # Number of input samples
+ode     = 'lorenz'       # Select the ODE system
+p1      = 10.0           # 1st parameter
+p2      = 28.0           # 2nd ...
+p3      = 8.0/3          # 3rd ...
+x0      = -1.81          # x(0) initial condition
+y0      = -0.89          # y(0) ...
+z0      = 21.38          # z(0) ...
+dim     = 1              # Dimension to use as signal. 0 is x, 1 is y, 2 is z
+t_max   = 20             # Maximum time value 
+in_len  = 1001           # Number of input samples
 
 # Modeling parameters:
 delays  = [1,2,3,4]      # Delay times (in samples)
-layers  = (25)           # Numbers of neurons in the layers
+layers  = (3)            # Numbers of neurons in the layers
 act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
-seed    = 6              # Seed for PRNG
+seed    = 2              # Seed for PRNG
 fit_tol = 1.e-16         # Tolerance for fitting
 max_its = 10000          # Maximum number of training iterations (epochs?)
 
 # Resynthesis parameters:
-syn_len = 400            # Length of resynthesized signal
-syn_beg = 150            # Beginning of resynthesis
+syn_len =  1000          # Length of resynthesized signal
+syn_beg =   100          # Beginning of resynthesis
 
 #==============================================================================
 # Processing
@@ -66,7 +66,7 @@ t  = np.linspace(0.0, t_max, in_len)   # Time axis
 if(ode == 'van_der_pol'): 
     vt = odeint(van_der_pol, [x0,y0],    t, args=(p1,))
 elif(ode == 'lorenz'):
-    vt = odeint(lorenz,      [x0,y0,z0], t, args=(p1,p2,p2))
+    vt = odeint(lorenz,      [x0,y0,z0], t, args=(p1,p2,p3))
 else:
     vt = np.zeros(len(t))
     # ToDo: Maybe throw a warning "Unknown ODE string" or something
@@ -112,17 +112,20 @@ tr = np.linspace(syn_beg-D, syn_beg-D+syn_len, syn_len)
 tr = tr * (t_max / (in_len-1))
 
 # Plot reference and predicted signal:
-#plt.figure()    
-#plt.plot(t, s)                         # Input signal
-#plt.plot(t[D:in_len], p)               # Predicted signal
+plt.figure()    
+plt.plot(t, s)                         # Input signal
+plt.plot(t[D:in_len], p)               # Predicted signal
 #plt.plot(tr, q)                        # Synthesized signal
+
+plt.figure()
+plt.plot(tr, q) 
 
 # Plot original, synthesized and error signal for the region where they 
 # overlap:
-plt.figure()
-plt.plot(s_chunk)
-plt.plot(q_chunk)
-plt.plot(error)
+#plt.figure()
+#plt.plot(s_chunk)
+#plt.plot(q_chunk)
+#plt.plot(error)
 print("Max error: ", max_err)
 
 # Plot log of training loss curve:
@@ -343,6 +346,42 @@ Conclusions:
 - With tanh, we seem to get good results only with 1 or 2 hidden layers. More 
   hidden layers tend to yield unstable systems. ..or well..maybe not generally.
   (5,4,3,2) seems to be stable
+  
+-------------------------------------------------------------------------------
+Modeling the Lorenz system:
+
+- I did not yet find a good set of parameters to model it well. My current best
+  attempt (which is still very bad) was:
+
+# Signal parameters:
+ode     = 'lorenz'       # Select the ODE system
+p1      = 10.0           # 1st parameter
+p2      = 28.0           # 2nd ...
+p3      = 8.0/3          # 3rd ...
+x0      = -1.81          # x(0) initial condition
+y0      = -0.89          # y(0) ...
+z0      = 21.38          # z(0) ...
+dim     = 1              # Dimension to use as signal. 0 is x, 1 is y, 2 is z
+t_max   = 20             # Maximum time value 
+in_len  = 1001           # Number of input samples
+
+# Modeling parameters:
+delays  = [1,2,3,4]      # Delay times (in samples)
+layers  = (3)            # Numbers of neurons in the layers
+act_fun = "tanh"         # Activation function (identity, tanh, logistic, relu)
+seed    = 2              # Seed for PRNG
+fit_tol = 1.e-16         # Tolerance for fitting
+max_its = 10000          # Maximum number of training iterations (epochs?)
+
+# Resynthesis parameters:
+syn_len =  1000          # Length of resynthesized signal
+syn_beg =   100          # Beginning of resynthesis
+
+
+
+
+-------------------------------------------------------------------------------  
+  
   
   
 ToDo:
