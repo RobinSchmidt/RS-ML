@@ -137,6 +137,11 @@ syn_beg = 150            # Beginning of resynthesis
 #act_fun = actfun_asinh 
 # OK - this also works
 
+#def actfun_pow(x):
+#    return keras.ops.sign(x) * keras.ops.power(keras.ops.abs(x), 0.75)
+#act_fun = actfun_pow
+# Works, but seems to give bad results. More tests needed.
+
 #def actfun_pow_5_7(x):
 #    return keras.ops.exp(keras.ops.log(x) * 5.0/7.0) # y = x^(5/7)
 #act_fun = actfun_pow_5_7 
