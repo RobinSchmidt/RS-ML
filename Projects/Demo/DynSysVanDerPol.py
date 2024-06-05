@@ -22,7 +22,7 @@ sys.path.append("../../Libraries")
 from rs.dynsys import van_der_pol     # Derivative calculation for the system
 
 # Set up user parameters:
-mu   =  3.0                           # System parameter
+mu   =  1.0                           # System nonlinarity parameter
 x0   = +0.001                         # Initial condition x(0)
 y0   = -0.001                         # Initial condition y(0)
 tMax =  50.0                          # Length (in seconds?)

@@ -25,20 +25,31 @@ import numpy as np                     # I/O is done via numpy.array
 
 def lorenz(v, t, sigma, rho, beta):
     '''
-    Derivative calculation for the Lorenz system ...TBC...
-
+    Derivative calculation for the Lorenz system. It is a system of 3 coupled 
+    nonlinear differential equations given by:
+        
+      x' = sigma * (y - x)
+      y' = x * (rho - z) - y
+      z' = x*y - beta*z
+    
+    where sigma, rho and beta are fixed parameters.
+    
     Parameters
     ----------
-    v : TYPE
-        DESCRIPTION.
-    t : TYPE
-        DESCRIPTION.
-
+    v : np.array of 3 floats
+        The current state of the oscillator v = [x, y, z].
+    t : float
+        The current time instant.
+    sigma, 
+    rho, 
+    beta : float
+        The system parameters.
+    
     Returns
     -------
-    TYPE
-        DESCRIPTION.
-        
+    v' : np.array of 3 floats
+        The derivative vector v' = [x', y', z'].
+    
     References
     ----------
     https://en.wikipedia.org/wiki/Lorenz_system
