@@ -141,6 +141,7 @@ https://arxiv.org/abs/1912.10211   PANNs: Large-Scale Pretrained Audio Neural Ne
 https://arxiv.org/pdf/1402.3511v1  A Clockwork RNN
 
 
+
 Comparisons of different ML libraries:
 
 https://www.datacamp.com/tutorial/pytorch-vs-tensorflow-vs-keras
@@ -161,7 +162,8 @@ PT:
 ...looks like for my purposes: Keras > PyTorch > TensorFlow
 
 ----------------------------------------------------------------------------------------------------
-Examples:
+Tutorials, Examples:
+
 
 Keras:
 https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/
