@@ -31,22 +31,16 @@ from rs.learntools import synthesize_skl_mlp     # Resynthesize via MLP model
 # Setup
   
 # Signal parameters:
+ode     = 'van_der_pol'  # Select the ODE system
+p1      = 1.0            # 1st parameter
+p2      = 0.0            # 2nd ...
+p3      = 0.0            # 3rd ...
+x0      = 0.0            # x(0) initial condition
+y0      = 1.0            # y(0) ...
+z0      = 0.0            # z(0) ...
+dim     = 0              # Dimension to use as signal. 0 is x, 1 is y, 2 is z
 t_max   = 50             # Maximum time value 
 in_len  = 401            # Number of input samples
-
-mu      = 1.0            # Nonlinearity parameter
-
-x0      = 0.0            # Initial condition x(0)
-y0      = 1.0            # Initial condition y(0)
-z0      = 0.0            # Initial condition z(0)
-
-dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
-
-ode     = 'van_der_pol'
-p1      = 1.0
-p2      = 0.0
-p3      = 0.0
-
 
 # Modeling parameters:
 delays  = [1,2,3,4]      # Delay times (in samples)
@@ -143,12 +137,16 @@ Observations:
 The table below shows results for the following setup:
 
 # Signal parameters:
+ode     = 'van_der_pol'  # Select the ODE system
+p1      = 1.0            # 1st parameter
+p2      = 0.0            # 2nd ...
+p3      = 0.0            # 3rd ...
+x0      = 0.0            # x(0) initial condition
+y0      = 1.0            # y(0) ...
+z0      = 0.0            # z(0) ...
+dim     = 0              # Dimension to use as signal. 0 is x, 1 is y, 2 is z
 t_max   = 50             # Maximum time value 
 in_len  = 401            # Number of input samples
-mu      = 1.0            # Nonlinearity parameter
-x0      = 0.0            # Initial condition x(0)
-y0      = 1.0            # Initial condition y(0)
-dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
 delays  = See table      # Delay times (in samples)
