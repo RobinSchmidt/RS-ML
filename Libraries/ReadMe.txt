@@ -1,1 +1,1 @@
-This folder contains my own reusable code that is used in various projects
+This folder contains my own reusable Python code that is used in various projects.
