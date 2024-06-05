@@ -59,9 +59,9 @@ dim     = 0              # Dimension to use as time series. 0 or 1 -> x or y
 
 # Modeling parameters:
 delays  = [1,2,3,4]      
-layers  = [10]           # Numbers of neurons in the hidden layers
+layers  = [8,4,2]        # Numbers of neurons in the hidden layers
 act_fun = "tanh"         # Activation function
-seed    = 6              # Seed for PRNG
+seed    = 3              # Seed for PRNG
 epochs  = 200
 verbose = 1
 
@@ -104,6 +104,13 @@ opt  = optis.Adam()           # Good
 # function is very asymmetric. Maybe symmetry is not so desirable after all? It
 # may limit the space of reachable functions? Dunno - figure out!
 
+# d = [1,2,3,4], l = [20], seed = 4, epochs = 200, opti = Adam, 
+# act_fun = pow with exponenet 3./5. leads to a model that shows small ripples
+# above a reasonably approximated shape (although the freq is too high). This 
+# is a behavior, I haven't seen yet. Seed = 0 seems to give a good shape, 6 
+# shows also an interesting behavior. With d = [8,4,2], seed=3, exponent=7/9, 
+# we get more such "noise" - it looks like a noisy sine.
+
 # Resynthesis parameters:
 syn_len = 400            # Length of resynthesized signal
 syn_beg = 150            # Beginning of resynthesis
@@ -137,9 +144,9 @@ syn_beg = 150            # Beginning of resynthesis
 #act_fun = actfun_asinh 
 # OK - this also works
 
-#def actfun_pow(x):
-#    return keras.ops.sign(x) * keras.ops.power(keras.ops.abs(x), 0.75)
-#act_fun = actfun_pow
+def actfun_pow(x):
+    return keras.ops.sign(x) * keras.ops.power(keras.ops.abs(x), 7.0/9.0)
+act_fun = actfun_pow
 # Works, but seems to give bad results. More tests needed.
 
 #def actfun_pow_5_7(x):
