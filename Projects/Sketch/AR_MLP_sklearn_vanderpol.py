@@ -297,6 +297,8 @@ changed from quasi-periodic to a fixed point.
   we'll probably want to use special matrices for which the matrix-vector 
   product can be computed efficiently (like in O(N) or O(N*log(N)))
 
+- Or maybe use a PCA or SVD as linear preprocessing step.
+
 - OLD - but maybe some settings should be included in the table above:
   Let K be the number of neurons in the (single) hidden layer and let's pick 
   tanh as actiavtion function and S be the random see. The results are as 

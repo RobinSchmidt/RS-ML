@@ -161,6 +161,9 @@ PT:
 
 ...looks like for my purposes: Keras > PyTorch > TensorFlow
 
+There's also an add-on for PyTorch specifically for audio processing:
+https://pytorch.org/audio/stable/index.html
+
 ----------------------------------------------------------------------------------------------------
 Tutorials, Examples:
 
@@ -176,6 +179,10 @@ Scikit-Learn:
 https://scikit-learn.org/stable/modules/neural_networks_supervised.html
 https://www.pluralsight.com/resources/blog/guides/machine-learning-neural-networks-scikit-learn
 https://python-course.eu/machine-learning/neural-networks-with-scikit.php
+
+About realtime audio plugins for NN inference:
+https://github.com/Torsion-Audio/nn-inference-template
+https://www.youtube.com/watch?v=z_RKgHU59r0
 
 
 ----------------------------------------------------------------------------------------------------
