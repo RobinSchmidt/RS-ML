@@ -190,6 +190,9 @@ Books:
 
 https://www.databricks.com/resources/ebook/big-book-generative-ai
 
+Understanding Deep Learning:
+https://udlbook.github.io/udlbook/
+-Full book available as pdf download
 
 ----------------------------------------------------------------------------------------------------
 Open Source AI:
